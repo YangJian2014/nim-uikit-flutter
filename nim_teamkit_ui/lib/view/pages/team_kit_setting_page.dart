@@ -210,7 +210,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                   ?.where((element) => element.userInfo != null)
                                   .map((e) => e.userInfo!.userId!)
                                   .toList(),
-                              mostCount: list == null ? 199 : 200 - list.length,
+                              mostCount: list == null ? 499 : 500 - list.length,
                               returnContact: true)
                           .then((contacts) {
                         if (contacts is List<ContactInfo> &&
