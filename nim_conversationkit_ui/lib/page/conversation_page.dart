@@ -70,7 +70,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   ),
                 ],
               ),
-              elevation: 0.3,
+              elevation: 0,
               actions: [
                 if (_titleBarConfig.showTitleBarRight2Icon)
                   _titleBarConfig.titleBarRight2Icon ??

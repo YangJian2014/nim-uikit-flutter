@@ -19,6 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
 import '../../chat_kit_client.dart';
@@ -52,6 +53,9 @@ class _MorePanelState extends State<MorePanel> {
   }
 
   List<ActionItem> _defaultMoreActions() {
+    var imageText = S.of(context).chatMessageBriefImage.replaceAll(r'[', '');
+    imageText = imageText.replaceAll(r']', '');
+
     return [
       ActionItem(
           type: ActionConstants.shoot,
@@ -59,7 +63,7 @@ class _MorePanelState extends State<MorePanel> {
             'images/ic_send_image.svg',
             package: kPackage,
           ),
-          title: S.of(context).chatMessageBriefImage,
+          title: imageText,
           permissions: [Permission.camera],
           onTap: _pickImage),
       ActionItem(
@@ -130,39 +134,81 @@ class _MorePanelState extends State<MorePanel> {
     }
   }
 
-  _onShootActionTap(BuildContext context) {
-    var style = const TextStyle(fontSize: 16, color: CommonColors.color_333333);
-    showBottomChoose<int>(
-            context: context,
-            actions: [
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context, 1);
-                },
-                child: Text(
-                  S.of(context).chatMessageTakePhoto,
-                  style: style,
-                ),
-              ),
-              CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.pop(context, 2);
-                },
-                child: Text(
-                  S.of(context).chatMessageTakeVideo,
-                  style: style,
-                ),
-              ),
-            ],
-            showCancel: true)
-        .then((value) {
-      if (value == 1) {
-        _onTakePhoto();
-      } else if (value == 2) {
-        _onTakeVideo();
+  _onShootActionTap(BuildContext context) async {
+    final AssetEntity? resourceItem = await CameraPicker.pickFromCamera(
+      context,
+      pickerConfig: const CameraPickerConfig(enableRecording: true),
+    );
+
+    if (resourceItem != null) {
+      var fileItem = await resourceItem.file;
+      switch (resourceItem.type) {
+        case AssetType.image:
+          if (fileItem != null) {
+            int len = await fileItem.length();
+            Alog.d(
+                tag: 'ChatKit',
+                moduleName: 'bottom input',
+                content: 'pick image path:${fileItem.path}');
+            context.read<ChatViewModel>().sendImageMessage(fileItem.path, len);
+          }
+          break;
+        case AssetType.video:
+          Alog.d(
+              tag: 'ChatKit',
+              moduleName: 'bottom input',
+              content: 'pick video path:${fileItem?.path}');
+          if (fileItem != null) {
+            VideoPlayerController controller =
+                VideoPlayerController.file(File(fileItem.path));
+            controller.initialize().then((value) {
+              context.read<ChatViewModel>().sendVideoMessage(
+                  fileItem.path,
+                  controller.value.duration.inMilliseconds,
+                  controller.value.size.width.toInt(),
+                  controller.value.size.height.toInt(),
+                  resourceItem.id);
+            });
+          }
+          break;
+        default:
       }
-    });
+    }
   }
+
+  // _onShootActionTap(BuildContext context) {
+  //   var style = const TextStyle(fontSize: 16, color: CommonColors.color_333333);
+  //   showBottomChoose<int>(
+  //           context: context,
+  //           actions: [
+  //             CupertinoActionSheetAction(
+  //               onPressed: () {
+  //                 Navigator.pop(context, 1);
+  //               },
+  //               child: Text(
+  //                 S.of(context).chatMessageTakePhoto,
+  //                 style: style,
+  //               ),
+  //             ),
+  //             CupertinoActionSheetAction(
+  //               onPressed: () {
+  //                 Navigator.pop(context, 2);
+  //               },
+  //               child: Text(
+  //                 S.of(context).chatMessageTakeVideo,
+  //                 style: style,
+  //               ),
+  //             ),
+  //           ],
+  //           showCancel: true)
+  //       .then((value) {
+  //     if (value == 1) {
+  //       _onTakePhoto();
+  //     } else if (value == 2) {
+  //       _onTakeVideo();
+  //     }
+  //   });
+  // }
 
   _onTakePhoto() async {
     final XFile? photo =

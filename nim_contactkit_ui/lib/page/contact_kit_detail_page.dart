@@ -137,13 +137,13 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
         Container(
           padding: const EdgeInsets.only(right: 10, bottom: 10),
           child: Avatar(
-            height: 65,
-            width: 65,
-            fontSize: 22,
-            avatar: contact.user.avatar,
-            name: contact.getName(needAlias: false),
-            bgCode: AvatarColor.avatarColor(content: contact.user.userId),
-          ),
+              height: 65,
+              width: 65,
+              fontSize: 22,
+              avatar: contact.user.avatar,
+              name: contact.getName(needAlias: false),
+              bgCode: AvatarColor.avatarColor(content: contact.user.userId),
+              radius: 8),
         ),
         Expanded(
             child: Column(

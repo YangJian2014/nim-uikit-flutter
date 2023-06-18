@@ -89,7 +89,7 @@ class ContactListViewState extends State<ContactListView> {
       ]);
     }
     return Container(
-      padding: const EdgeInsets.only(left: 20, top: 16),
+      padding: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
       child: Row(
         children: [
           if (listConfig?.showSelector ?? widget.isCanSelectMemberItem)
@@ -122,7 +122,7 @@ class ContactListViewState extends State<ContactListView> {
 
   Widget _buildTop(BuildContext context, TopListItem top, int index) {
     return Container(
-      padding: const EdgeInsets.only(left: 20, top: 16, right: 20),
+      padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
       child: InkWell(
         onTap: () {
           bool handle = false;
@@ -227,9 +227,9 @@ class ContactListViewState extends State<ContactListView> {
                   ),
                 if (index == topList.length - 1)
                   Container(
-                    margin: const EdgeInsets.only(top: 16),
+                    margin: const EdgeInsets.only(top: 6),
                     height: 6,
-                    color: '#EFF1F4'.toColor(),
+                    color: Color.fromARGB(255, 243, 243, 242),
                   )
               ],
             );

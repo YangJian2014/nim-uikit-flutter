@@ -27,46 +27,50 @@ class ContactKitTeamListPage extends StatefulWidget {
 class _TeamListPageState extends State<ContactKitTeamListPage> {
   Widget _buildItem(BuildContext context, NIMTeam team) {
     return InkWell(
-      onTap: () {
-        // goto team chat
-        if (widget.selectorModel == true) {
-          Navigator.pop(context, team);
-        } else {
-          goToTeamChat(context, team.id!);
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+        onTap: () {
+          // goto team chat
+          if (widget.selectorModel == true) {
+            Navigator.pop(context, team);
+          } else {
+            goToTeamChat(context, team.id!);
+          }
+        },
+        child: Column(
           children: [
-            Avatar(
-              width: 36,
-              height: 36,
-              avatar: team.icon,
-              name: team.name,
-              bgCode: AvatarColor.avatarColor(content: team.id),
-              radius: widget.listConfig?.avatarCornerRadius,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Avatar(
+                    width: 36,
+                    height: 36,
+                    avatar: team.icon,
+                    name: team.name,
+                    bgCode: AvatarColor.avatarColor(content: team.id),
+                    radius: widget.listConfig?.avatarCornerRadius,
+                  ),
+                  Expanded(
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 12),
+                        child: Text(
+                          team.name!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: widget.listConfig?.nameTextSize ?? 16,
+                              color: widget.listConfig?.nameTextColor ??
+                                  CommonColors.color_333333),
+                        )),
+                  )
+                ],
+              ),
             ),
-            Expanded(
-              child: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 12),
-                  child: Text(
-                    team.name!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: widget.listConfig?.nameTextSize ?? 16,
-                        color: widget.listConfig?.nameTextColor ??
-                            CommonColors.color_333333),
-                  )),
-            )
+            Divider(indent: 15, endIndent: 15)
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   @override

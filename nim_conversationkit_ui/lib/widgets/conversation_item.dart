@@ -114,94 +114,106 @@ class ConversationItem extends StatelessWidget {
       name = conversationInfo.team?.name;
       avatarName = name;
     }
-    return Container(
-      height: 62,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      color:
-          conversationInfo.isStickTop ? const Color(0xffededef) : Colors.white,
-      alignment: Alignment.centerLeft,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: InkWell(
-              child: Avatar(
-                avatar: avatar,
-                name: avatarName,
-                height: 42,
-                width: 42,
-                radius: config.avatarCornerRadius,
+    return Column(
+      children: [
+        Divider(
+          height: 1,
+          indent: 15,
+          endIndent: 15,
+          color: Color.fromARGB(255, 221, 212, 212),
+        ),
+        Container(
+          height: 62,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          color: conversationInfo.isStickTop
+              ? const Color(0xffededef)
+              : Colors.white,
+          alignment: Alignment.centerLeft,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: InkWell(
+                  child: Avatar(
+                    avatar: avatar,
+                    name: avatarName,
+                    height: 42,
+                    width: 42,
+                    radius: config.avatarCornerRadius,
+                  ),
+                  onTap: () {
+                    if (config.avatarClick != null &&
+                        config.avatarClick!(conversationInfo, index)) {
+                      return;
+                    }
+                  },
+                  onLongPress: () {
+                    if (config.avatarLongClick != null &&
+                        config.avatarLongClick!(conversationInfo, index)) {
+                      return;
+                    }
+                  },
+                ),
               ),
-              onTap: () {
-                if (config.avatarClick != null &&
-                    config.avatarClick!(conversationInfo, index)) {
-                  return;
-                }
-              },
-              onLongPress: () {
-                if (config.avatarLongClick != null &&
-                    config.avatarLongClick!(conversationInfo, index)) {
-                  return;
-                }
-              },
-            ),
-          ),
-          if (!conversationInfo.mute)
-            Positioned(
-                top: 7,
-                left: 27,
-                child: UnreadMessage(
-                  count: conversationInfo.session.unreadCount ?? 0,
-                )),
-          Positioned(
-            left: 54,
-            top: 10,
-            right: conversationInfo.mute ? 20 : 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 70),
+              if (!conversationInfo.mute)
+                Positioned(
+                    top: 7,
+                    left: 27,
+                    child: UnreadMessage(
+                      count: conversationInfo.session.unreadCount ?? 0,
+                    )),
+              Positioned(
+                left: 54,
+                top: 10,
+                right: conversationInfo.mute ? 20 : 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 70),
+                      child: Text(
+                        name ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: config.itemTitleSize,
+                            color: config.itemTitleColor),
+                      ),
+                    ),
+                    Text(
+                      _getLastContent(context),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: config.itemContentSize,
+                          color: config.itemContentColor),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                  right: 0,
+                  top: 17,
                   child: Text(
-                    name ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    conversationInfo.session.lastMessageTime!.formatDateTime(),
                     style: TextStyle(
-                        fontSize: config.itemTitleSize,
-                        color: config.itemTitleColor),
+                        fontSize: config.itemDateSize,
+                        color: config.itemDateColor),
+                  )),
+              if (conversationInfo.mute)
+                Positioned(
+                  right: 0,
+                  bottom: 10,
+                  child: SvgPicture.asset(
+                    'images/ic_mute.svg',
+                    package: kPackage,
                   ),
                 ),
-                Text(
-                  _getLastContent(context),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontSize: config.itemContentSize,
-                      color: config.itemContentColor),
-                ),
-              ],
-            ),
+            ],
           ),
-          Positioned(
-              right: 0,
-              top: 17,
-              child: Text(
-                conversationInfo.session.lastMessageTime!.formatDateTime(),
-                style: TextStyle(
-                    fontSize: config.itemDateSize, color: config.itemDateColor),
-              )),
-          if (conversationInfo.mute)
-            Positioned(
-              right: 0,
-              bottom: 10,
-              child: SvgPicture.asset(
-                'images/ic_mute.svg',
-                package: kPackage,
-              ),
-            )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
