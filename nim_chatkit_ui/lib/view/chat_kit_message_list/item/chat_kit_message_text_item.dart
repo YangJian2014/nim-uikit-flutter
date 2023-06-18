@@ -2,19 +2,26 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart';
 import 'package:nim_chatkit_ui/chat_kit_client.dart';
 import 'package:nim_chatkit_ui/view/input/emoji.dart';
 import 'package:collection/collection.dart';
 import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:flutter/widgets.dart';
+import 'package:selectable_autolink_text/selectable_autolink_text.dart';
+import 'package:selectable_autolink_text/src/tap_and_long_press.dart';
+import 'package:selectable_autolink_text/src/text_element.dart';
+import 'package:selectable_autolink_text/src/highlighted_text_span.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatKitMessageTextItem extends StatefulWidget {
   final String text;
 
   final ChatUIConfig? chatUIConfig;
+  final bool isSelf;
 
   const ChatKitMessageTextItem(
-      {Key? key, required this.text, this.chatUIConfig})
+      {Key? key, required this.text, this.chatUIConfig, required this.isSelf})
       : super(key: key);
 
   @override
@@ -64,17 +71,144 @@ class ChatKitMessageTextState extends State<ChatKitMessageTextItem> {
       }
     }
     return Container(
-      //放到里面
-      padding: const EdgeInsets.only(left: 16, top: 12, right: 16, bottom: 12),
-      child: matches.isEmpty
-          ? Text(
-              widget.text,
-              style: TextStyle(
-                  fontSize: widget.chatUIConfig?.messageTextSize ?? 16,
-                  color: widget.chatUIConfig?.messageTextColor ??
-                      '#333333'.toColor()),
-            )
-          : Text.rich(TextSpan(children: spans)),
+        //放到里面
+        padding: const EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 8),
+        child: buildNewText()
+        // child: matches.isEmpty
+        //     ? Text(
+        //         widget.text,
+        //         style: TextStyle(
+        //             fontSize: widget.chatUIConfig?.messageTextSize ?? 16,
+        //             color: widget.chatUIConfig?.messageTextColor ??
+        //                 '#333333'.toColor()),
+        //       )
+        //     : Text.rich(TextSpan(children: spans)),
+        );
+  }
+
+  final _gestureRecognizers = <TapAndLongPressGestureRecognizer>[];
+
+  @override
+  void dispose() {
+    _clearGestureRecognizers();
+    super.dispose();
+  }
+
+  Future<bool> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      return await launchUrl(uri);
+    } else {
+      return false;
+    }
+  }
+
+  Widget buildNewText() {
+    return Text.rich(
+      TextSpan(children: _createTextSpans()),
     );
+  }
+
+  List<TextElement> _generateElements(String text) {
+    if (text.isEmpty) return [];
+
+    final elements = <TextElement>[];
+
+    final matches =
+        RegExp('(@[\\w]+|#[\\w]+|${AutoLinkUtils.urlRegExpPattern})')
+            .allMatches(text);
+    if (matches.isEmpty) {
+      elements.add(TextElement(
+        type: TextElementType.text,
+        text: text,
+      ));
+    } else {
+      var index = 0;
+      for (var match in matches) {
+        // widget.onDebugMatch?.call(match);
+
+        if (match.start != 0) {
+          elements.add(TextElement(
+            type: TextElementType.text,
+            text: text.substring(index, match.start),
+          ));
+        }
+        elements.add(TextElement(
+          type: TextElementType.link,
+          text: match.group(0) ?? '',
+        ));
+        index = match.end;
+      }
+
+      if (index < text.length) {
+        elements.add(TextElement(
+          type: TextElementType.text,
+          text: text.substring(index),
+        ));
+      }
+    }
+
+    return elements;
+  }
+
+  List<TextSpan> _createTextSpans() {
+    _clearGestureRecognizers();
+    return _generateElements(widget.text).map(
+      (e) {
+        var isLink = e.type == TextElementType.link;
+        final linkAttr = isLink ? AutoLinkUtils.shrinkUrl.call(e.text) : null;
+        final link = linkAttr != null ? linkAttr.link : e.text;
+        isLink = isLink && link != null;
+
+        return HighlightedTextSpan(
+          text: linkAttr?.text ?? e.text,
+          style: linkAttr?.style ??
+              (isLink
+                  ? const TextStyle(color: Color.fromARGB(255, 18, 102, 247))
+                  : TextStyle(
+                      fontSize: widget.chatUIConfig?.messageTextSize ?? 16,
+                      color: (widget.isSelf
+                          ? Color.fromARGB(255, 253, 251, 251)
+                          : Color.fromARGB(255, 22, 22, 22)))),
+          highlightedStyle: isLink
+              ? (linkAttr?.highlightedStyle ??
+                  TextStyle(
+                    color: Colors.deepOrangeAccent,
+                    backgroundColor: Colors.deepOrangeAccent.withAlpha(0x33),
+                  ))
+              : null,
+          recognizer: isLink ? _createGestureRecognizer(link) : null,
+        );
+      },
+    ).toList();
+  }
+
+  TapAndLongPressGestureRecognizer? _createGestureRecognizer(String link) {
+    // if (widget.onTap == null && widget.onLongPress == null) {
+    //   return null;
+    // }
+    final recognizer = TapAndLongPressGestureRecognizer();
+    _gestureRecognizers.add(recognizer);
+    recognizer.onTap = () async {
+      print('Tap: $link');
+      if (!await _launchUrl(link)) {
+        // _alert(context, 'Tap', link);
+      }
+    };
+    recognizer.onLongPress = () async {
+      print('Tap: $link');
+      if (!await _launchUrl(link)) {
+        // _alert(context, 'Tap', link);
+      }
+    };
+
+    return recognizer;
+  }
+
+  void _clearGestureRecognizers() {
+    for (var r in _gestureRecognizers) {
+      r.dispose();
+    }
+    _gestureRecognizers.clear();
   }
 }

@@ -2,9 +2,13 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:netease_common_ui/extension.dart';
 import 'package:netease_common_ui/ui/avatar.dart';
 import 'package:netease_common_ui/widgets/unread_message.dart';
+import 'package:netease_corekit_im/service_locator.dart';
+import 'package:netease_corekit_im/services/login/login_service.dart';
 import 'package:nim_conversationkit/model/conversation_info.dart';
 import 'package:nim_conversationkit_ui/conversation_kit_client.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +39,65 @@ class ConversationItem extends StatelessWidget {
   final ConversationInfo conversationInfo;
   final ConversationItemConfig config;
   final int index;
+
+  bool _isRedPacketContent() {
+    var content = conversationInfo.session.lastMessageContent ?? '';
+    if (conversationInfo.session.lastMessageType != null) {
+      if (conversationInfo.session.lastMessageType != NIMMessageType.custom) {
+        return false;
+      }
+
+      var attachMsg = conversationInfo.session.lastMessageAttachment?.toMap();
+      if (attachMsg == null) {
+        return false;
+      }
+      var customMsgType = attachMsg['msg_type'];
+
+      // 非红包消息
+      if (customMsgType != 1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  String _getLastContent(BuildContext context) {
+    if (!isSupportMessageType(conversationInfo.session.lastMessageType)) {
+      return S.of(context).chatMessageNonsupportType;
+    }
+
+    var content = conversationInfo.session.lastMessageContent ?? '';
+    if (conversationInfo.session.lastMessageType != null) {
+      if (_isRedPacketContent()) {
+        String type = '收到';
+        LoginService _loginService = getIt<LoginService>();
+        if (_loginService.userInfo?.userId ==
+            conversationInfo.session.senderAccount) {
+          type = '发送了';
+        }
+
+        return '你$type一个红包';
+      }
+      if (conversationInfo.session.lastMessageType != NIMMessageType.tip) {
+        return content;
+      }
+    }
+    try {
+      var obj = jsonDecode(content);
+      if (obj == null) {
+        return content;
+      }
+      var from = obj['content'];
+      if (from != null) {
+        return '$from';
+      }
+    } catch (e) {
+      return content;
+    }
+
+    return content;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +173,7 @@ class ConversationItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  isSupportMessageType(conversationInfo.session.lastMessageType)
-                      ? (conversationInfo.session.lastMessageContent ?? '')
-                      : S.of(context).chatMessageNonsupportType,
+                  _getLastContent(context),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(

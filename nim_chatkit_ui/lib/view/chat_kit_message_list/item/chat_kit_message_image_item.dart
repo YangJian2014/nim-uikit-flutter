@@ -34,11 +34,12 @@ class ChatKitMessageImageState extends State<ChatKitMessageImageItem> {
   Widget build(BuildContext context) {
     return ChatThumbView(
         message: widget.message,
-        radius: BorderRadius.only(
-            topLeft: Radius.circular(_isReceive ? 0 : 12),
-            topRight: Radius.circular(_isReceive ? 12 : 0),
-            bottomLeft: const Radius.circular(12),
-            bottomRight: const Radius.circular(12)),
+        radius: const BorderRadius.all(Radius.circular(8)),
+        // radius: BorderRadius.only(
+        //     topLeft: Radius.circular(_isReceive ? 0 : 12),
+        //     topRight: Radius.circular(_isReceive ? 12 : 0),
+        //     bottomLeft: const Radius.circular(12),
+        //     bottomRight: const Radius.circular(12)),
         onTap: () {
           var messagesList = context
               .read<ChatViewModel>()

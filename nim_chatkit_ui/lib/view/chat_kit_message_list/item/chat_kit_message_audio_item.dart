@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -82,6 +83,7 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
             package: kPackage,
             width: 28,
             height: 28,
+            color: Colors.black,
           ),
         ],
       );
@@ -262,7 +264,7 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
         child: Container(
           color: Color.fromRGBO(0, 0, 0, 0.0),
           padding:
-              const EdgeInsets.only(left: 16, top: 12, right: 16, bottom: 12),
+              const EdgeInsets.only(left: 16, top: 5, right: 16, bottom: 5),
           child: _getAudioUI(widget.message),
         ),
       ),

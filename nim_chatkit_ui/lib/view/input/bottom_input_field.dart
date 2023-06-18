@@ -67,6 +67,7 @@ class _BottomInputFieldState extends State<BottomInputField>
   bool mute = false;
   bool _keyboardShow = false;
   bool _recording = false;
+  bool _showSendBtn = false;
 
   /// none, input, record, emoji, more
   String _currentType = ActionConstants.none;
@@ -185,6 +186,12 @@ class _BottomInputFieldState extends State<BottomInputField>
   // _onFileActionTap() {
   // }
 
+  _onInputActionTap(BuildContext context) {
+    _currentType = ActionConstants.none;
+    FocusScope.of(context).requestFocus(_focusNode);
+    setState(() {});
+  }
+
   _onMoreActionTap(BuildContext context) {
     if (_currentType == ActionConstants.more) {
       _currentType = ActionConstants.none;
@@ -237,7 +244,7 @@ class _BottomInputFieldState extends State<BottomInputField>
     if (_currentType == ActionConstants.record ||
         _currentType == ActionConstants.more ||
         _currentType == ActionConstants.emoji) {
-      return 197;
+      return 177;
     }
     return 0;
   }
@@ -278,12 +285,20 @@ class _BottomInputFieldState extends State<BottomInputField>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           });
+
+          setState(() {
+            _showSendBtn = inputText.isNotEmpty;
+          });
         },
         onEmojiDelete: () {
           String originText = inputController.text;
           var text = originText.characters.skipLast(1);
           inputController.text = "$text";
           inputText = inputController.text;
+
+          setState(() {
+            _showSendBtn = inputText.isNotEmpty;
+          });
         },
         onEmojiSendClick: _sendTextMessage,
       );
@@ -455,6 +470,11 @@ class _BottomInputFieldState extends State<BottomInputField>
           curve: Curves.ease,
         );
       }
+
+      final text = inputController.text.trim();
+      setState(() {
+        _showSendBtn = text.isNotEmpty;
+      });
     });
   }
 
@@ -573,7 +593,7 @@ class _BottomInputFieldState extends State<BottomInputField>
                               return Text(
                                 S.of(context).chatMessageReplySomeone(
                                     snapshot.data ?? ''),
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 12, color: Color(0xff929299)),
@@ -592,36 +612,120 @@ class _BottomInputFieldState extends State<BottomInputField>
                 : Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: SizedBox(
-                      height: 40,
-                      child: TextField(
-                        controller: inputController,
-                        scrollController: _scrollController,
-                        focusNode: _focusNode,
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 9, horizontal: 12),
-                            fillColor: mute ? Color(0xffe3e4e4) : Colors.white,
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide.none),
-                            isDense: true,
-                            hintText: hint,
-                            hintStyle: const TextStyle(
-                                color: Color(0xffb3b7bc), fontSize: 16),
-                            enabled: !mute),
-                        maxLines: 1,
-                        style: const TextStyle(
-                            color: CommonColors.color_333333, fontSize: 16),
-                        textInputAction: TextInputAction.send,
-                        onChanged: (value) {
-                          _handleAitText(value,
-                              context.read<ChatViewModel>().userInfoTeam);
-                        },
-                        onEditingComplete: _sendTextMessage,
-                        enabled: !mute,
-                      ),
-                    ),
+                        // height: 40,
+                        child: Row(
+                      children: [
+                        InkWell(
+                          child: SvgPicture.asset(
+                            'images/ic_chat_yuyin.svg',
+                            package: kPackage,
+                            width: 25,
+                            height: 25,
+                            color: const Color.fromARGB(255, 81, 81, 81),
+                          ),
+                          onTap: () {
+                            _onRecordActionTap(context);
+                          },
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: inputController,
+                            scrollController: _scrollController,
+                            focusNode: _focusNode,
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 9, horizontal: 12),
+                                fillColor:
+                                    mute ? Color(0xffe3e4e4) : Colors.white,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none),
+                                isDense: true,
+                                hintText: hint,
+                                hintStyle: const TextStyle(
+                                    color: Color(0xffb3b7bc), fontSize: 16),
+                                enabled: !mute),
+                            maxLines: 5,
+                            minLines: 1,
+                            style: const TextStyle(
+                                color: CommonColors.color_333333, fontSize: 16),
+                            textInputAction: TextInputAction.send,
+                            onChanged: (value) {
+                              setState(() {
+                                _showSendBtn = value.isNotEmpty;
+                              });
+
+                              _handleAitText(value,
+                                  context.read<ChatViewModel>().userInfoTeam);
+                            },
+                            onEditingComplete: _sendTextMessage,
+                            enabled: !mute,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        _currentType == ActionConstants.emoji
+                            ? InkWell(
+                                child: const Icon(
+                                  Icons.keyboard_hide_outlined,
+                                  color: Color.fromARGB(255, 114, 113, 113),
+                                  size: 30,
+                                ),
+                                onTap: () {
+                                  _onInputActionTap(context);
+                                },
+                              )
+                            : InkWell(
+                                child: SvgPicture.asset(
+                                  'images/ic_send_emoji.svg',
+                                  package: kPackage,
+                                  height: 30,
+                                  width: 30,
+                                ),
+                                onTap: () {
+                                  _onEmojiActionTap(context);
+                                },
+                              ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        InkWell(
+                          child: SvgPicture.asset(
+                            'images/ic_more.svg',
+                            package: kPackage,
+                            height: 30,
+                            width: 30,
+                          ),
+                          onTap: () {
+                            _onMoreActionTap(context);
+                          },
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        if (_showSendBtn)
+                          Material(
+                            // color: '#58BE6B'.toColor(),
+                            borderRadius: BorderRadius.circular(18),
+                            child: InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: _sendTextMessage,
+                                child: const Image(
+                                  image: AssetImage(
+                                    'images/send_icon.png',
+                                    package: kPackage,
+                                  ),
+                                  width: 61,
+                                  height: 30,
+                                )),
+                          )
+                      ],
+                    )),
                   ),
             _recording
                 ? SizedBox(
@@ -632,21 +736,22 @@ class _BottomInputFieldState extends State<BottomInputField>
                           fontSize: 12, color: CommonColors.color_999999),
                     ),
                   )
-                : Row(
-                    children: _defaultInputActions()
-                        .map((action) => Expanded(
-                                child: InputTextAction(
-                              action: action,
-                              enable: !mute,
-                              onTap: () {
-                                _scrollToBottom();
-                                if (action.onTap != null) {
-                                  action.onTap!(context);
-                                }
-                              },
-                            )))
-                        .toList(),
-                  ),
+                : const SizedBox(height: 5),
+            // Row(
+            //     children: _defaultInputActions()
+            //         .map((action) => Expanded(
+            //                 child: InputTextAction(
+            //               action: action,
+            //               enable: !mute,
+            //               onTap: () {
+            //                 _scrollToBottom();
+            //                 if (action.onTap != null) {
+            //                   action.onTap!(context);
+            //                 }
+            //               },
+            //             )))
+            //         .toList(),
+            //   ),
             if (!mute)
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),

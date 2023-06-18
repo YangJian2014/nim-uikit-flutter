@@ -18,6 +18,7 @@ import 'package:nim_chatkit_ui/view/page/location_map_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
 import '../../chat_kit_client.dart';
@@ -52,6 +53,15 @@ class _MorePanelState extends State<MorePanel> {
 
   List<ActionItem> _defaultMoreActions() {
     return [
+      ActionItem(
+          type: ActionConstants.shoot,
+          icon: SvgPicture.asset(
+            'images/ic_send_image.svg',
+            package: kPackage,
+          ),
+          title: S.of(context).chatMessageBriefImage,
+          permissions: [Permission.camera],
+          onTap: _pickImage),
       ActionItem(
           type: ActionConstants.shoot,
           icon: SvgPicture.asset(
@@ -187,6 +197,57 @@ class _MorePanelState extends State<MorePanel> {
     }
   }
 
+  _pickImage(BuildContext context) async {
+    final List<AssetEntity>? pickedFileList = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        // requestType: RequestType.image,
+        // previewThumbnailSize: const ThumbnailSize.square(150),
+        specialPickerType: SpecialPickerType.wechatMoment,
+      ),
+    );
+    // final List<XFile>? pickedFileList = await _picker.pickMultiImage();
+    if (pickedFileList != null) {
+      for (AssetEntity resourceItem in pickedFileList) {
+        var fileItem = await resourceItem.file;
+
+        switch (resourceItem.type) {
+          case AssetType.image:
+            if (fileItem != null) {
+              int len = await fileItem.length();
+              Alog.d(
+                  tag: 'ChatKit',
+                  moduleName: 'bottom input',
+                  content: 'pick image path:${fileItem.path}');
+              context
+                  .read<ChatViewModel>()
+                  .sendImageMessage(fileItem.path, len);
+            }
+            break;
+          case AssetType.video:
+            Alog.d(
+                tag: 'ChatKit',
+                moduleName: 'bottom input',
+                content: 'pick video path:${fileItem?.path}');
+            if (fileItem != null) {
+              VideoPlayerController controller =
+                  VideoPlayerController.file(File(fileItem.path));
+              controller.initialize().then((value) {
+                context.read<ChatViewModel>().sendVideoMessage(
+                    fileItem.path,
+                    controller.value.duration.inMilliseconds,
+                    controller.value.size.width.toInt(),
+                    controller.value.size.height.toInt(),
+                    resourceItem.id);
+              });
+            }
+            break;
+          default:
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<ActionItem> moreActions = getActions();
@@ -215,7 +276,7 @@ class MoreActionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final sw = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: ConstrainedBox(
         constraints: const BoxConstraints.expand(),
         child: Wrap(

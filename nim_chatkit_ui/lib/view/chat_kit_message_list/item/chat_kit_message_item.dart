@@ -264,7 +264,7 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
   Widget _buildMessageReply(ChatMessage message) {
     String? replyMsgId = _getReplyMessageId(message);
     return Container(
-        padding: const EdgeInsets.only(left: 16, top: 12, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 5, right: 16),
         child: GestureDetector(
           child: FutureBuilder<String>(
             future: ChatMessageHelper.getReplayMessageText(context, replyMsgId!,
@@ -275,7 +275,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                 textWidthBasis: TextWidthBasis.parent,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(fontSize: 13, color: '#929299'.toColor()),
+                style: TextStyle(
+                    fontSize: 13, color: Color.fromARGB(255, 49, 49, 49)),
               );
             },
           ),
@@ -294,7 +295,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
         }
         return ChatKitMessageTextItem(
             text: message.nimMessage.content!,
-            chatUIConfig: widget.chatUIConfig);
+            chatUIConfig: widget.chatUIConfig,
+            isSelf: isSelf());
       case NIMMessageType.audio:
         if (messageItemBuilder?.audioMessageBuilder != null) {
           return messageItemBuilder!.audioMessageBuilder!(message.nimMessage);
@@ -508,13 +510,13 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
             : color,
         borderRadius: isSelf()
             ? const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12))
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8))
             : const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12)),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8)),
       );
     }
   }

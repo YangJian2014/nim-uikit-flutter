@@ -178,7 +178,7 @@ class _ChatThumbViewState extends State<ChatThumbView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 222, maxHeight: 222),
+      constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
       child: _imageBuilder(),
     );
   }

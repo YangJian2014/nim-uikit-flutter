@@ -58,24 +58,24 @@ class _EmojiPanelState extends State<EmojiPanel> {
             allowImplicitScrolling: true,
           ),
         ),
-        Container(
-          alignment: Alignment.topRight,
-          height: 32,
-          color: Colors.white,
-          child: InkWell(
-            onTap: widget.onEmojiSendClick,
-            child: Container(
-              height: 32,
-              width: 60,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(color: CommonColors.color_337eff),
-              child: Text(
-                S.of(context).chatMessageSend,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
-          ),
-        ),
+        // Container(
+        //   alignment: Alignment.topRight,
+        //   height: 32,
+        //   color: Colors.white,
+        //   child: InkWell(
+        //     onTap: widget.onEmojiSendClick,
+        //     child: Container(
+        //       height: 32,
+        //       width: 60,
+        //       alignment: Alignment.center,
+        //       decoration: const BoxDecoration(color: CommonColors.color_337eff),
+        //       child: Text(
+        //         S.of(context).chatMessageSend,
+        //         style: const TextStyle(color: Colors.white, fontSize: 14),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -98,7 +98,7 @@ class EmojiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
       child: LayoutBuilder(
         builder: (context, constraints) {
           var w = constraints.maxWidth / 7;

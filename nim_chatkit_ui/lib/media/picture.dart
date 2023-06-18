@@ -107,18 +107,23 @@ class _PictureViewerState extends State<PictureViewer> {
     return Scaffold(
       body: Stack(
         children: [
-          PhotoViewGallery.builder(
-            scrollPhysics: const BouncingScrollPhysics(),
-            gaplessPlayback: true,
-            reverse: true,
-            builder: _buildItem,
-            itemCount: _galleryItems.length,
-            pageController: PageController(initialPage: _currentIndex),
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
             },
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              gaplessPlayback: true,
+              reverse: true,
+              builder: _buildItem,
+              itemCount: _galleryItems.length,
+              pageController: PageController(initialPage: _currentIndex),
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
           ),
           MediaBottomActionOverlay(_galleryItems[_currentIndex]),
         ],
