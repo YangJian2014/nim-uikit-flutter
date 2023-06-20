@@ -49,7 +49,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
             title: Text(S.of(context).contactBirthday),
             trailing: Text(
               contact.user.birth ?? '',
-              style: TextStyle(fontSize: 12, color: '#A6ADB6'.toColor()),
+              style: TextStyle(fontSize: 14, color: '#A6ADB6'.toColor()),
             ),
           ),
           ListTile(
@@ -57,7 +57,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
             title: Text(S.of(context).contactPhone),
             trailing: Text(
               contact.user.mobile ?? '',
-              style: TextStyle(fontSize: 12, color: '#A6ADB6'.toColor()),
+              style: TextStyle(fontSize: 14, color: '#A6ADB6'.toColor()),
             ),
           ),
           ListTile(
@@ -69,7 +69,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                 contact.user.email ?? '',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: '#A6ADB6'.toColor()),
+                style: TextStyle(fontSize: 14, color: '#A6ADB6'.toColor()),
               ),
             ),
           ),
@@ -85,7 +85,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                 contact.user.sign ?? '',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: '#A6ADB6'.toColor()),
+                style: TextStyle(fontSize: 14, color: '#A6ADB6'.toColor()),
               ),
             ),
           ),

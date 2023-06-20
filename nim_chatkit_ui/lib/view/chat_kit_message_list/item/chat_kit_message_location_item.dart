@@ -55,10 +55,10 @@ class ChatKitMessageLocationState extends State<ChatKitMessageLocationItem> {
         decoration: BoxDecoration(
             border: Border.all(color: const Color(0xFFE2E5E8), width: 1),
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(_isReceive ? 0 : 12),
-                topRight: Radius.circular(_isReceive ? 12 : 0),
-                bottomLeft: const Radius.circular(12),
-                bottomRight: const Radius.circular(12))),
+                topLeft: Radius.circular(_isReceive ? 8 : 8),
+                topRight: Radius.circular(_isReceive ? 8 : 8),
+                bottomLeft: const Radius.circular(8),
+                bottomRight: const Radius.circular(8))),
         child: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -79,7 +79,7 @@ class ChatKitMessageLocationState extends State<ChatKitMessageLocationItem> {
                   padding: EdgeInsets.only(top: 11, left: 16, right: 16),
                   child: Text(widget.message.content!,
                       style:
-                          TextStyle(fontSize: 16, color: '#333333'.toColor()),
+                          TextStyle(fontSize: 16, color: '#ffffff'.toColor()),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
                 ),

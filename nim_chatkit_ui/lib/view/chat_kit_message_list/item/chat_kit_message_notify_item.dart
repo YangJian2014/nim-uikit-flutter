@@ -22,7 +22,7 @@ class ChatKitMessageNotificationState
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 16, top: 12, right: 16, bottom: 8),
+      padding: const EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 8),
       child: FutureBuilder<String>(
         future: NotifyHelper.getNotificationText(widget.message),
         builder: (context, snap) {

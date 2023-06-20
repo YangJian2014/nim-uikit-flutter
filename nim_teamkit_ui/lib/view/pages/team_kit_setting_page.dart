@@ -21,6 +21,7 @@ import 'package:netease_corekit_im/services/team/team_provider.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:nim_teamkit_ui/l10n/S.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_member_list_page.dart';
+import 'package:nim_teamkit_ui/view/pages/team_kit_qr_code.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_team_info_page.dart';
 import 'package:provider/provider.dart';
 
@@ -80,7 +81,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: GestureDetector(
             onTap: () {
               bool hasPrivilegeToUpdateInfo =
@@ -97,6 +98,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                 Avatar(
                   avatar: team.icon,
                   name: team.name,
+                  radius: 4,
                 ),
                 const SizedBox(
                   width: 11,
@@ -122,7 +124,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
           height: 1,
           color: CommonColors.color_f5f8fc,
         ),
-        GestureDetector(
+        InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => TeamKitMemberListPage(tId: team.id!)));
@@ -153,8 +155,39 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             ),
           ),
         ),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    TeamQRCodePage(tId: team.id!, tName: team.name ?? '')));
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  '群二维码',
+                  style: style,
+                ),
+                Expanded(
+                    child: Container(
+                        alignment: Alignment.centerRight,
+                        child: const Text(
+                          '',
+                          style: TextStyle(
+                              fontSize: 16, color: CommonColors.color_999999),
+                        ))),
+                const Icon(
+                  Icons.keyboard_arrow_right_outlined,
+                  color: CommonColors.color_999999,
+                ),
+              ],
+            ),
+          ),
+        ),
         Container(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
           height: 32 + 16,
           child: Stack(
             children: [
@@ -193,6 +226,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                       needAlias: false, needTeamNick: false),
                                   height: 32,
                                   width: 32,
+                                  radius: 4,
                                 ),
                               ),
                             )
@@ -201,7 +235,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                   }),
               if (hasPrivilegeToInvite)
                 Container(
-                  padding: const EdgeInsets.only(right: 12),
+                  padding: const EdgeInsets.only(right: 12, top: 5, bottom: 5),
                   decoration: BoxDecoration(color: '#FFFFFF'.toColor()),
                   child: GestureDetector(
                     onTap: () {
@@ -231,7 +265,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                 ),
             ],
           ),
-        )
+        ),
+        const SizedBox(
+          height: 10,
+        ),
       ],
     );
   }
@@ -539,7 +576,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
               ? SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
                         CardBackground(

@@ -23,5 +23,6 @@
   "createGroupTeam": "create group team",
   "createAdvancedTeam": "create advanced team",
   "chatMessageNonsupportType": "[Nonsupport message type]",
-  "conversationEmpty": "no chat"
+  "conversationEmpty": "no chat",
+  "group_scan": "Scan"
 }

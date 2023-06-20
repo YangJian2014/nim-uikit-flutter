@@ -164,12 +164,12 @@ class ChatKitMessageTextState extends State<ChatKitMessageTextItem> {
           text: linkAttr?.text ?? e.text,
           style: linkAttr?.style ??
               (isLink
-                  ? const TextStyle(color: Color.fromARGB(255, 18, 102, 247))
+                  ? const TextStyle(color: Color.fromARGB(255, 50, 121, 244))
                   : TextStyle(
                       fontSize: widget.chatUIConfig?.messageTextSize ?? 16,
                       color: (widget.isSelf
                           ? Color.fromARGB(255, 253, 251, 251)
-                          : Color.fromARGB(255, 22, 22, 22)))),
+                          : Color.fromARGB(255, 57, 57, 57)))),
           highlightedStyle: isLink
               ? (linkAttr?.highlightedStyle ??
                   TextStyle(

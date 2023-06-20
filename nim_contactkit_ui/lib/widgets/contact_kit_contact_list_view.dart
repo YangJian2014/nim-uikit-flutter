@@ -68,8 +68,8 @@ class ContactListViewState extends State<ContactListView> {
         Avatar(
           avatar: contact.user.avatar,
           name: contact.getName(needAlias: false),
-          width: select ? 42 : 36,
-          height: select ? 42 : 36,
+          width: select ? 40 : 40,
+          height: select ? 40 : 40,
           bgCode: AvatarColor.avatarColor(content: contact.user.userId),
           radius: listConfig?.avatarCornerRadius,
         ),
@@ -89,7 +89,7 @@ class ContactListViewState extends State<ContactListView> {
       ]);
     }
     return Container(
-      padding: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
+      padding: const EdgeInsets.only(left: 15, top: 8, bottom: 8),
       child: Row(
         children: [
           if (listConfig?.showSelector ?? widget.isCanSelectMemberItem)
@@ -122,7 +122,7 @@ class ContactListViewState extends State<ContactListView> {
 
   Widget _buildTop(BuildContext context, TopListItem top, int index) {
     return Container(
-      padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
+      padding: const EdgeInsets.only(left: 15, top: 8, right: 15, bottom: 8),
       child: InkWell(
         onTap: () {
           bool handle = false;

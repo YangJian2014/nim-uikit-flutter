@@ -34,7 +34,13 @@ dependencies:
   intl: ^0.18.0
   flutter_svg: ^1.0.3
   connectivity_plus: ^2.3.6
-
+  package_info: ^2.0.2
+  flutter_easyloading: ^3.0.5
+  dio: ^4.0.6
+  utils:
+    # ^1.0.0
+    path: ../../utils
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter

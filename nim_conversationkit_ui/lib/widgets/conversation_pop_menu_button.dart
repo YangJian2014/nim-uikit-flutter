@@ -14,6 +14,7 @@ import 'package:netease_corekit_im/services/message/message_provider.dart';
 import 'package:netease_corekit_im/services/team/team_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nim_conversationkit_ui/page/scan_page.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
 import '../conversation_kit_client.dart';
@@ -25,6 +26,10 @@ class ConversationPopMenuButton extends StatelessWidget {
   _onMenuSelected(BuildContext context, String value) async {
     Alog.i(tag: 'ConversationKit', content: "onMenuSelected: $value");
     switch (value) {
+      case "scan":
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const ScanPage()));
+        break;
       case "add_friend":
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => AddFriendPage()));
@@ -84,6 +89,11 @@ class ConversationPopMenuButton extends StatelessWidget {
         'image': 'images/icon_create_advanced_team.svg',
         'name': S.of(context).createAdvancedTeam,
         'value': 'create_advanced_team'
+      },
+      {
+        'image': 'images/icon_create_advanced_team.svg',
+        'name': '扫一扫', // S.of(context).group_scan,
+        'value': 'scan'
       }
     ];
   }

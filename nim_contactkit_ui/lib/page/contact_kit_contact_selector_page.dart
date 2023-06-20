@@ -175,11 +175,15 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
               ? Expanded(
                   flex: 10,
                   child: ContactListView(
-                      contactList: contacts,
-                      maxSelectNum: widget.mostSelectedCount,
-                      onSelectedMemberItemChange: _onSelectedItemChange,
-                      selectedUser: selectedUser,
-                      isCanSelectMemberItem: true))
+                    contactList: contacts,
+                    maxSelectNum: widget.mostSelectedCount,
+                    onSelectedMemberItemChange: _onSelectedItemChange,
+                    selectedUser: selectedUser,
+                    isCanSelectMemberItem: true,
+                    config: const ContactUIConfig(
+                        contactListConfig:
+                            ContactListConfig(avatarCornerRadius: 4)),
+                  ))
               : Expanded(
                   flex: 10,
                   child: Column(

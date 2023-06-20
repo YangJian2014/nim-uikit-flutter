@@ -75,7 +75,7 @@ class TeamKitMemberListPageState extends State<TeamKitMemberListPage> {
               elevation: 0,
               centerTitle: true),
           body: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
             color: Colors.white,
             child: Column(
               children: [
@@ -148,6 +148,7 @@ class TeamMemberListItemState extends State<TeamMemberListItem> {
                   .getName(needAlias: false, needTeamNick: false),
               bgCode: AvatarColor.avatarColor(
                   content: widget.teamMember.teamInfo.account),
+              radius: 4,
             ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 7)),
             Expanded(
