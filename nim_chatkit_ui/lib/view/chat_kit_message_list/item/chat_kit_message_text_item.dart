@@ -72,7 +72,7 @@ class ChatKitMessageTextState extends State<ChatKitMessageTextItem> {
     }
     return Container(
         //放到里面
-        padding: const EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 8),
+        padding: const EdgeInsets.only(left: 10, top: 8, right: 10, bottom: 8),
         child: buildNewText()
         // child: matches.isEmpty
         //     ? Text(
@@ -164,7 +164,7 @@ class ChatKitMessageTextState extends State<ChatKitMessageTextItem> {
           text: linkAttr?.text ?? e.text,
           style: linkAttr?.style ??
               (isLink
-                  ? const TextStyle(color: Color.fromARGB(255, 50, 121, 244))
+                  ? const TextStyle(color: Color.fromARGB(255, 1, 92, 249))
                   : TextStyle(
                       fontSize: widget.chatUIConfig?.messageTextSize ?? 16,
                       color: (widget.isSelf

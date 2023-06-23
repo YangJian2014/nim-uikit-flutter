@@ -147,7 +147,7 @@ class LocationMapPageState extends State<LocationMapPage> {
           },
           child: Text(
             S.of(context).messageCancel,
-            style: TextStyle(fontSize: 16, color: '#FFFFFF'.toColor()),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
         ),
         actions: [

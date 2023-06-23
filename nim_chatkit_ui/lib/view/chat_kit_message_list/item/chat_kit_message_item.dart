@@ -264,19 +264,19 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
   Widget _buildMessageReply(ChatMessage message) {
     String? replyMsgId = _getReplyMessageId(message);
     return Container(
-        padding: const EdgeInsets.only(left: 16, top: 5, right: 16),
+        padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
         child: GestureDetector(
           child: FutureBuilder<String>(
             future: ChatMessageHelper.getReplayMessageText(context, replyMsgId!,
                 message.nimMessage.sessionId!, message.nimMessage.sessionType!),
             builder: (context, snapshot) {
               return Text(
-                '| ${snapshot.data}',
+                '${S.of(context).chatMessageActionReply} | ${snapshot.data}',
                 textWidthBasis: TextWidthBasis.parent,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 13, color: Color.fromARGB(255, 49, 49, 49)),
+                    fontSize: 13, color: Color.fromARGB(255, 212, 212, 212)),
               );
             },
           ),

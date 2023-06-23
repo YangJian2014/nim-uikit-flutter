@@ -51,6 +51,7 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
                 fontSize: 16,
                 height: 42,
                 width: 42,
+                radius: 4,
               ),
               const SizedBox(
                 height: 6,

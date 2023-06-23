@@ -76,14 +76,14 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
         children: [
           Text(
             '${_getAudioLen(message)}s',
-            style: TextStyle(fontSize: 14, color: '#333333'.toColor()),
+            style: TextStyle(fontSize: 14, color: Colors.white),
           ),
           SvgPicture.asset(
             isPlaying ? toAniList[aniIndex] : toAniList[2],
             package: kPackage,
             width: 28,
             height: 28,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ],
       );
@@ -264,7 +264,7 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
         child: Container(
           color: Color.fromRGBO(0, 0, 0, 0.0),
           padding:
-              const EdgeInsets.only(left: 16, top: 5, right: 16, bottom: 5),
+              const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
           child: _getAudioUI(widget.message),
         ),
       ),

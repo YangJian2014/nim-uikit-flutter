@@ -322,7 +322,7 @@ class MoreActionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final sw = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: ConstrainedBox(
         constraints: const BoxConstraints.expand(),
         child: Wrap(

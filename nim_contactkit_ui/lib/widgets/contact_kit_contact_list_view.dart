@@ -5,13 +5,14 @@
 import 'package:azlistview/azlistview.dart';
 import 'package:netease_common_ui/ui/avatar.dart';
 import 'package:netease_common_ui/utils/color_utils.dart';
-import 'package:netease_common_ui/widgets/radio_button.dart';
+// import 'package:netease_common_ui/widgets/radio_button.dart';
 import 'package:nim_contactkit_ui/widgets/az_lsit_view_container.dart';
 import 'package:netease_corekit_im/model/contact_info.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nim_contactkit_ui/widgets/check_button.dart';
 
 import '../contact_kit_client.dart';
 import '../l10n/S.dart';
@@ -97,6 +98,7 @@ class ContactListViewState extends State<ContactListView> {
               margin: const EdgeInsets.only(right: 10),
               // 选择框
               child: CheckBoxButton(
+                size: 25,
                 isChecked: widget.selectedUser?.contains(contact) == true,
                 onChanged: (isChecked) {
                   if (isChecked &&
