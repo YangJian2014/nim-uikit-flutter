@@ -348,26 +348,63 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                     divider,
                     ..._buildSetting(contact),
                     divider,
-                    TextButton(
-                      onPressed: () {
+                    InkWell(
+                      onTap: () {
                         goToP2pChat(context, contact.user.userId!);
                       },
-                      child: Text(S.of(context).contactChat,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: '#337EFF'.toColor(),
-                              fontWeight: FontWeight.bold)),
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(S.of(context).contactChat,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: '#337EFF'.toColor(),
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
                     ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     goToP2pChat(context, contact.user.userId!);
+                    //   },
+                    //   child: Text(S.of(context).contactChat,
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: '#337EFF'.toColor(),
+                    //           fontWeight: FontWeight.bold)),
+                    // ),
                     dividerSmall,
-                    TextButton(
-                        onPressed: () {
-                          _deleteFriendConfirm(contact);
-                        },
-                        child: Text(S.of(context).contactDelete,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: '#E6605C'.toColor(),
-                                fontWeight: FontWeight.bold)))
+                    InkWell(
+                      onTap: () {
+                        _deleteFriendConfirm(contact);
+                      },
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(S.of(context).contactDelete,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: '#E6605C'.toColor(),
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
+                    ),
+
+                    // TextButton(
+                    //     onPressed: () {
+                    //       _deleteFriendConfirm(contact);
+                    //     },
+                    //     child: Text(S.of(context).contactDelete,
+                    //         style: TextStyle(
+                    //             fontSize: 16,
+                    //             color: '#E6605C'.toColor(),
+                    //             fontWeight: FontWeight.bold)))
                   ],
                   if (!isFriend) ...[
                     divider,
