@@ -261,72 +261,87 @@ class LocationMapPageState extends State<LocationMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: _getAppBar(),
-      body: Stack(
-        children: [
-          AMapWidget(
-            apiKey: AMapApiKey(
-                androidKey: ChatKitClient.instance.aMapAndroidKey,
-                iosKey: ChatKitClient.instance.aMapIOSKey),
-            privacyStatement: AMapPrivacyStatement(
-                hasShow: true, hasAgree: true, hasContains: true),
-            onMapCreated: onMapCreated,
-            initialCameraPosition: _position,
-            scaleEnabled: false,
-            scrollGesturesEnabled: false,
-            zoomGesturesEnabled: false,
-            markers: _markers,
+        extendBodyBehindAppBar: true,
+        appBar: _getAppBar(),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              AMapWidget(
+                apiKey: AMapApiKey(
+                    androidKey: ChatKitClient.instance.aMapAndroidKey,
+                    iosKey: ChatKitClient.instance.aMapIOSKey),
+                privacyStatement: const AMapPrivacyStatement(
+                    hasShow: true, hasAgree: true, hasContains: true),
+                onMapCreated: onMapCreated,
+                initialCameraPosition: _position,
+                scaleEnabled: true,
+                scrollGesturesEnabled: true,
+                zoomGesturesEnabled: true,
+                compassEnabled: true,
+                mapType: MapType.bus,
+                markers: _markers,
+                onCameraMoveEnd: (CameraPosition position) {
+                  // _position = position;
+                  // _mapController?.moveCamera(CameraUpdate.newLatLngZoom(
+                  //     LatLng(
+                  //         position.target.latitude, position.target.longitude),
+                  //     18));
+                  // _updateMarker(
+                  //     position.target.latitude, position.target.longitude);
+                },
+              ),
+              if (widget.locationInfo != null)
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: 10, left: 12, right: 12, bottom: 10),
+                      constraints: BoxConstraints(maxHeight: 70),
+                      color: '#ffffff'.toColor(),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              child: Padding(
+                            padding: EdgeInsets.only(right: 50),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (widget.locationInfo?.name?.isNotEmpty ==
+                                    true)
+                                  Text(widget.locationInfo!.name!,
+                                      style: TextStyle(
+                                          color: '#333333'.toColor(),
+                                          fontSize: 16),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
+                                if (widget.locationInfo?.address?.isNotEmpty ==
+                                    true)
+                                  Text(widget.locationInfo!.address!,
+                                      style: TextStyle(
+                                          color: '#B3B7BC'.toColor(),
+                                          fontSize: 14),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
+                              ],
+                            ),
+                          )),
+                          Positioned(
+                            right: 0,
+                            child: IconButton(
+                                onPressed: _showMapSelector,
+                                icon: SvgPicture.asset(
+                                  'images/ic_jump_to_map.svg',
+                                  package: kPackage,
+                                )),
+                          )
+                        ],
+                      ),
+                    ))
+            ],
           ),
-          if (widget.locationInfo != null)
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding:
-                      EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 10),
-                  constraints: BoxConstraints(maxHeight: 70),
-                  color: '#ffffff'.toColor(),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          child: Padding(
-                        padding: EdgeInsets.only(right: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (widget.locationInfo?.name?.isNotEmpty == true)
-                              Text(widget.locationInfo!.name!,
-                                  style: TextStyle(
-                                      color: '#333333'.toColor(), fontSize: 16),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis),
-                            if (widget.locationInfo?.address?.isNotEmpty ==
-                                true)
-                              Text(widget.locationInfo!.address!,
-                                  style: TextStyle(
-                                      color: '#B3B7BC'.toColor(), fontSize: 14),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      )),
-                      Positioned(
-                        right: 0,
-                        child: IconButton(
-                            onPressed: _showMapSelector,
-                            icon: SvgPicture.asset(
-                              'images/ic_jump_to_map.svg',
-                              package: kPackage,
-                            )),
-                      )
-                    ],
-                  ),
-                ))
-        ],
-      ),
-    );
+        ));
   }
 
   @override
