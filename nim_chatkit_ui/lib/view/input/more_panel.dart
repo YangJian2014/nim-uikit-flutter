@@ -377,7 +377,7 @@ class MoreItemAction extends StatelessWidget {
         Text(
           action.title ?? "",
           style:
-              const TextStyle(fontSize: 10, color: CommonColors.color_666666),
+              const TextStyle(fontSize: 12, color: CommonColors.color_666666),
         )
       ],
     );

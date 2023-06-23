@@ -155,6 +155,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             ),
           ),
         ),
+        const Divider(
+          height: 1,
+          color: CommonColors.color_f5f8fc,
+        ),
         InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
@@ -184,6 +188,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
               ],
             ),
           ),
+        ),
+        const Divider(
+          height: 1,
+          color: CommonColors.color_f5f8fc,
         ),
         Container(
           padding:
@@ -584,7 +592,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                               context, teamWithMember, teamMemberInfoList),
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 10,
                         ),
                         CardBackground(
                             child: _setting(context, teamWithMember.team)),
@@ -592,7 +600,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                             visible: !getIt<TeamProvider>()
                                 .isGroupTeam(teamWithMember.team),
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16),
+                              padding: const EdgeInsets.only(top: 10),
                               child: CardBackground(
                                   child: _teamMute(context, teamWithMember)),
                             )),
@@ -602,7 +610,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                 teamWithMember.teamMember?.type ==
                                     TeamMemberType.owner,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16),
+                              padding: const EdgeInsets.only(top: 10),
                               child: CardBackground(
                                   child: _invitation(
                                       context, teamWithMember.team)),

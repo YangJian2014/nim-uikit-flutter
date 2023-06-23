@@ -203,15 +203,15 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
     return TransparentScaffold(
       title: S.of(context).chatSetting,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             const SizedBox(
-              height: 16,
+              height: 10,
             ),
             CardBackground(child: _member()),
             const SizedBox(
-              height: 16,
+              height: 10,
             ),
             CardBackground(child: _setting())
           ],

@@ -598,7 +598,7 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
               ? _buildMessage(widget.chatMessage)
               : Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(bottom: 10),
                   color: _getBgColor(),
                   child: Row(
@@ -626,8 +626,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                     }
                                   },
                                   child: Avatar(
-                                    width: 32,
-                                    height: 32,
+                                    width: 36,
+                                    height: 36,
                                     avatar: snapshot.data == null
                                         ? _userAvatarInfo.avatar
                                         : snapshot.data!.avatar,
@@ -664,7 +664,7 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: const TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 14,
                                                 color:
                                                     CommonColors.color_999999)),
                                       ),
@@ -792,8 +792,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                     }
                                   },
                                   child: Avatar(
-                                    width: 32,
-                                    height: 32,
+                                    width: 36,
+                                    height: 36,
                                     avatar:
                                         getIt<LoginService>().userInfo!.avatar,
                                     name: getIt<LoginService>().userInfo!.nick,
