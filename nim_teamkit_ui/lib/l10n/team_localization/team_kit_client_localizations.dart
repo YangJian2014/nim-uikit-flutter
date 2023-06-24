@@ -131,6 +131,8 @@ abstract class TeamKitClientLocalizations {
   /// **'Team Group name'**
   String get teamGroupNameTitle;
 
+  String get team_member_reassign_title;
+
   /// No description provided for @teamMemberTitle.
   ///
   /// In en, this message translates to:

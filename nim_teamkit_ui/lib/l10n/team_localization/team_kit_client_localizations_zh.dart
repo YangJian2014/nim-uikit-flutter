@@ -24,6 +24,9 @@ class TeamKitClientLocalizationsZh extends TeamKitClientLocalizations {
   String get teamGroupNameTitle => '讨论组名称';
 
   @override
+  String get team_member_reassign_title => '群转让';
+
+  @override
   String get teamMemberTitle => '群成员';
 
   @override

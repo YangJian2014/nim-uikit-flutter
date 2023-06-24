@@ -11,6 +11,8 @@ import 'package:netease_corekit_im/services/login/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:nim_teamkit/repo/team_repo.dart';
+import 'package:utils/utils.dart';
+import 'package:dio/src/response.dart';
 
 class TeamSettingViewModel extends ChangeNotifier {
   TeamWithMember? teamWithMember;
@@ -46,6 +48,13 @@ class TeamSettingViewModel extends ChangeNotifier {
 
   void requestTeamMembers(String teamId) async {
     userInfoData = await TeamRepo.getMemberList(teamId);
+    filterList = userInfoData;
+    notifyListeners();
+  }
+
+  void requestTeamMembersV2(String teamId,String notInvolved) async {
+    userInfoData = await TeamRepo.getMemberList(teamId);
+    userInfoData = userInfoData?.where((element) => (element.userInfo?.userId ??"") != notInvolved).toList();
     filterList = userInfoData;
     notifyListeners();
   }
@@ -171,7 +180,16 @@ class TeamSettingViewModel extends ChangeNotifier {
 
   Future<bool> quitTeam(String teamId) async {
     if (await haveConnectivity()) {
-      return TeamRepo.quitTeam(teamId);
+      var response = await UtilsNetworkHelper.groupLeave({"tid": teamId ?? ""});
+      var rspData = response?.data;
+      var code = rspData['code'] ?? -1;
+      if (code != 0) {
+        print('退出群失败, status=$code');
+      } else {
+        print('退出群成功');
+      }
+      return Future(() => code == 0);
+      // return TeamRepo.quitTeam(teamId);
     } else {
       return Future(() => false);
     }
@@ -179,6 +197,15 @@ class TeamSettingViewModel extends ChangeNotifier {
 
   Future<bool> dismissTeam(String teamId) async {
     if (await haveConnectivity()) {
+      var response = await UtilsNetworkHelper.groupDismiss({"tid": teamId ?? ""});
+      var rspData = response?.data;
+      var code = rspData['code'] ?? -1;
+      if (code != 0) {
+        print('解散群失败, status=$code');
+      } else {
+        print('解散群成功');
+      }
+      return Future(() => code == 0);
       return TeamRepo.dismissTeam(teamId);
     } else {
       return Future(() => false);

@@ -24,6 +24,9 @@ class TeamKitClientLocalizationsEn extends TeamKitClientLocalizations {
   String get teamGroupNameTitle => 'Team Group name';
 
   @override
+  String get team_member_reassign_title => 'Team reassign';
+
+  @override
   String get teamMemberTitle => 'Team member';
 
   @override

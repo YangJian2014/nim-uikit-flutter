@@ -21,6 +21,7 @@ import 'package:netease_corekit_im/services/team/team_provider.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:nim_teamkit_ui/l10n/S.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_member_list_page.dart';
+import 'package:nim_teamkit_ui/view/pages/team_kit_member_list_reassign_page.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_qr_code.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_team_info_page.dart';
 import 'package:provider/provider.dart';
@@ -155,6 +156,37 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             ),
           ),
         ),
+        if (teamWithMember.teamMember?.type == TeamMemberType.owner)
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      TeamKitMemberListReassignPage(tId: team.id!)));
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Row(
+                children: [
+                  Text(
+                    S.of(context).team_member_reassign_title,
+                    style: style,
+                  ),
+                  Expanded(
+                      child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            (team.memberCount - 1).toString(),
+                            style: const TextStyle(
+                                fontSize: 16, color: CommonColors.color_999999),
+                          ))),
+                  const Icon(
+                    Icons.keyboard_arrow_right_outlined,
+                    color: CommonColors.color_999999,
+                  ),
+                ],
+              ),
+            ),
+          ),
         const Divider(
           height: 1,
           color: CommonColors.color_f5f8fc,
