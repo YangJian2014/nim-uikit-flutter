@@ -11,6 +11,7 @@ import 'package:netease_corekit_im/services/user_info/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nim_core/nim_core.dart';
+import 'package:utils/utils.dart';
 
 import '../conversation_kit_client.dart';
 import '../l10n/S.dart';
@@ -30,6 +31,34 @@ class _AddFriendPageState extends State<AddFriendPage> {
     return getIt<UserInfoProvider>().fetchUserInfo(accountList);
   }
 
+  Future<List<NIMUser>?> fetchUserInfo(String keyword) async {
+    if (!await haveConnectivity()) {
+      return null;
+    }
+    var coinInfo = await UtilsNetworkHelper.queryUserInfo(keyword);
+    var datas = coinInfo?.data;
+    if (datas == null) {
+      return null;
+    }
+
+    var currentData = datas['data'];
+    if (currentData == null) {
+      return null;
+    }
+
+    var accid = currentData['accid'];
+    if (accid == null) {
+      return null;
+    }
+
+    if (!mounted) {
+      return null;
+    }
+    Future<List<NIMUser>?> userInfo =
+        getIt<UserInfoProvider>().fetchUserInfo([accid]);
+    return userInfo;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SearchPage(
@@ -41,7 +70,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
           return Container();
         else {
           return FutureBuilder<List<NIMUser>?>(
-              future: searchUserInfo([keyword]),
+              future: fetchUserInfo(keyword),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.data == null || snapshot.data!.isEmpty) {
