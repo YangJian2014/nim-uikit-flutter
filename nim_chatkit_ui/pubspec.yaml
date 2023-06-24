@@ -67,6 +67,9 @@ dependencies:
       url: https://github.com/YangJian2014/flutter_wechat_assets_picker.git
   wechat_camera_picker: ^3.7.0
   selectable_autolink_text: ^2.6.0
+  utils:
+    # ^1.0.0
+    path: ../../utils
 
 dev_dependencies:
   flutter_test:
