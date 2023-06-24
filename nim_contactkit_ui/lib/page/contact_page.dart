@@ -7,6 +7,7 @@ import 'package:nim_contactkit_ui/contact_kit_client.dart';
 import 'package:nim_contactkit_ui/page/contact_kit_contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:utils/utils.dart';
 
 import '../l10n/S.dart';
 
@@ -25,53 +26,56 @@ class _ContactState extends State<ContactPage> {
 
   ContactTitleBarConfig get _titleBarConfig => uiConfig.contactTitleBarConfig;
 
+  late String keyword;
+
+  @override
+  void initState() {
+    super.initState();
+    keyword = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _titleBarConfig.showTitleBar
           ? AppBar(
-              title: Text(
-                _titleBarConfig.title ?? S.of(context).contactTitle,
-                style: TextStyle(
-                    fontSize: 20,
-                    color: _titleBarConfig.titleColor,
-                    fontWeight: FontWeight.bold),
-              ),
-              centerTitle: _titleBarConfig.centerTitle,
-              actions: [
-                if (_titleBarConfig.showTitleBarRight2Icon)
-                  _titleBarConfig.titleBarRight2Icon ??
-                      IconButton(
-                        onPressed: () {
-                          goGlobalSearchPage(context);
-                        },
-                        icon: SvgPicture.asset(
-                          'images/ic_search.svg',
-                          width: 26,
-                          height: 26,
-                          package: kPackage,
-                        ),
-                      ),
-                if (_titleBarConfig.showTitleBarRightIcon)
-                  _titleBarConfig.titleBarRightIcon ??
-                      IconButton(
-                          onPressed: () {
-                            // goto add friend page
-                            goAddFriendPage(context);
-                          },
-                          icon: SvgPicture.asset(
-                            'images/ic_more.svg',
-                            width: 26,
-                            height: 26,
-                            package: kPackage,
-                          )),
-              ],
-              elevation: 0,
-            )
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
+        ),
+        title: Text(
+          _titleBarConfig.title ?? S.of(context).contactTitle,
+          style: const TextStyle(
+              fontSize: 20,
+              /*color: _titleBarConfig.titleColor,*/
+              color: Colors.white,
+              fontWeight: FontWeight.bold),
+        ),
+        centerTitle: _titleBarConfig.centerTitle,
+        elevation: 0,
+        bottom: CommonScaffoldHelper.getScaffoldAppBarBottomWidget(
+            onChanged: (String value) {
+              keyword = value;
+              setState(() {});
+            }, onPressed: () {
+          // goto add friend page
+          goAddFriendPage(context);
+        }),
+      )
           : null,
-      body: ContactKitContactPage(
-        config: uiConfig,
+      body: Column(
+        children: [
+          keyword.isNotEmpty
+              ? CommonScaffoldHelper.getScaffoldBodyWidget(
+              CommonScaffoldHelper.buildSearchList(context, keyword),
+              context)
+              : CommonScaffoldHelper.getScaffoldBodyWidget(
+              ContactKitContactPage(
+                config: uiConfig,
+              ),
+              context)
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

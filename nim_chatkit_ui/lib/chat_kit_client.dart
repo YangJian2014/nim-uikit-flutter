@@ -38,7 +38,14 @@ class ChatUIConfig {
   double? userNickTextSize;
 
   ///文本消息字体颜色
-  Color? messageTextColor;
+  // Color? messageTextColor;
+
+  ///本人文本消息字体颜色
+  Color? selfMessageTextColor;
+
+  ///对端文本消息字体颜色
+  Color? receiveMessageTextColor;
+
 
   ///文本消息字体大小
   double? messageTextSize;
@@ -89,7 +96,9 @@ class ChatUIConfig {
       this.timeTextColor,
       this.timeTextSize,
       this.messageTextSize,
-      this.messageTextColor,
+        // this.messageTextColor,
+        this.selfMessageTextColor,
+        this.receiveMessageTextColor,
       this.userNickTextSize,
       this.userNickColor,
       this.avatarCornerRadius,

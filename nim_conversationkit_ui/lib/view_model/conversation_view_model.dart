@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:netease_common_ui/utils/connectivity_checker.dart';
 import 'package:netease_corekit_im/services/message/message_provider.dart';
 import 'package:nim_conversationkit/extention.dart';
@@ -23,6 +24,8 @@ class ConversationViewModel extends ChangeNotifier {
   List<ConversationInfo> get conversationList => _conversationList;
 
   ValueChanged<int>? onUnreadCountChanged;
+
+  bool hasNetWork = true;
 
   set conversationList(List<ConversationInfo> value) {
     _conversationList = value;
@@ -65,6 +68,14 @@ class ConversationViewModel extends ChangeNotifier {
 
   _init() {
     _logI('init -->> ');
+    // network
+    Connectivity()
+        .checkConnectivity()
+        .then((value) => hasNetWork = value != ConnectivityResult.none);
+    subscriptions.add(Connectivity().onConnectivityChanged.listen((event) {
+      hasNetWork = event != ConnectivityResult.none;
+      notifyListeners();
+    }));
     if (getIt<LoginService>().status == NIMAuthStatus.dataSyncFinish) {
       queryConversationList();
     } else {

@@ -165,12 +165,13 @@ class ConversationPopMenuButton extends StatelessWidget {
             )
             .toList();
       },
-      icon: SvgPicture.asset(
-        'images/ic_more.svg',
-        width: 26,
-        height: 26,
-        package: kPackage,
+      icon: Image.asset(
+        'images/icon_titlebar_add_btn.png',
+        // width: 48,
+        // height: 58.5,
+        package: 'nim_conversationkit_ui',
       ),
+      padding: const EdgeInsets.all(0),
       offset: const Offset(0, 50),
       onSelected: (value) {
         _onMenuSelected(context, value);

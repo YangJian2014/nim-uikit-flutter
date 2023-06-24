@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:netease_common_ui/utils/connectivity_checker.dart';
 import 'package:nim_chatkit/location.dart';
 import 'package:nim_chatkit/message/message_reply_info.dart';
@@ -95,6 +96,8 @@ class ChatViewModel extends ChangeNotifier {
 
   bool initListener = false;
   static const int messageLimit = 100;
+
+  bool hasNetWork = true;
 
   ChatViewModel(this.sessionId, this.sessionType, {this.showReadAck = true}) {
     setChattingAccount();
@@ -322,6 +325,14 @@ class ChatViewModel extends ChangeNotifier {
 
   void initFetch(NIMMessage? anchor) async {
     _logI('initFetch -->> anchor:${anchor?.content}');
+    //net work
+    Connectivity()
+        .checkConnectivity()
+        .then((value) => hasNetWork = value != ConnectivityResult.none);
+    subscriptions.add(Connectivity().onConnectivityChanged.listen((event) {
+      hasNetWork = event != ConnectivityResult.none;
+      notifyListeners();
+    }));
     late NIMMessage message;
     credibleTimestamp =
         await ChatMessageRepo.queryRoamMsgTimestamps(sessionId, sessionType);

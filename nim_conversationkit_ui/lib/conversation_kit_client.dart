@@ -31,6 +31,8 @@ class ConversationTitleBarConfig {
   /// 是否展示 Title Bar
   final bool showTitleBar;
 
+  final Color? backgroundColor;
+
   /// 是否展示 Title Bar 左侧图标
   final bool showTitleBarLeftIcon;
 
@@ -64,6 +66,7 @@ class ConversationTitleBarConfig {
       this.showTitleBarRightIcon = true,
       this.showTitleBarRight2Icon = true,
       this.centerTitle = false,
+        this.backgroundColor = Colors.white,
       this.titleBarLeftIcon,
       this.titleBarRightIcon,
       this.titleBarRight2Icon,

@@ -125,9 +125,9 @@ class ConversationItem extends StatelessWidget {
         Container(
           height: 62,
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          color: conversationInfo.isStickTop
+          color: /*conversationInfo.isStickTop
               ? const Color(0xffededef)
-              : Colors.white,
+              : Colors.white*/Colors.transparent,
           alignment: Alignment.centerLeft,
           child: Stack(
             fit: StackFit.expand,

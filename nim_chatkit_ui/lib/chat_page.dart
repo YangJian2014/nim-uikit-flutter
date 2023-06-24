@@ -24,6 +24,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:utils/utils.dart';
 
 import 'chat_kit_client.dart';
 import 'l10n/S.dart';
@@ -180,20 +181,28 @@ class ChatPageState extends BaseState<ChatPage> {
             ChatViewModel(widget.sessionId, widget.sessionType),
         builder: (context, wg) {
           String title;
-          String inputHint = context.watch<ChatViewModel>().chatTitle;
           if (context.watch<ChatViewModel>().isTyping) {
             _setTyping(context);
             title = S.of(context).chatIsTyping;
           } else {
-            title = inputHint;
+            title = context.watch<ChatViewModel>().chatTitle;
           }
+          var hasNetwork = context.watch<ChatViewModel>().hasNetWork;
           return Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               appBar: AppBar(
+                elevation: 0,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                      gradient: CommonScaffoldHelper.getGradientBackground()),
+                ),
                 leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 26,
+                  icon: Image.asset(
+                    'images/icon_titlebar_back.png',
+                    width: 10,
+                    height: 17.5,
+                    package: 'nim_chatkit_ui',
+                    // fit:BoxFit.cover,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -202,9 +211,12 @@ class ChatPageState extends BaseState<ChatPage> {
                 centerTitle: true,
                 title: Text(
                   title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
-                elevation: 0.5,
+                // elevation: 0.5,
                 actions: [
                   IconButton(
                       onPressed: () {
@@ -224,75 +236,97 @@ class ChatPageState extends BaseState<ChatPage> {
                               arguments: {'teamId': widget.sessionId});
                         }
                       },
-                      icon: SvgPicture.asset(
-                        'images/ic_setting.svg',
-                        width: 26,
-                        height: 26,
-                        package: kPackage,
+                      icon: Image.asset(
+                        'images/icon_titlebar_setting.png',
+                        width: 17.5,
+                        height: 4,
+                        package: 'nim_chatkit_ui',
+                        // fit:BoxFit.cover,
                       ))
                 ],
               ),
-              body: Stack(
-                alignment: Alignment.topCenter,
+              body: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!hasNetWork) NoNetWorkTip(),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            _inputField.currentState.hideAllPanel();
-                          },
-                          child: ChatKitMessageList(
-                            scrollController: autoController,
-                            popMenuAction: widget.customPopActions ??
-                                widget.chatUIConfig?.messageClickListener
-                                    ?.customPopActions,
-                            anchor: widget.anchor,
-                            messageBuilder: widget.messageBuilder ??
-                                widget.chatUIConfig?.messageBuilder ??
-                                ChatKitClient
-                                    .instance.chatUIConfig.messageBuilder,
-                            onTapAvatar: (String? userId,
-                                {bool isSelf = false}) {
-                              if (widget.onTapAvatar != null &&
-                                  widget.onTapAvatar!(userId, isSelf: isSelf)) {
-                                return true;
-                              }
-                              if (widget.chatUIConfig?.messageClickListener
+                  CommonScaffoldHelper.getScaffoldBodyWidget(
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (!hasNetwork) const NoNetWorkTip(),
+                              Expanded(
+                                child: Listener(
+                                  onPointerMove: (event) {
+                                    _inputField.currentState.hideAllPanel();
+                                  },
+                                  child: ChatKitMessageList(
+                                    scrollController: autoController,
+                                    popMenuAction: widget.customPopActions ??
+                                        widget
+                                            .chatUIConfig
+                                            ?.messageClickListener
+                                            ?.customPopActions,
+                                    anchor: widget.anchor,
+                                    messageBuilder: widget.messageBuilder ??
+                                        widget.chatUIConfig?.messageBuilder ??
+                                        ChatKitClient.instance.chatUIConfig
+                                            .messageBuilder,
+                                    onTapAvatar: (String? userId,
+                                        {bool isSelf = false}) {
+                                      if (widget.onTapAvatar != null &&
+                                          widget.onTapAvatar!(userId,
+                                              isSelf: isSelf)) {
+                                        return true;
+                                      }
+                                      if (widget
+                                          .chatUIConfig
+                                          ?.messageClickListener
                                           ?.onTapAvatar !=
-                                      null &&
-                                  widget.chatUIConfig!.messageClickListener!
-                                      .onTapAvatar!(userId, isSelf: isSelf)) {
-                                return true;
-                              }
-                              defaultAvatarTap(userId, isSelf: isSelf);
-                              return true;
-                            },
-                            chatUIConfig: widget.chatUIConfig ??
-                                ChatKitClient.instance.chatUIConfig,
-                            teamInfo: context.watch<ChatViewModel>().teamInfo,
-                            onMessageItemClick: widget.onMessageItemClick ??
-                                widget.chatUIConfig?.messageClickListener
-                                    ?.onMessageItemClick,
-                            onMessageItemLongClick:
-                                widget.onMessageItemLongClick ??
-                                    widget.chatUIConfig?.messageClickListener
-                                        ?.onMessageItemLongClick,
+                                          null &&
+                                          widget
+                                              .chatUIConfig!
+                                              .messageClickListener!
+                                              .onTapAvatar!(userId,
+                                              isSelf: isSelf)) {
+                                        return true;
+                                      }
+                                      defaultAvatarTap(userId, isSelf: isSelf);
+                                      return true;
+                                    },
+                                    chatUIConfig: widget.chatUIConfig ??
+                                        ChatKitClient.instance.chatUIConfig,
+                                    teamInfo:
+                                    context.watch<ChatViewModel>().teamInfo,
+                                    onMessageItemClick:
+                                    widget.onMessageItemClick ??
+                                        widget
+                                            .chatUIConfig
+                                            ?.messageClickListener
+                                            ?.onMessageItemClick,
+                                    onMessageItemLongClick:
+                                    widget.onMessageItemLongClick ??
+                                        widget
+                                            .chatUIConfig
+                                            ?.messageClickListener
+                                            ?.onMessageItemLongClick,
+                                  ),
+                                ),
+                              ),
+                              BottomInputField(
+                                scrollController: autoController,
+                                sessionType: widget.sessionType,
+                                hint:
+                                S.of(context).chatMessageSendHint(title),
+                                chatUIConfig: widget.chatUIConfig ??
+                                    ChatKitClient.instance.chatUIConfig,
+                                key: _inputField,
+                              )
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-                      BottomInputField(
-                        scrollController: autoController,
-                        sessionType: widget.sessionType,
-                        hint: S.of(context).chatMessageSendHint(inputHint),
-                        chatUIConfig: widget.chatUIConfig ??
-                            ChatKitClient.instance.chatUIConfig,
-                        key: _inputField,
-                      )
-                    ],
-                  ),
+                      context)
                 ],
               ));
         });
