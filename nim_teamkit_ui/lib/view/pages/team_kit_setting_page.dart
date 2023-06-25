@@ -469,10 +469,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             _showTeamIdentifyDialog((value) {
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInvitePrivilege(
-                    team.id!,
-                    value == 1
-                        ? NIMTeamInviteModeEnum.all
-                        : NIMTeamInviteModeEnum.manager);
+                    team.id ?? "",
+                    value.toString(),value == 1
+                    ? NIMTeamInviteModeEnum.all
+                    : NIMTeamInviteModeEnum.manager);
               }
             });
           },
@@ -492,10 +492,11 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
           ),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
           onTap: () {
-            _showTeamIdentifyDialog((value) {
+            _showTeamIdentifyDialog((value) async{
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInfoPrivilege(
-                    team.id!,
+                    team.id ?? "",
+                    value.toString(),
                     value == 1
                         ? NIMTeamUpdateModeEnum.all
                         : NIMTeamUpdateModeEnum.manager);
@@ -513,7 +514,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             onChanged: (bool value) {
               context
                   .read<TeamSettingViewModel>()
-                  .updateBeInviteMode(team.id!, value);
+                  .updateBeInviteMode(team.id ?? "", value);
             },
             value: context.read<TeamSettingViewModel>().beInvitedNeedAgreed,
           ),

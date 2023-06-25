@@ -13,6 +13,7 @@ import 'package:nim_core/nim_core.dart';
 import 'package:nim_teamkit/repo/team_repo.dart';
 import 'package:utils/utils.dart';
 import 'package:dio/src/response.dart';
+import 'package:utils/utils.dart';
 
 class TeamSettingViewModel extends ChangeNotifier {
   TeamWithMember? teamWithMember;
@@ -151,31 +152,65 @@ class TeamSettingViewModel extends ChangeNotifier {
     });
   }
 
-  void updateInvitePrivilege(String teamId, NIMTeamInviteModeEnum modeEnum) {
-    TeamRepo.updateInviteMode(teamId, modeEnum).then((value) {
-      if (value) {
-        invitePrivilege = modeEnum;
-        notifyListeners();
-      }
-    });
+  void updateInvitePrivilege(
+      String teamId, String value, NIMTeamInviteModeEnum modeEnum) async {
+    // TeamRepo.updateInviteMode(teamId, modeEnum).then((value) {
+    //   if (value) {
+    //     invitePrivilege = modeEnum;
+    //     notifyListeners();
+    //   }
+    // });
+    var response = await UtilsNetworkHelper.groupModify(
+        {"tid": teamId, "invitemode": value});
+    var rspData = response?.data;
+    var code = rspData['code'] ?? -1;
+    if (code != 0) {
+      print('邀请他人权限修改失败, status=$code');
+    } else {
+      print('邀请他人权限修改成功');
+      invitePrivilege = modeEnum;
+      notifyListeners();
+    }
   }
 
-  void updateInfoPrivilege(String teamId, NIMTeamUpdateModeEnum modeEnum) {
-    TeamRepo.updateTeamInfoPrivilege(teamId, modeEnum).then((value) {
-      if (value) {
-        infoPrivilege = modeEnum;
-        notifyListeners();
-      }
-    });
+  void updateInfoPrivilege(String teamId, String value,
+      NIMTeamUpdateModeEnum modeEnum) async{
+    // TeamRepo.updateTeamInfoPrivilege(teamId, modeEnum).then((value) {
+    //   if (value) {
+    //     infoPrivilege = modeEnum;
+    //     notifyListeners();
+    //   }
+    // });
+    var response = await UtilsNetworkHelper.groupModify({"tid": teamId,"uptinfomode": value});
+    var rspData = response?.data;
+    var code = rspData['code'] ?? -1;
+    if (code != 0) {
+      print('群资料修改权限修改失败, status=$code');
+    } else {
+      print('群资料修改权限修改成功');
+      infoPrivilege = modeEnum;
+      notifyListeners();
+    }
   }
 
-  void updateBeInviteMode(String teamId, bool needAgree) {
-    TeamRepo.updateBeInviteMode(teamId, needAgree).then((value) {
-      if (value) {
-        beInvitedNeedAgreed = needAgree;
-        notifyListeners();
-      }
-    });
+  void updateBeInviteMode(String teamId, bool needAgree) async {
+    // TeamRepo.updateBeInviteMode(teamId, needAgree).then((value) {
+    //   if (value) {
+    //     beInvitedNeedAgreed = needAgree;
+    //     notifyListeners();
+    //   }
+    // });
+    var response = await UtilsNetworkHelper.groupModify(
+        {"tid": teamId, "beinvitemode": needAgree ? '0' : '1'});
+    var rspData = response?.data;
+    var code = rspData['code'] ?? -1;
+    if (code != 0) {
+      print('是否需要被邀请人同意修改失败, status=$code');
+    } else {
+      print('是否需要被邀请人同意修改成功');
+      beInvitedNeedAgreed = needAgree;
+      notifyListeners();
+    }
   }
 
   Future<bool> quitTeam(String teamId) async {

@@ -17,11 +17,14 @@ import 'package:nim_teamkit/repo/team_repo.dart';
 
 import '../../l10n/S.dart';
 import '../../team_kit_client.dart';
+import 'package:utils/utils.dart';
 
 class TeamKitAvatarEditorPage extends StatefulWidget {
   final NIMTeam team;
+  final String? photoAvatar;
 
-  const TeamKitAvatarEditorPage({Key? key, required this.team})
+  const TeamKitAvatarEditorPage({Key? key, required this.team, required this
+      .photoAvatar})
       : super(key: key);
 
   @override
@@ -30,6 +33,10 @@ class TeamKitAvatarEditorPage extends StatefulWidget {
 
 class TeamKitAvatarEditorState extends State<TeamKitAvatarEditorPage> {
   String? photoAvatar;
+
+  void initState(){
+    photoAvatar = widget.photoAvatar;
+  }
 
   void _setDefaultIcon(int index) {
     setState(() {
@@ -74,9 +81,21 @@ class TeamKitAvatarEditorState extends State<TeamKitAvatarEditorPage> {
                 return;
               }
               if (photoAvatar != null) {
-                TeamRepo.updateTeamIcon(widget.team.id!, photoAvatar!)
-                    .then((value) {
-                  Navigator.pop(context, photoAvatar!);
+                // TeamRepo.updateTeamIcon(widget.team.id!, photoAvatar!)
+                //     .then((value) {
+                //   Navigator.pop(context, photoAvatar!);
+                // });
+                UtilsNetworkHelper.groupModify(
+                    {"tid": widget.team.id ?? '', "icon": photoAvatar!})
+                    .then((response){
+                  var rspData = response?.data;
+                  var code = rspData['code'] ?? -1;
+                  if (code != 0) {
+                    print('群头像修改失败, status=$code');
+                  } else {
+                    print('群头像修改成功');
+                    Navigator.pop(context, photoAvatar!);
+                  }
                 });
               }
             },
@@ -102,7 +121,7 @@ class TeamKitAvatarEditorState extends State<TeamKitAvatarEditorPage> {
                         Avatar(
                           width: 80,
                           height: 80,
-                          avatar: photoAvatar ?? widget.team.icon,
+                          avatar: photoAvatar,
                           name: widget.team.name,
                         ),
                         Align(

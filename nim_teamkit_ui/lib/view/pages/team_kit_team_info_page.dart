@@ -16,6 +16,7 @@ import 'package:nim_teamkit/repo/team_repo.dart';
 import 'package:nim_teamkit_ui/view/pages/team_kit_avatar_editor_page.dart';
 
 import '../../l10n/S.dart';
+import 'package:utils/utils.dart';
 
 class TeamKitTeamInfoPage extends StatefulWidget {
   final NIMTeam team;
@@ -42,17 +43,45 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
       Fluttertoast.showToast(msg: S.of(context).teamNameMustNotEmpty);
       return Future(() => false);
     }
-    return TeamRepo.updateTeamName(widget.team.id!, name).then((value) {
-      _updatedName = name;
-      return value;
+    return Future(() async {
+      var response = await UtilsNetworkHelper.groupModify(
+          {"tid": widget.team.id ?? '', "tname": name});
+      var rspData = response?.data;
+      var code = rspData['code'] ?? -1;
+      if (code != 0) {
+        print('群名称修改失败, status=$code');
+      } else {
+        print('群名称修改成功');
+        // _updatedName = name;
+        setState(() {
+          _updatedName = name;
+        });
+      }
+      return true;
     });
   }
 
   Future<bool> _updateIntroduce(introduce) {
-    return TeamRepo.updateTeamIntroduce(widget.team.id!, introduce)
-        .then((result) {
-      _updatedIntroduce = introduce;
-      return result;
+    // return TeamRepo.updateTeamIntroduce(widget.team.id!, introduce)
+    //     .then((result) {
+    //   _updatedIntroduce = introduce;
+    //   return result;
+    // });
+    return Future(() async {
+      var response = await UtilsNetworkHelper.groupModify(
+          {"tid": widget.team.id ?? '', "intro": introduce});
+      var rspData = response?.data;
+      var code = rspData['code'] ?? -1;
+      if (code != 0) {
+        print('群介绍修改失败, status=$code');
+      } else {
+        print('群介绍修改成功');
+        // _updatedIntroduce = introduce;
+        setState(() {
+          _updatedIntroduce = introduce;
+        });
+      }
+      return true;
     });
   }
 
@@ -81,7 +110,7 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
                   }
 
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TeamKitAvatarEditorPage(team: widget.team);
+                    return TeamKitAvatarEditorPage(team: widget.team,photoAvatar: avatar);
                   })).then((value) {
                     if (value?.isNotEmpty == true) {
                       setState(() {
