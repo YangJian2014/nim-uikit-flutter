@@ -48,7 +48,7 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
   List<ContactInfo> contacts = [];
 
   _fetchContact() {
-    ContactRepo.getContactList(userCache: true).then((value) {
+    ContactRepo.getContactList(userCache: false).then((value) {
       setState(() {
         value.removeWhere((e) {
           var result = false;

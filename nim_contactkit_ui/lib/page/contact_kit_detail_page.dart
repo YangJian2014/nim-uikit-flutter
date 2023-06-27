@@ -168,11 +168,11 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                         contact.user.nick?.isNotEmpty == true
                     ? S.of(context).contactNick(contact.user.nick!)
                     : S.of(context).contactAccount(contact.user.userId!),
-                style: TextStyle(fontSize: 12, color: '#666666'.toColor())),
+                style: TextStyle(fontSize: 14, color: '#666666'.toColor())),
             if (contact.friend?.alias?.isNotEmpty == true &&
                 contact.user.nick?.isNotEmpty == true)
               Text(S.of(context).contactAccount(contact.user.userId!),
-                  style: TextStyle(fontSize: 12, color: '#666666'.toColor()))
+                  style: TextStyle(fontSize: 14, color: '#666666'.toColor()))
           ],
         ))
       ],
@@ -408,14 +408,24 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                   ],
                   if (!isFriend) ...[
                     divider,
-                    TextButton(
-                      onPressed: () {
+                    InkWell(
+                      onTap: () {
                         // 添加好友
                         _addFriend(context, contact.user.userId!);
                       },
-                      child: Text(S.of(context).contactAddFriend,
-                          style: TextStyle(
-                              fontSize: 16, color: '#337EFF'.toColor())),
+                      child: Container(
+                        height: 50,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(S.of(context).contactAddFriend,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: '#337EFF'.toColor(),
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
                     ),
                     dividerSmall,
                   ],
