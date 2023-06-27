@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:netease_common_ui/ui/dialog.dart';
 import 'package:netease_corekit_im/router/imkit_router_factory.dart';
 import 'package:netease_common_ui/ui/avatar.dart';
 import 'package:netease_common_ui/utils/color_utils.dart';
@@ -9,7 +11,10 @@ import 'package:netease_corekit_im/model/team_models.dart';
 import 'package:netease_corekit_im/service_locator.dart';
 import 'package:netease_corekit_im/services/login/login_service.dart';
 import 'package:flutter/material.dart';
+import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:utils/utils.dart';
 
 import '../../l10n/S.dart';
 import '../../view_model/team_setting_view_model.dart';
@@ -127,41 +132,101 @@ class TeamMemberListItem extends StatefulWidget {
 class TeamMemberListItemState extends State<TeamMemberListItem> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (getIt<LoginService>().userInfo?.userId ==
-            widget.teamMember.userInfo?.userId) {
-          gotoMineInfoPage(context);
-        } else {
-          goToContactDetail(context, widget.teamMember.userInfo!.userId!);
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
+    return Slidable(
+        endActionPane: ActionPane(
+          motion: const ScrollMotion(),
           children: [
-            Avatar(
-              width: 42,
-              height: 42,
-              avatar: widget.teamMember.getAvatar(),
-              name: widget.teamMember
-                  .getName(needAlias: false, needTeamNick: false),
-              bgCode: AvatarColor.avatarColor(
-                  content: widget.teamMember.teamInfo.account),
-              radius: 4,
-            ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 7)),
-            Expanded(
-              child: Text(
-                widget.teamMember.getName(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
-              ),
+            SlidableAction(
+              onPressed: (context) async {
+                var team = (await NimCore.instance.teamService
+                        .queryTeam(widget.teamMember.teamInfo.id ?? ''))
+                    .data;
+                if (team == null) {
+                  return;
+                }
+                if (team.creator != getIt<LoginService>().userInfo?.userId) {
+                  Fluttertoast.showToast(
+                      msg: '您不是管理员，无删除成员权限。',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: const Color.fromARGB(255, 25, 23, 23),
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                  return;
+                }
+
+                showCommonDialog(
+                        context: context,
+                        title: '温馨提示',
+                        content:
+                            '确定将 ${widget.teamMember.userInfo!.userId!} 移出群聊？',
+                        navigateContent: '取消',
+                        positiveContent: '确定')
+                    .then((value) async {
+                  if (value ?? false) {
+                    // teamId表示群ID，account表示被踢出的成员帐号
+
+                    String tid = widget.teamMember.teamInfo.id ?? '';
+                    List<String> members = [
+                      widget.teamMember.userInfo!.userId!
+                    ];
+                    var response = await UtilsNetworkHelper.groupKick(
+                        {'members': members}, tid);
+                    var rspData = response?.data;
+                    if (rspData != null) {
+                      var code = rspData['code'] ?? -1;
+                      if (code == 0) {
+                        print('踢人成功');
+                        setState(() {});
+                        return;
+                      }
+                    }
+                    print('踢人失败, rspData=$rspData');
+                  }
+                });
+              },
+              backgroundColor: const Color.fromARGB(255, 126, 130, 144),
+              foregroundColor: Colors.white,
+              label: '移出群聊',
             )
           ],
         ),
-      ),
-    );
+        child: InkWell(
+          onTap: () {
+            if (getIt<LoginService>().userInfo?.userId ==
+                widget.teamMember.userInfo?.userId) {
+              gotoMineInfoPage(context);
+            } else {
+              goToContactDetail(context, widget.teamMember.userInfo!.userId!);
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                Avatar(
+                  width: 42,
+                  height: 42,
+                  avatar: widget.teamMember.getAvatar(),
+                  name: widget.teamMember
+                      .getName(needAlias: false, needTeamNick: false),
+                  bgCode: AvatarColor.avatarColor(
+                      content: widget.teamMember.teamInfo.account),
+                  radius: 4,
+                ),
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 7)),
+                Expanded(
+                  child: Text(
+                    widget.teamMember.getName(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
