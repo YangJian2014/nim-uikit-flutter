@@ -32,8 +32,8 @@ class ConversationPopMenuButton extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => const ScanPage()));
         break;
       case "add_friend":
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddFriendPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddFriendPage()));
         break;
       case "create_group_team":
       case "create_advanced_team":
