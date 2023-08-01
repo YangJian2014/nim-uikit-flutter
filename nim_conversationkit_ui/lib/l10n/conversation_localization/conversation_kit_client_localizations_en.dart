@@ -62,4 +62,10 @@ class ConversationKitClientLocalizationsEn
 
   @override
   String get conversationEmpty => 'no chat';
+
+  @override
+  String get group_scan => 'Scan';
+
+  @override
+  String get search => 'search';
 }

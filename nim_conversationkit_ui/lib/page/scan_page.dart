@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:recognition_qrcode/recognition_qrcode.dart' as qrCode;
 import 'package:utils/utils.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import '../l10n/S.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -94,7 +95,7 @@ class _ScanPageState extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('扫一扫'), // S.of(context).group_scan
+        title: Text(S.of(context).group_scan),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),

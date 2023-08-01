@@ -294,7 +294,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                         //   fit:BoxFit.cover
                         // ),
                         // prefixIconConstraints: BoxConstraints(maxWidth: 20, maxHeight: 20),
-                        hintText: "搜索",
+                        hintText: S.of(context).search,
                         hintStyle: const TextStyle(color: Color(0x73FFFFFF)),
                         border: inputBorder,
                         enabledBorder: inputBorder,

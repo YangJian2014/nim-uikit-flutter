@@ -202,6 +202,10 @@ abstract class ConversationKitClientLocalizations {
   /// In en, this message translates to:
   /// **'no chat'**
   String get conversationEmpty;
+
+  String get group_scan;
+
+  String get search;
 }
 
 class _ConversationKitClientLocalizationsDelegate

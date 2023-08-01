@@ -129,7 +129,7 @@ class ConversationPopMenuButton extends StatelessWidget {
       },
       {
         'image': 'images/icon_create_advanced_team.svg',
-        'name': '扫一扫', // S.of(context).group_scan,
+        'name': S.of(context).group_scan,
         'value': 'scan'
       }
     ];

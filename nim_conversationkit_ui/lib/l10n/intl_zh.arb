@@ -24,5 +24,6 @@
   "createAdvancedTeam": "创建高级群",
   "chatMessageNonsupportType": "[当前版本暂不支持该消息体]",
   "conversationEmpty": "暂无会话",
-  "group_scan": "扫一扫"
+  "group_scan": "扫一扫",
+  "search": "搜索"
 }

@@ -61,4 +61,10 @@ class ConversationKitClientLocalizationsZh
 
   @override
   String get conversationEmpty => '暂无会话';
+
+  @override
+  String get group_scan => '扫一扫';
+
+  @override
+  String get search => '搜索';
 }

@@ -54,7 +54,7 @@ class _ContactState extends State<ContactPage> {
         ),
         centerTitle: _titleBarConfig.centerTitle,
         elevation: 0,
-        bottom: CommonScaffoldHelper.getScaffoldAppBarBottomWidget(
+        bottom: CommonScaffoldHelper.getScaffoldAppBarBottomWidget(context,
             onChanged: (String value) {
               keyword = value;
               setState(() {});
