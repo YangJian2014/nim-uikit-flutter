@@ -21,6 +21,7 @@ import 'package:nim_searchkit/model/team_search_info.dart';
 import 'package:nim_searchkit/repo/search_repo.dart';
 import 'package:nim_searchkit/repo/text_search.dart';
 import 'package:provider/provider.dart';
+import 'package:utils/utils.dart';
 
 import '../l10n/S.dart';
 import '../view_model/conversation_view_model.dart';
@@ -258,7 +259,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   constraints:
                   const BoxConstraints(maxWidth: 285, maxHeight: 32.5),
                   child: TextField(
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: kSearchEditTextColor),
                     decoration: InputDecoration(
                       // contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       /**
@@ -295,14 +296,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                         // ),
                         // prefixIconConstraints: BoxConstraints(maxWidth: 20, maxHeight: 20),
                         hintText: S.of(context).search,
-                        hintStyle: const TextStyle(color: Color(0x73FFFFFF)),
+                        hintStyle: const TextStyle(color: kSearchEditTextHintColor),
                         border: inputBorder,
                         enabledBorder: inputBorder,
                         disabledBorder: inputBorder,
                         focusedBorder: inputBorder,
                         focusedErrorBorder: inputBorder,
                         filled: true,
-                        fillColor: const Color(0xFFA350E2)),
+                        fillColor: kSearchEditBg),
                     onChanged: (value) {
                       keyword = value;
                       setState(() {});
@@ -778,6 +779,6 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
 
   Gradient getGradientBackground() {
-    return const LinearGradient(colors: [Color(0xff6913CF), Color(0xff8919DA)]);
+    return const LinearGradient(colors: [kPrimaryBGStartColor, kPrimaryBGEndColor]);
   }
 }
