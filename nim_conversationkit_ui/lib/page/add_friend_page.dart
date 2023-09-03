@@ -41,12 +41,12 @@ class _AddFriendPageState extends State<AddFriendPage> {
       return null;
     }
 
-    var currentData = datas['data'];
+    var currentData = datas['data']?['list'];
     if (currentData == null) {
       return null;
     }
 
-    var accid = currentData['accid'];
+    var accid = currentData[0]['accid'];
     if (accid == null) {
       return null;
     }
