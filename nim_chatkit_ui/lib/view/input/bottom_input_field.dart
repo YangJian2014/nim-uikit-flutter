@@ -542,6 +542,24 @@ class _BottomInputFieldState extends State<BottomInputField>
     }
   }
 
+  String _subHintText(String? address) {
+    if (address == null) {
+      return '';
+    }
+    if (address.isEmpty) {
+      return address;
+    }
+
+    String tempString = '$address';
+    if (address.length > 20) {
+      String s = tempString.substring(0, 6);
+      String e = tempString.substring(tempString.length - 7);
+      return '$s...$e';
+    }
+
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     var team = context.watch<ChatViewModel>().teamInfo;
@@ -549,7 +567,9 @@ class _BottomInputFieldState extends State<BottomInputField>
         team.creator != getIt<LoginService>().userInfo?.userId) {
       mute = team.isAllMute ?? false;
     }
-    String? hint = mute ? S.of(context).chatTeamAllMute : widget.hint;
+    String? hint =
+        _subHintText(mute ? S.of(context).chatTeamAllMute : widget.hint);
+
     return Container(
       width: MediaQuery.of(context).size.width,
       color: const Color(0xffeff1f3),
