@@ -40,7 +40,7 @@ class ConversationPopMenuButton extends StatelessWidget {
         if (!(await Connectivity().checkNetwork(context))) {
           return;
         }
-        goToContactSelector(context, mostCount: 499, returnContact: true)
+        goToContactSelector(context, mostCount: 199, returnContact: true)
             .then((contacts) async {
           if (contacts is List<ContactInfo> && contacts.isNotEmpty) {
             Alog.d(

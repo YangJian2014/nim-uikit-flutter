@@ -284,7 +284,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                   ?.where((element) => element.userInfo != null)
                                   .map((e) => e.userInfo!.userId!)
                                   .toList(),
-                              mostCount: list == null ? 499 : 500 - list.length,
+                              mostCount: list == null ? 199 : 200 - list.length,
                               returnContact: true)
                           .then((contacts) {
                         if (contacts is List<ContactInfo> &&
@@ -470,9 +470,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInvitePrivilege(
                     team.id ?? "",
-                    value.toString(),value == 1
-                    ? NIMTeamInviteModeEnum.all
-                    : NIMTeamInviteModeEnum.manager);
+                    value.toString(),
+                    value == 1
+                        ? NIMTeamInviteModeEnum.all
+                        : NIMTeamInviteModeEnum.manager);
               }
             });
           },
@@ -492,7 +493,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
           ),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
           onTap: () {
-            _showTeamIdentifyDialog((value) async{
+            _showTeamIdentifyDialog((value) async {
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInfoPrivilege(
                     team.id ?? "",
