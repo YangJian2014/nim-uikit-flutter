@@ -2,6 +2,7 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:netease_common_ui/utils/connectivity_checker.dart';
 import 'package:netease_corekit_im/router/imkit_router_factory.dart';
 import 'package:netease_common_ui/widgets/search_page.dart';
@@ -24,6 +25,9 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
+  TextEditingController inputController = TextEditingController();
+  late String keyword;
+
   Future<List<NIMUser>?> searchUserInfo(List<String> accountList) async {
     if (!await haveConnectivity()) {
       return null;
@@ -59,55 +63,119 @@ class _AddFriendPageState extends State<AddFriendPage> {
     return userInfo;
   }
 
+  _searchUserInfo() async {
+    var text = inputController.text.trim();
+    if (text.isEmpty) {
+      return;
+    }
+
+    List<NIMUser>? userList = await fetchUserInfo(text);
+    if (userList == null || userList.isEmpty) {
+      return;
+    }
+
+    var userInfo = userList.first;
+
+    if (getIt<LoginService>().userInfo?.userId == userInfo.userId) {
+      gotoMineInfoPage(context);
+    } else {
+      goToContactDetail(context, userInfo.userId!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SearchPage(
-      title: S.of(context).addFriend,
-      searchHint: S.of(context).addFriendSearchHint,
-      buildOnComplete: true,
-      builder: (context, keyword) {
-        if (keyword.isEmpty)
-          return Container();
-        else {
-          return FutureBuilder<List<NIMUser>?>(
-              future: fetchUserInfo(keyword),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return Column(
-                      children: [
-                        const SizedBox(
-                          height: 68,
-                        ),
-                        SvgPicture.asset(
-                          'images/ic_search_empty.svg',
-                          package: kPackage,
-                        ),
-                        const SizedBox(
-                          height: 18,
-                        ),
-                        Text(
-                          S.of(context).addFriendSearchEmptyTips,
-                          style:
-                              TextStyle(color: Color(0xffb3b7bc), fontSize: 14),
-                        )
-                      ],
-                    );
-                  } else {
-                    Future.delayed(Duration(milliseconds: 200), () {
-                      if (getIt<LoginService>().userInfo?.userId ==
-                          snapshot.data![0].userId) {
-                        gotoMineInfoPage(context);
-                      } else {
-                        goToContactDetail(context, snapshot.data![0].userId!);
-                      }
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            size: 26,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
+        title: Text(S.of(context).addFriend),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            child: TextField(
+              controller: inputController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                fillColor: Color(0xfff2f4f5),
+                filled: true,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide.none),
+                isDense: true,
+                hintText: S.of(context).addFriendSearchHint,
+                hintStyle: const TextStyle(
+                    color: CommonColors.color_a8adb6, fontSize: 14),
+                prefixIcon: Icon(
+                  Icons.search_rounded,
+                  color: CommonColors.color_a8adb6,
+                ),
+                suffixIcon: IconButton(
+                  icon: SvgPicture.asset(
+                    'images/ic_clear.svg',
+                    package: 'netease_common_ui',
+                  ),
+                  onPressed: () {
+                    inputController.clear();
+                    setState(() {
+                      // keyword = '';
                     });
-                  }
-                }
-                return Container();
-              });
-        }
-      },
+                  },
+                ),
+              ),
+              maxLines: 4,
+              minLines: 1,
+              style: const TextStyle(
+                  color: CommonColors.color_333333, fontSize: 14),
+              textInputAction: TextInputAction.search,
+              onChanged: (value) {
+                // keyword = value;
+                // if (!widget.buildOnComplete) {
+                //   setState(() {});
+                // }
+              },
+              onEditingComplete: _searchUserInfo,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: ElevatedButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue.shade300,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        '搜索',
+                        style:
+                            const TextStyle(fontSize: 21, color: Colors.white),
+                      ),
+                    ),
+                    onPressed: _searchUserInfo,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

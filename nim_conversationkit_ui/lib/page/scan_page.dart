@@ -238,12 +238,12 @@ class _ScanPageState extends State<ScanPage> {
   }
 
   // 添加好友
-  _addPerson(String userId) async {
+  _addPerson(String address) async {
     LoginService _loginService = getIt<LoginService>();
     String nickName = _loginService.userInfo?.nick ?? '';
 
     Map<String, String> userParams = {
-      'faccid': userId,
+      'address': address,
       'msg': '我是$nickName申请添加好友'
     };
     var response = await UtilsNetworkHelper.friendAdd(userParams);
