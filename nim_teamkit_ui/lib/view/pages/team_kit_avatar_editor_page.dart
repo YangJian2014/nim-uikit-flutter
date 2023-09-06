@@ -86,7 +86,7 @@ class TeamKitAvatarEditorState extends State<TeamKitAvatarEditorPage> {
                 //   Navigator.pop(context, photoAvatar!);
                 // });
                 UtilsNetworkHelper.groupModify(
-                    {"tid": widget.team.id ?? '', "icon": photoAvatar!})
+                    {"tid": widget.team.id ?? '',"tname": widget.team.name ?? '', "icon": photoAvatar!})
                     .then((response){
                   var rspData = response?.data;
                   var code = rspData['code'] ?? -1;

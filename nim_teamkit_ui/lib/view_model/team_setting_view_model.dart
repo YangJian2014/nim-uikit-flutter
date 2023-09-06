@@ -153,7 +153,7 @@ class TeamSettingViewModel extends ChangeNotifier {
   }
 
   void updateInvitePrivilege(
-      String teamId, String value, NIMTeamInviteModeEnum modeEnum) async {
+      String teamId,String teamName, String value, NIMTeamInviteModeEnum modeEnum) async {
     // TeamRepo.updateInviteMode(teamId, modeEnum).then((value) {
     //   if (value) {
     //     invitePrivilege = modeEnum;
@@ -161,7 +161,7 @@ class TeamSettingViewModel extends ChangeNotifier {
     //   }
     // });
     var response = await UtilsNetworkHelper.groupModify(
-        {"tid": teamId, "invitemode": value});
+        {"tid": teamId,"tname": teamName, "invitemode": value});
     var rspData = response?.data;
     var code = rspData['code'] ?? -1;
     if (code != 0) {
@@ -173,7 +173,7 @@ class TeamSettingViewModel extends ChangeNotifier {
     }
   }
 
-  void updateInfoPrivilege(String teamId, String value,
+  void updateInfoPrivilege(String teamId, String teamName,String value,
       NIMTeamUpdateModeEnum modeEnum) async{
     // TeamRepo.updateTeamInfoPrivilege(teamId, modeEnum).then((value) {
     //   if (value) {
@@ -181,7 +181,7 @@ class TeamSettingViewModel extends ChangeNotifier {
     //     notifyListeners();
     //   }
     // });
-    var response = await UtilsNetworkHelper.groupModify({"tid": teamId,"uptinfomode": value});
+    var response = await UtilsNetworkHelper.groupModify({"tid": teamId,"tname": teamName,"uptinfomode": value});
     var rspData = response?.data;
     var code = rspData['code'] ?? -1;
     if (code != 0) {
@@ -193,7 +193,7 @@ class TeamSettingViewModel extends ChangeNotifier {
     }
   }
 
-  void updateBeInviteMode(String teamId, bool needAgree) async {
+  void updateBeInviteMode(String teamId, String teamName,bool needAgree) async {
     // TeamRepo.updateBeInviteMode(teamId, needAgree).then((value) {
     //   if (value) {
     //     beInvitedNeedAgreed = needAgree;
@@ -201,7 +201,7 @@ class TeamSettingViewModel extends ChangeNotifier {
     //   }
     // });
     var response = await UtilsNetworkHelper.groupModify(
-        {"tid": teamId, "beinvitemode": needAgree ? '0' : '1'});
+        {"tid": teamId,"tname": teamName, "beinvitemode": needAgree ? '0' : '1'});
     var rspData = response?.data;
     var code = rspData['code'] ?? -1;
     if (code != 0) {

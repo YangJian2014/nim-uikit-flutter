@@ -69,7 +69,7 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
     // });
     return Future(() async {
       var response = await UtilsNetworkHelper.groupModify(
-          {"tid": widget.team.id ?? '', "intro": introduce});
+          {"tid": widget.team.id ?? '',"tname": widget.team.name ?? '', "intro": introduce});
       var rspData = response?.data;
       var code = rspData['code'] ?? -1;
       if (code != 0) {

@@ -470,6 +470,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInvitePrivilege(
                     team.id ?? "",
+                    team.name ?? "",
                     value.toString(),
                     value == 1
                         ? NIMTeamInviteModeEnum.all
@@ -497,6 +498,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
               if (value != null) {
                 context.read<TeamSettingViewModel>().updateInfoPrivilege(
                     team.id ?? "",
+                    team.name ?? "",
                     value.toString(),
                     value == 1
                         ? NIMTeamUpdateModeEnum.all
@@ -515,7 +517,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             onChanged: (bool value) {
               context
                   .read<TeamSettingViewModel>()
-                  .updateBeInviteMode(team.id ?? "", value);
+                  .updateBeInviteMode(team.id ?? "",team.name ?? "", value);
             },
             value: context.read<TeamSettingViewModel>().beInvitedNeedAgreed,
           ),
