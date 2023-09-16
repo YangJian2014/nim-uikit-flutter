@@ -6,11 +6,13 @@ import 'dart:async';
 
 import 'package:amap_flutter_location/amap_flutter_location.dart';
 import 'package:netease_common_ui/base/base_state.dart';
+import 'package:netease_common_ui/ui/avatar.dart';
 import 'package:netease_common_ui/ui/dialog.dart';
 import 'package:netease_corekit_im/service_locator.dart';
 import 'package:netease_corekit_im/services/login/login_service.dart';
 import 'package:nim_chatkit_ui/chat_setting_page.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/chat_kit_message_list.dart';
+import 'package:nim_chatkit_ui/view/chat_kit_message_list/helper/chat_message_user_helper.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/chat_kit_message_item.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/pop_menu/chat_kit_pop_actions.dart';
 import 'package:nim_chatkit_ui/view_model/chat_view_model.dart';
@@ -174,6 +176,12 @@ class ChatPageState extends BaseState<ChatPage> {
     super.dispose();
   }
 
+  Future<UserAvatarInfo> _getUserInfo(String accId) async {
+    String name = await (accId.getUserName());
+    String? avatar = await accId.getAvatar();
+    return UserAvatarInfo(name, avatar: avatar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -188,6 +196,8 @@ class ChatPageState extends BaseState<ChatPage> {
             title = context.watch<ChatViewModel>().chatTitle;
           }
           var hasNetwork = context.watch<ChatViewModel>().hasNetWork;
+          var viewModel = context.watch<ChatViewModel>();
+          var userId = viewModel.contactInfo?.user.userId;
           return Scaffold(
               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               appBar: AppBar(
@@ -208,14 +218,43 @@ class ChatPageState extends BaseState<ChatPage> {
                     Navigator.pop(context);
                   },
                 ),
-                centerTitle: true,
-                title: Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+                centerTitle: false,
+                title:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  FutureBuilder<UserAvatarInfo>(
+                    future: _getUserInfo(userId ?? ''),
+                    builder: (context, snapshot) {
+                      return Avatar(
+                        width: 30,
+                        height: 30,
+                        avatar:
+                            snapshot.data == null ? '' : snapshot.data!.avatar,
+                        name: snapshot.data == null ? '' : snapshot.data!.name,
+                        // nameColor: widget.chatUIConfig?.userNickColor,
+                        // fontSize: widget.chatUIConfig?.userNickTextSize,
+                        radius: 5,
+                        bgCode: AvatarColor.avatarColor(content: userId ?? ''),
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ]),
+                // title: Text(
+                //   title,
+                //   style: const TextStyle(
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.white),
+                // ),
                 // elevation: 0.5,
                 actions: [
                   IconButton(
@@ -280,14 +319,14 @@ class ChatPageState extends BaseState<ChatPage> {
                                         return true;
                                       }
                                       if (widget
-                                          .chatUIConfig
-                                          ?.messageClickListener
-                                          ?.onTapAvatar !=
-                                          null &&
+                                                  .chatUIConfig
+                                                  ?.messageClickListener
+                                                  ?.onTapAvatar !=
+                                              null &&
                                           widget
-                                              .chatUIConfig!
-                                              .messageClickListener!
-                                              .onTapAvatar!(userId,
+                                                  .chatUIConfig!
+                                                  .messageClickListener!
+                                                  .onTapAvatar!(userId,
                                               isSelf: isSelf)) {
                                         return true;
                                       }
@@ -297,27 +336,26 @@ class ChatPageState extends BaseState<ChatPage> {
                                     chatUIConfig: widget.chatUIConfig ??
                                         ChatKitClient.instance.chatUIConfig,
                                     teamInfo:
-                                    context.watch<ChatViewModel>().teamInfo,
+                                        context.watch<ChatViewModel>().teamInfo,
                                     onMessageItemClick:
-                                    widget.onMessageItemClick ??
-                                        widget
-                                            .chatUIConfig
-                                            ?.messageClickListener
-                                            ?.onMessageItemClick,
+                                        widget.onMessageItemClick ??
+                                            widget
+                                                .chatUIConfig
+                                                ?.messageClickListener
+                                                ?.onMessageItemClick,
                                     onMessageItemLongClick:
-                                    widget.onMessageItemLongClick ??
-                                        widget
-                                            .chatUIConfig
-                                            ?.messageClickListener
-                                            ?.onMessageItemLongClick,
+                                        widget.onMessageItemLongClick ??
+                                            widget
+                                                .chatUIConfig
+                                                ?.messageClickListener
+                                                ?.onMessageItemLongClick,
                                   ),
                                 ),
                               ),
                               BottomInputField(
                                 scrollController: autoController,
                                 sessionType: widget.sessionType,
-                                hint:
-                                S.of(context).chatMessageSendHint(title),
+                                hint: S.of(context).chatMessageSendHint(title),
                                 chatUIConfig: widget.chatUIConfig ??
                                     ChatKitClient.instance.chatUIConfig,
                                 key: _inputField,
