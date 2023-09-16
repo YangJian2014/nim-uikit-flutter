@@ -45,8 +45,8 @@ class _ContactKitContactState extends State<ContactKitContactPage> {
           icon: SvgPicture.asset(
             'images/ic_verify.svg',
             package: kPackage,
-            height: 40,
-            width: 40,
+            height: 50,
+            width: 50,
           ),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -61,8 +61,8 @@ class _ContactKitContactState extends State<ContactKitContactPage> {
           icon: SvgPicture.asset(
             'images/ic_black_list.svg',
             package: kPackage,
-            height: 40,
-            width: 40,
+            height: 50,
+            width: 50,
           ),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -76,8 +76,8 @@ class _ContactKitContactState extends State<ContactKitContactPage> {
           icon: SvgPicture.asset(
             'images/ic_team.svg',
             package: kPackage,
-            height: 40,
-            width: 40,
+            height: 50,
+            width: 50,
           ),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {

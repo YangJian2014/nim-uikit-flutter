@@ -626,8 +626,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                     }
                                   },
                                   child: Avatar(
-                                    width: 36,
-                                    height: 36,
+                                    width: 42,
+                                    height: 42,
                                     avatar: snapshot.data == null
                                         ? _userAvatarInfo.avatar
                                         : snapshot.data!.avatar,
@@ -792,8 +792,8 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                     }
                                   },
                                   child: Avatar(
-                                    width: 36,
-                                    height: 36,
+                                    width: 42,
+                                    height: 42,
                                     avatar:
                                         getIt<LoginService>().userInfo!.avatar,
                                     name: getIt<LoginService>().userInfo!.nick,

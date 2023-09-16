@@ -182,6 +182,24 @@ class ChatPageState extends BaseState<ChatPage> {
     return UserAvatarInfo(name, avatar: avatar);
   }
 
+  String _subHintText(String? address) {
+    if (address == null) {
+      return '';
+    }
+    if (address.isEmpty) {
+      return address;
+    }
+
+    String tempString = '$address';
+    if (address.length > 20) {
+      String s = tempString.substring(0, 6);
+      String e = tempString.substring(tempString.length - 7);
+      return '$s...$e';
+    }
+
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -216,8 +234,8 @@ class ChatPageState extends BaseState<ChatPage> {
                 leading: IconButton(
                   icon: Image.asset(
                     'images/icon_titlebar_back.png',
-                    width: 10,
-                    height: 17.5,
+                    width: 45,
+                    height: 30,
                     package: 'nim_chatkit_ui',
                     // fit:BoxFit.cover,
                   ),
@@ -242,10 +260,10 @@ class ChatPageState extends BaseState<ChatPage> {
                     width: 5,
                   ),
                   Text(
-                    title,
+                    _subHintText(title),
                     style: const TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 ]),
@@ -278,8 +296,8 @@ class ChatPageState extends BaseState<ChatPage> {
                       },
                       icon: Image.asset(
                         'images/icon_titlebar_setting.png',
-                        width: 17.5,
-                        height: 4,
+                        width: 25,
+                        height: 25,
                         package: 'nim_chatkit_ui',
                         // fit:BoxFit.cover,
                       ))

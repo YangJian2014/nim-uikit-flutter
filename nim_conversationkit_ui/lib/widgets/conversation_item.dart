@@ -123,7 +123,7 @@ class ConversationItem extends StatelessWidget {
           color: Color.fromARGB(255, 221, 212, 212),
         ),
         Container(
-          height: 62,
+          height: 72,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           color: /*conversationInfo.isStickTop
               ? const Color(0xffededef)
@@ -139,8 +139,8 @@ class ConversationItem extends StatelessWidget {
                   child: Avatar(
                     avatar: avatar,
                     name: avatarName,
-                    height: 42,
-                    width: 42,
+                    height: 50,
+                    width: 50,
                     radius: config.avatarCornerRadius,
                   ),
                   onTap: () {
@@ -165,8 +165,8 @@ class ConversationItem extends StatelessWidget {
                       count: conversationInfo.session.unreadCount ?? 0,
                     )),
               Positioned(
-                left: 54,
-                top: 5,
+                left: 60,
+                top: 14,
                 right: conversationInfo.mute ? 20 : 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

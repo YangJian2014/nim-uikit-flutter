@@ -89,16 +89,29 @@ class _AddFriendPageState extends State<AddFriendPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.arrow_back_ios_rounded,
+        //     size: 26,
+        //   ),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
+        // centerTitle: true,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            size: 26,
+          icon: Image.asset(
+            'images/icon_titlebar_back.png',
+            width: 45,
+            height: 30,
+            package: 'nim_chatkit_ui',
+            // fit:BoxFit.cover,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        centerTitle: true,
+        centerTitle: false,
         title: Text(S.of(context).addFriend),
       ),
       body: Stack(

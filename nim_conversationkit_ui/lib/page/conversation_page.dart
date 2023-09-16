@@ -72,9 +72,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
               keyword.isNotEmpty
                   ? getScaffoldBodyWidget(buildSearchList(context, keyword))
                   : getScaffoldBodyWidget(ConversationList(
-                config: uiConfig.itemConfig,
-                onUnreadCountChanged: widget.onUnreadCountChanged,
-              ))
+                      config: uiConfig.itemConfig,
+                      onUnreadCountChanged: widget.onUnreadCountChanged,
+                    ))
             ],
           );
         },
@@ -85,7 +85,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   PreferredSizeWidget? getScaffoldAppBarWidget() {
     return _titleBarConfig.showTitleBar
         ?
-    /*PreferredSize(
+        /*PreferredSize(
               child: AppBar(
                   backgroundColor: _titleBarConfig.backgroundColor,
                   centerTitle: _titleBarConfig.centerTitle,
@@ -135,57 +135,57 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   ],
                   bottom: getAppBarBottomWidget()),
               preferredSize: Size.fromHeight(300))*/
-    AppBar(
-        backgroundColor: _titleBarConfig.backgroundColor,
-        centerTitle: _titleBarConfig.centerTitle,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(gradient: getGradientBackground()),
-        ),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (_titleBarConfig.showTitleBarLeftIcon)
-              _titleBarConfig.titleBarLeftIcon ??
-                  SvgPicture.asset(
-                    'images/ic_yunxin.svg',
-                    width: 32,
-                    height: 32,
-                    package: 'nim_conversationkit_ui',
-                  ),
-            if (_titleBarConfig.showTitleBarLeftIcon)
-              const SizedBox(
-                width: 12,
-              ),
-            Text(
-              _titleBarConfig.titleBarTitle ??
-                  S.of(context).conversationTitle,
-              style: TextStyle(
-                  fontSize: 20,
-                  color: _titleBarConfig.titleBarTitleColor,
-                  fontWeight: FontWeight.bold),
+        AppBar(
+            backgroundColor: _titleBarConfig.backgroundColor,
+            centerTitle: _titleBarConfig.centerTitle,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(gradient: getGradientBackground()),
             ),
-          ],
-        ),
-        elevation: 0.0,
-        // actions: [
-        // if (_titleBarConfig.showTitleBarRight2Icon)
-        //   _titleBarConfig.titleBarRight2Icon ??
-        //       IconButton(
-        //         onPressed: () {
-        //           goGlobalSearchPage(context);
-        //         },
-        //         icon: SvgPicture.asset(
-        //           'images/ic_search.svg',
-        //           width: 26,
-        //           height: 26,
-        //           package: 'nim_conversationkit_ui',
-        //         ),
-        //       ),
-        // if (_titleBarConfig.showTitleBarRightIcon)
-        //   _titleBarConfig.titleBarRightIcon ??
-        //       ConversationPopMenuButton()
-        // ],
-        bottom: getScaffoldAppBarBottomWidget())
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_titleBarConfig.showTitleBarLeftIcon)
+                  _titleBarConfig.titleBarLeftIcon ??
+                      SvgPicture.asset(
+                        'images/ic_yunxin.svg',
+                        width: 32,
+                        height: 32,
+                        package: 'nim_conversationkit_ui',
+                      ),
+                if (_titleBarConfig.showTitleBarLeftIcon)
+                  const SizedBox(
+                    width: 12,
+                  ),
+                Text(
+                  _titleBarConfig.titleBarTitle ??
+                      S.of(context).conversationTitle,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: _titleBarConfig.titleBarTitleColor,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            elevation: 0.0,
+            // actions: [
+            // if (_titleBarConfig.showTitleBarRight2Icon)
+            //   _titleBarConfig.titleBarRight2Icon ??
+            //       IconButton(
+            //         onPressed: () {
+            //           goGlobalSearchPage(context);
+            //         },
+            //         icon: SvgPicture.asset(
+            //           'images/ic_search.svg',
+            //           width: 26,
+            //           height: 26,
+            //           package: 'nim_conversationkit_ui',
+            //         ),
+            //       ),
+            // if (_titleBarConfig.showTitleBarRightIcon)
+            //   _titleBarConfig.titleBarRightIcon ??
+            //       ConversationPopMenuButton()
+            // ],
+            bottom: getScaffoldAppBarBottomWidget())
         : null;
   }
 
@@ -257,12 +257,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                */
               ConstrainedBox(
                   constraints:
-                  const BoxConstraints(maxWidth: 285, maxHeight: 32.5),
+                      const BoxConstraints(maxWidth: 285, maxHeight: 36.5),
                   child: TextField(
                     style: const TextStyle(color: kSearchEditTextColor),
                     decoration: InputDecoration(
-                      // contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                      /**
+                        // contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                        /**
                        * 功能5 实现方式1 设置TextField输入框垂直居中
                        */
                         contentPadding: const EdgeInsets.symmetric(vertical: 0),
@@ -273,7 +273,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                         prefixIcon: Padding(
                           // padding: EdgeInsets.fromLTRB(10,10,10,10), //
                           padding: const EdgeInsets.only(
-                              left: 30, top: 5, right: 10, bottom: 5),
+                              left: 15, top: 5, right: 10, bottom: 5),
                           //
                           // (defaultPadding),
                           // child: Image(image:AssetImage
@@ -286,7 +286,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                               fit: BoxFit.cover),
                         ),
                         prefixIconConstraints:
-                        const BoxConstraints(maxWidth: 60, maxHeight: 30),
+                            const BoxConstraints(maxWidth: 60, maxHeight: 30),
                         // prefixIcon: Image.asset(
                         //   'images/icon_titlebar_search_btn.png',
                         //   width: 20,
@@ -296,7 +296,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                         // ),
                         // prefixIconConstraints: BoxConstraints(maxWidth: 20, maxHeight: 20),
                         hintText: S.of(context).search,
-                        hintStyle: const TextStyle(color: kSearchEditTextHintColor),
+                        hintStyle:
+                            const TextStyle(color: kSearchEditTextHintColor),
                         border: inputBorder,
                         enabledBorder: inputBorder,
                         disabledBorder: inputBorder,
@@ -319,8 +320,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                * 功能3 给按钮设置背景图片,使用AssetImage需要指定package（如果引入的图片资源是在library里）
                */
               if (_titleBarConfig.showTitleBarRightIcon)
-                _titleBarConfig.titleBarRightIcon ??
-                    ConversationPopMenuButton()
+                _titleBarConfig.titleBarRightIcon ?? ConversationPopMenuButton()
             ],
           ),
         ),
@@ -485,7 +485,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         BuildContext context, SearchInfo currentItem, SearchInfo? lastItem) {
       RecordHitInfo record = currentItem.hitInfo!;
       TextStyle normalStyle =
-      TextStyle(fontSize: 16, color: '#333333'.toColor());
+          TextStyle(fontSize: 16, color: '#333333'.toColor());
       TextStyle highStyle = TextStyle(fontSize: 16, color: '#337EFF'.toColor());
 
       String _getTitle() {
@@ -556,25 +556,25 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                     margin: const EdgeInsets.only(left: 12),
                     child: currentItem.hitType == HitType.account
                         ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          contact.getName(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: normalStyle,
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        _hitWidget(
-                            TextStyle(
-                                fontSize: 12, color: '#333333'.toColor()),
-                            TextStyle(
-                                fontSize: 12,
-                                color: '#337EFF'.toColor())),
-                      ],
-                    )
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                contact.getName(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: normalStyle,
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              _hitWidget(
+                                  TextStyle(
+                                      fontSize: 12, color: '#333333'.toColor()),
+                                  TextStyle(
+                                      fontSize: 12,
+                                      color: '#337EFF'.toColor())),
+                            ],
+                          )
                         : _hitWidget(normalStyle, highStyle)),
               ),
             ],
@@ -614,7 +614,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                           ),
                         TextSpan(
                             text:
-                            team.name!.substring(record.start, record.end),
+                                team.name!.substring(record.start, record.end),
                             style: highStyle),
                         if (record.end <= team.name!.length - 1)
                           TextSpan(
@@ -629,7 +629,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       }
 
       TextStyle titleStyle =
-      TextStyle(fontSize: 14, color: '#B3B7BC'.toColor());
+          TextStyle(fontSize: 14, color: '#B3B7BC'.toColor());
 
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -699,86 +699,87 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
   Widget getScaffoldBodyWidget(Widget child) {
     return Expanded(
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(gradient: getGradientBackground()),
-              width: double.infinity,
-              height: 30,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(30), right: Radius.circular(30))),
-              child: Padding(
-                child: child,
-                padding: const EdgeInsets.only(top: 10),
-              ),
-            ),
-          ],
-        ))
-    /**
+            child: Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(gradient: getGradientBackground()),
+          width: double.infinity,
+          height: 30,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(20), right: Radius.circular(20))),
+          child: Padding(
+            child: child,
+            padding: const EdgeInsets.only(top: 10),
+          ),
+        ),
+      ],
+    ))
+        /**
      * 功能4 最终版 实现层叠布局，
      * 底层是高度为15的矩形
      * 上册是左右上角弧度为15的圆角，高度是撑满屏幕
      */
-    // Expanded(child: Stack(
-    //   children: [
-    //     Container(
-    //       color: Colors.red,
-    //       width: double.infinity,
-    //       height: 15,
-    //     ),
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       height: MediaQuery.of(context).size.height,
-    //       decoration: const BoxDecoration(
-    //           color: Colors.green,
-    //           borderRadius: BorderRadius.horizontal(
-    //               left: Radius.circular(15),
-    //               right: Radius.circular(15))),
-    //       /*child: ConversationList(
-    //           config: uiConfig.itemConfig,
-    //           onUnreadCountChanged: widget.onUnreadCountChanged,
-    //         ),*/
-    //     ),
-    //   ],
-    // ))
-    /**
+        // Expanded(child: Stack(
+        //   children: [
+        //     Container(
+        //       color: Colors.red,
+        //       width: double.infinity,
+        //       height: 15,
+        //     ),
+        //     Container(
+        //       width: MediaQuery.of(context).size.width,
+        //       height: MediaQuery.of(context).size.height,
+        //       decoration: const BoxDecoration(
+        //           color: Colors.green,
+        //           borderRadius: BorderRadius.horizontal(
+        //               left: Radius.circular(15),
+        //               right: Radius.circular(15))),
+        //       /*child: ConversationList(
+        //           config: uiConfig.itemConfig,
+        //           onUnreadCountChanged: widget.onUnreadCountChanged,
+        //         ),*/
+        //     ),
+        //   ],
+        // ))
+        /**
      * 功能4 有问题版 实现层叠布局，
      * 底层是高度为15的矩形
      * 上册是左右上角弧度为15的圆角，高度是撑满屏幕
      * Stack直接child不能是Expanded
      */
-    // Stack(
-    //   children: [
-    //     Container(
-    //       color: Colors.red,
-    //       width: double.infinity,
-    //       height: 15,
-    //     ),
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       height: MediaQuery.of(context).size.height,
-    //         decoration: const BoxDecoration(
-    //             color: Colors.green,
-    //             borderRadius: BorderRadius.horizontal(
-    //                 left: Radius.circular(15),
-    //                 right: Radius.circular(15))),
-    //         /*child: ConversationList(
-    //           config: uiConfig.itemConfig,
-    //           onUnreadCountChanged: widget.onUnreadCountChanged,
-    //         ),*/
-    //       ),
-    //   ],
-    // )
+        // Stack(
+        //   children: [
+        //     Container(
+        //       color: Colors.red,
+        //       width: double.infinity,
+        //       height: 15,
+        //     ),
+        //     Container(
+        //       width: MediaQuery.of(context).size.width,
+        //       height: MediaQuery.of(context).size.height,
+        //         decoration: const BoxDecoration(
+        //             color: Colors.green,
+        //             borderRadius: BorderRadius.horizontal(
+        //                 left: Radius.circular(15),
+        //                 right: Radius.circular(15))),
+        //         /*child: ConversationList(
+        //           config: uiConfig.itemConfig,
+        //           onUnreadCountChanged: widget.onUnreadCountChanged,
+        //         ),*/
+        //       ),
+        //   ],
+        // )
         ;
   }
 
   Gradient getGradientBackground() {
-    return const LinearGradient(colors: [kPrimaryBGStartColor, kPrimaryBGEndColor]);
+    return const LinearGradient(
+        colors: [kPrimaryBGStartColor, kPrimaryBGEndColor]);
   }
 }

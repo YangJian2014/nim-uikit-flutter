@@ -203,6 +203,18 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
   Widget build(BuildContext context) {
     return TransparentScaffold(
       title: S.of(context).chatSetting,
+      leading: IconButton(
+        icon: Image.asset(
+          'images/icon_titlebar_back.png',
+          width: 45,
+          height: 30,
+          package: 'nim_chatkit_ui',
+          // fit:BoxFit.cover,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(

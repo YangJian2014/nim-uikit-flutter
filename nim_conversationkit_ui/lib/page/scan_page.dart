@@ -95,6 +95,7 @@ class _ScanPageState extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text(S.of(context).group_scan),
         actions: [
           Padding(
@@ -110,6 +111,19 @@ class _ScanPageState extends State<ScanPage> {
             ),
           )
         ],
+        leading: IconButton(
+          icon: Image.asset(
+            'images/icon_titlebar_back.png',
+            width: 45,
+            height: 30,
+            package: 'nim_chatkit_ui',
+            // fit:BoxFit.cover,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: false,
       ),
       body: _isScanning
           ? Padding(

@@ -105,8 +105,8 @@ class _SystemNotifyPageState
         avatarColorContent = message.fromAccount;
       }
       return Avatar(
-        width: 36,
-        height: 36,
+        width: 40,
+        height: 40,
         avatar: avatar,
         name: name,
         bgCode: AvatarColor.avatarColor(content: avatarColorContent),
@@ -321,16 +321,28 @@ class _SystemNotifyPageState
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_rounded),
+            icon: Image.asset(
+              'images/icon_titlebar_back.png',
+              width: 45,
+              height: 30,
+              package: 'nim_chatkit_ui',
+              // fit:BoxFit.cover,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.arrow_back_ios_rounded),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           title: Text(
             S.of(context).contactVerifyMessage,
             style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
           ),
-          centerTitle: true,
+          centerTitle: false,
           elevation: 0.5,
           shadowColor: '#F5F8FC'.toColor(),
           actions: [

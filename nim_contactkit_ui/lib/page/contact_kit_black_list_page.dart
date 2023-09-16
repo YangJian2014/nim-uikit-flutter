@@ -104,8 +104,20 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            // leading: IconButton(
+            //   icon: const Icon(Icons.arrow_back_ios_rounded),
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_rounded),
+              icon: Image.asset(
+                'images/icon_titlebar_back.png',
+                width: 45,
+                height: 30,
+                package: 'nim_chatkit_ui',
+                // fit:BoxFit.cover,
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -117,7 +129,7 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
                   color: '#333333'.toColor(),
                   fontWeight: FontWeight.bold),
             ),
-            centerTitle: true,
+            centerTitle: false,
             elevation: 0,
             actions: [
               IconButton(
