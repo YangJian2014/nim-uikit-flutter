@@ -143,7 +143,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
               avatar: contact.user.avatar,
               name: contact.getName(needAlias: false),
               bgCode: AvatarColor.avatarColor(content: contact.user.userId),
-              radius: 8),
+              radius: 14),
         ),
         Expanded(
             child: Column(

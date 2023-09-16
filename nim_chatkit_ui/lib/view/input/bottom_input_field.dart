@@ -557,7 +557,7 @@ class _BottomInputFieldState extends State<BottomInputField>
       return '$s...$e';
     }
 
-    return '';
+    return address;
   }
 
   @override

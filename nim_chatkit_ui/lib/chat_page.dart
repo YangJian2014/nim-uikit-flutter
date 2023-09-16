@@ -191,13 +191,13 @@ class ChatPageState extends BaseState<ChatPage> {
     }
 
     String tempString = '$address';
-    if (address.length > 20) {
+    if (address.length > 15) {
       String s = tempString.substring(0, 6);
       String e = tempString.substring(tempString.length - 7);
       return '$s...$e';
     }
 
-    return '';
+    return address;
   }
 
   @override
@@ -247,8 +247,8 @@ class ChatPageState extends BaseState<ChatPage> {
                 title:
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Avatar(
-                    width: 35,
-                    height: 35,
+                    width: 40,
+                    height: 40,
                     avatar: avatar,
                     name: nickName,
                     // nameColor: widget.chatUIConfig?.userNickColor,
@@ -295,12 +295,37 @@ class ChatPageState extends BaseState<ChatPage> {
                         }
                       },
                       icon: Image.asset(
+                        'images/app_chat_video.png',
+                        width: 25,
+                        height: 25,
+                        package: 'nim_chatkit_ui',
+                        // fit:BoxFit.cover,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        if (widget.sessionType == NIMSessionType.p2p) {
+                          ContactInfo? info =
+                              context.read<ChatViewModel>().contactInfo;
+                          if (info != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChatSettingPage(info)));
+                          }
+                        } else if (widget.sessionType == NIMSessionType.team) {
+                          Navigator.pushNamed(
+                              context, RouterConstants.PATH_TEAM_SETTING_PAGE,
+                              arguments: {'teamId': widget.sessionId});
+                        }
+                      },
+                      icon: Image.asset(
                         'images/icon_titlebar_setting.png',
                         width: 25,
                         height: 25,
                         package: 'nim_chatkit_ui',
                         // fit:BoxFit.cover,
-                      ))
+                      )),
                 ],
               ),
               body: Column(

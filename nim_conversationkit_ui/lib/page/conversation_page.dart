@@ -47,7 +47,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
   OutlineInputBorder inputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(24),
-      borderSide: const BorderSide(style: BorderStyle.none));
+      borderSide: const BorderSide(
+        ///设置边框的颜色
+        color: Colors.grey,
+
+        ///设置边框的粗细
+        width: 1,
+      ));
 
   @override
   void initState() {
