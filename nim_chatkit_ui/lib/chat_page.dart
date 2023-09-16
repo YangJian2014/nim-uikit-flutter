@@ -197,7 +197,14 @@ class ChatPageState extends BaseState<ChatPage> {
           }
           var hasNetwork = context.watch<ChatViewModel>().hasNetWork;
           var viewModel = context.watch<ChatViewModel>();
-          var userId = viewModel.contactInfo?.user.userId;
+          var nickName = viewModel.contactInfo?.user.nick;
+          var avatar = viewModel.contactInfo?.user.avatar;
+
+          if (viewModel.teamInfo != null) {
+            nickName = viewModel.teamInfo?.name;
+            avatar = viewModel.teamInfo?.icon;
+          }
+
           return Scaffold(
               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               appBar: AppBar(
@@ -220,22 +227,16 @@ class ChatPageState extends BaseState<ChatPage> {
                 ),
                 centerTitle: false,
                 title:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  FutureBuilder<UserAvatarInfo>(
-                    future: _getUserInfo(userId ?? ''),
-                    builder: (context, snapshot) {
-                      return Avatar(
-                        width: 30,
-                        height: 30,
-                        avatar:
-                            snapshot.data == null ? '' : snapshot.data!.avatar,
-                        name: snapshot.data == null ? '' : snapshot.data!.name,
-                        // nameColor: widget.chatUIConfig?.userNickColor,
-                        // fontSize: widget.chatUIConfig?.userNickTextSize,
-                        radius: 5,
-                        bgCode: AvatarColor.avatarColor(content: userId ?? ''),
-                      );
-                    },
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Avatar(
+                    width: 35,
+                    height: 35,
+                    avatar: avatar,
+                    name: nickName,
+                    // nameColor: widget.chatUIConfig?.userNickColor,
+                    // fontSize: widget.chatUIConfig?.userNickTextSize,
+                    radius: 5,
+                    bgCode: AvatarColor.avatarColor(content: nickName ?? ''),
                   ),
                   const SizedBox(
                     width: 5,
@@ -243,7 +244,7 @@ class ChatPageState extends BaseState<ChatPage> {
                   Text(
                     title,
                     style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
