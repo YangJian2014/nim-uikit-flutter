@@ -78,15 +78,14 @@ class ChatKitMessageLocationState extends State<ChatKitMessageLocationItem> {
                 Padding(
                   padding: EdgeInsets.only(top: 5, left: 5, right: 3),
                   child: Text(widget.message.content!,
-                      style:
-                          TextStyle(fontSize: 16, color: '#ffffff'.toColor()),
+                      style: TextStyle(fontSize: 16, color: Colors.black),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
                 ),
               Padding(
                 padding: EdgeInsets.only(left: 5, right: 5, bottom: 3),
                 child: Text(_attachment.address,
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade300),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis),
               ),
