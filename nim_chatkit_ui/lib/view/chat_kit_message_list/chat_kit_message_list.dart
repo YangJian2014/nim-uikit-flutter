@@ -68,6 +68,9 @@ class ChatKitMessageListState extends State<ChatKitMessageList>
   //是否在当前页面
   bool isInCurrentPage = true;
 
+  // 是否选择消息
+  bool _isSelectedMessage = false;
+
   void _logI(String content) {
     Alog.i(tag: 'ChatKit', moduleName: 'message list', content: content);
   }
@@ -143,6 +146,50 @@ class ChatKitMessageListState extends State<ChatKitMessageList>
     context.read<ChatViewModel>().collectMessage(message.nimMessage);
     Fluttertoast.showToast(msg: S.of().chatMessageCollectSuccess);
     return true;
+  }
+
+  _onMessageToVoice(ChatMessage message) async {
+    var customActions = widget.popMenuAction;
+    if (customActions?.onMessageToVoice != null &&
+        customActions!.onMessageToVoice!(message)) {
+      return true;
+    }
+    // context.read<ChatViewModel>().collectMessage(message.nimMessage);
+    // Fluttertoast.showToast(msg: S.of().chatMessageCollectSuccess);
+    // var result = await NimCore.instance.messageService.voiceToText(message.nimMessage);
+    _changeVoiceStatus(message.nimMessage);
+    setState(() {});
+    return true;
+  }
+
+  // 修改语音状态
+  _changeVoiceStatus(NIMMessage? chatMessage) async {
+    if (chatMessage == null) {
+      return;
+    }
+    if (chatMessage.messageAttachment == null) {
+      return;
+    }
+
+    try {
+      // 做一下保护，防止以后增加字段覆盖本地逻辑
+      if (chatMessage.localExtension == null) {
+        var localExtension = {'toVoice': true};
+        chatMessage.localExtension = localExtension;
+      } else {
+        var localExtension = chatMessage.localExtension;
+        localExtension!['toVoice'] = true;
+        chatMessage.localExtension = localExtension;
+      }
+
+      await NimCore.instance.messageService
+          .updateMessage(chatMessage)
+          .then((value) {
+        return value;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   bool _onMessageReply(ChatMessage message) {
@@ -251,6 +298,11 @@ class ChatKitMessageListState extends State<ChatKitMessageList>
 
   bool _onMessageMultiSelect(ChatMessage message) {
     ///todo implement
+
+    setState(() {
+      _isSelectedMessage = true;
+    });
+
     return true;
   }
 
@@ -327,6 +379,7 @@ class ChatKitMessageListState extends State<ChatKitMessageList>
     actions.onMessageMultiSelect = _onMessageMultiSelect;
     actions.onMessageDelete = _onMessageDelete;
     actions.onMessageRevoke = _onMessageRevoke;
+    actions.onMessageToVoice = _onMessageToVoice;
     return actions;
   }
 
@@ -425,6 +478,7 @@ class ChatKitMessageListState extends State<ChatKitMessageList>
                       teamInfo: widget.teamInfo,
                       onMessageItemClick: widget.onMessageItemClick,
                       onMessageItemLongClick: widget.onMessageItemLongClick,
+                      isSelected: _isSelectedMessage,
                     ),
                   );
                 },
