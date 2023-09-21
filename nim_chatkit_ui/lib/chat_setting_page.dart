@@ -57,11 +57,11 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
                 height: 6,
               ),
               SizedBox(
-                width: 42,
+                width: 50,
                 child: Text(
                   widget.contactInfo.getName(),
                   textAlign: TextAlign.center,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       fontSize: 12, color: CommonColors.color_333333),

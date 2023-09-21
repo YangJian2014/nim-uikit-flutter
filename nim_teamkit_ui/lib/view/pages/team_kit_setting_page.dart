@@ -517,7 +517,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
             onChanged: (bool value) {
               context
                   .read<TeamSettingViewModel>()
-                  .updateBeInviteMode(team.id ?? "",team.name ?? "", value);
+                  .updateBeInviteMode(team.id ?? "", team.name ?? "", value);
             },
             value: context.read<TeamSettingViewModel>().beInvitedNeedAgreed,
           ),
@@ -601,6 +601,19 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
   @override
   Widget build(BuildContext context) {
     return TransparentScaffold(
+      leading: IconButton(
+        icon: Image.asset(
+          'images/icon_titlebar_back.png',
+          width: 45,
+          height: 30,
+          package: 'nim_chatkit_ui',
+          // fit:BoxFit.cover,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      centerTitle: false,
       title: S.of(context).teamSettingTitle,
       body: ChangeNotifierProvider(
         create: (context) {

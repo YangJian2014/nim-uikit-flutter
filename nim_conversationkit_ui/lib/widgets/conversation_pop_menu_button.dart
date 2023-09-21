@@ -138,6 +138,10 @@ class ConversationPopMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(color: const Color.fromARGB(255, 237, 236, 236)),
+          borderRadius: BorderRadius.circular(7)),
       itemBuilder: (context) {
         return _conversationMenu(context)
             .map<PopupMenuItem<String>>(

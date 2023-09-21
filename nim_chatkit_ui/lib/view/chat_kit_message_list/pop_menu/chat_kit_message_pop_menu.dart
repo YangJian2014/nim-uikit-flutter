@@ -187,7 +187,7 @@ class ChatKitMessagePopMenu {
               onTap: () {
                 _onTap(message, item['id']!);
               },
-              child: Column(
+              child: Row(
                 children: [
                   SvgPicture.asset(
                     item["icon"]!,
@@ -196,7 +196,7 @@ class ChatKitMessagePopMenu {
                     height: 18,
                   ),
                   const SizedBox(
-                    height: 8,
+                    width: 20,
                   ),
                   Text(
                     item["label"]!,
@@ -207,6 +207,26 @@ class ChatKitMessagePopMenu {
                   )
                 ],
               ),
+              // child: Column(
+              //   children: [
+              //     SvgPicture.asset(
+              //       item["icon"]!,
+              //       package: kPackage,
+              //       width: 18,
+              //       height: 18,
+              //     ),
+              //     const SizedBox(
+              //       height: 8,
+              //     ),
+              //     Text(
+              //       item["label"]!,
+              //       style: TextStyle(
+              //           decoration: TextDecoration.none,
+              //           fontSize: 14,
+              //           color: '#333333'.toColor()),
+              //     )
+              //   ],
+              // ),
             ),
           ),
         )
@@ -286,7 +306,8 @@ class ChatKitMessagePopMenu {
     GestureTapCallback? onTap,
   }) {
     return SizedBox(
-      width: 58,
+      width: 138,
+      height: 20,
       child: InkWell(
         onTap: onTap,
         child: Container(

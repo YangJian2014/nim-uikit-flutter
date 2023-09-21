@@ -67,13 +67,13 @@ class ContactListViewState extends State<ContactListView> {
     } else {
       item.addAll([
         Avatar(
-          avatar: contact.user.avatar,
-          name: contact.getName(needAlias: false),
-          width: select ? 50 : 50,
-          height: select ? 50 : 50,
-          bgCode: AvatarColor.avatarColor(content: contact.user.userId),
-          radius: listConfig?.avatarCornerRadius,
-        ),
+            avatar: contact.user.avatar,
+            name: contact.getName(needAlias: false),
+            width: select ? 50 : 50,
+            height: select ? 50 : 50,
+            bgCode: AvatarColor.avatarColor(content: contact.user.userId),
+            radius: 15 //listConfig?.avatarCornerRadius ?? 15,
+            ),
         Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 12),
@@ -98,7 +98,7 @@ class ContactListViewState extends State<ContactListView> {
               margin: const EdgeInsets.only(right: 10),
               // 选择框
               child: CheckBoxButton(
-                size: 25,
+                size: 35,
                 isChecked: widget.selectedUser?.contains(contact) == true,
                 onChanged: (isChecked) {
                   if (isChecked &&

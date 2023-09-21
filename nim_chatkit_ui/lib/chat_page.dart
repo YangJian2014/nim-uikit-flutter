@@ -278,20 +278,43 @@ class ChatPageState extends BaseState<ChatPage> {
                 actions: [
                   IconButton(
                       onPressed: () {
-                        if (widget.sessionType == NIMSessionType.p2p) {
-                          ContactInfo? info =
-                              context.read<ChatViewModel>().contactInfo;
-                          if (info != null) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChatSettingPage(info)));
-                          }
-                        } else if (widget.sessionType == NIMSessionType.team) {
-                          Navigator.pushNamed(
-                              context, RouterConstants.PATH_TEAM_SETTING_PAGE,
-                              arguments: {'teamId': widget.sessionId});
+                        // if (widget.sessionType == NIMSessionType.p2p) {
+                        //   ContactInfo? info =
+                        //       context.read<ChatViewModel>().contactInfo;
+                        // } else if (widget.sessionType == NIMSessionType.team) {
+                        // if (widget.chatUIConfig?.messageClickListener
+                        //         ?.onVedioMessageClick !=
+                        //     null) {}
+                        // }
+
+                        var blockEvent = ChatKitClient.instance.chatUIConfig
+                            .messageClickListener?.onVoiceMessageClick;
+                        if (blockEvent != null) {
+                          blockEvent(context);
+                        }
+                      },
+                      icon: Image.asset(
+                        'images/app_chat_call.png',
+                        width: 25,
+                        height: 25,
+                        package: 'nim_chatkit_ui',
+                        // fit:BoxFit.cover,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        // if (widget.sessionType == NIMSessionType.p2p) {
+                        //   ContactInfo? info =
+                        //       context.read<ChatViewModel>().contactInfo;
+                        // } else if (widget.sessionType == NIMSessionType.team) {
+                        // if (widget.chatUIConfig?.messageClickListener
+                        //         ?.onVedioMessageClick !=
+                        //     null) {}
+                        // }
+
+                        var blockEvent = ChatKitClient.instance.chatUIConfig
+                            .messageClickListener?.onVedioMessageClick;
+                        if (blockEvent != null) {
+                          blockEvent(context);
                         }
                       },
                       icon: Image.asset(

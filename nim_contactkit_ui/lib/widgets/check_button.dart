@@ -25,19 +25,17 @@ class CheckBoxButton extends StatelessWidget {
         }
       },
       child: !isChecked
-          ? Container(
-              height: size,
+          ? SvgPicture.asset(
+              'images/ic_unagree.svg',
+              package: 'nim_contactkit_ui',
               width: size,
-              decoration: BoxDecoration(
-                border: Border.all(color: '#969AA0'.toColor()),
-                shape: BoxShape.circle,
-              ),
+              height: size,
             )
           : SvgPicture.asset(
               'images/ic_agree.svg',
               package: 'nim_contactkit_ui',
-              width: 25,
-              height: 25,
+              width: size,
+              height: size,
             ),
     ));
   }

@@ -50,6 +50,20 @@ class _TeamQRCodePageState extends State<TeamQRCodePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('群二维码'),
+        leading: IconButton(
+          icon: Image.asset(
+            'images/icon_titlebar_back.png',
+            width: 45,
+            height: 30,
+            package: 'nim_chatkit_ui',
+            // fit:BoxFit.cover,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: false,
+        elevation: 0,
       ),
       body: Center(
           child: Column(

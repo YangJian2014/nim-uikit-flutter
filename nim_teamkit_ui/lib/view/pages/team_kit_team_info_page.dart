@@ -68,8 +68,11 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
     //   return result;
     // });
     return Future(() async {
-      var response = await UtilsNetworkHelper.groupModify(
-          {"tid": widget.team.id ?? '',"tname": widget.team.name ?? '', "intro": introduce});
+      var response = await UtilsNetworkHelper.groupModify({
+        "tid": widget.team.id ?? '',
+        "tname": widget.team.name ?? '',
+        "intro": introduce
+      });
       var rspData = response?.data;
       var code = rspData['code'] ?? -1;
       if (code != 0) {
@@ -94,10 +97,22 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
   @override
   Widget build(BuildContext context) {
     return TransparentScaffold(
+      leading: IconButton(
+        icon: Image.asset(
+          'images/icon_titlebar_back.png',
+          width: 45,
+          height: 30,
+          package: 'nim_chatkit_ui',
+          // fit:BoxFit.cover,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       title: S.of(context).teamInfoTitle,
-      centerTitle: true,
+      centerTitle: false,
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
         child: CardBackground(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -110,7 +125,8 @@ class _TeamKitTeamInfoState extends State<TeamKitTeamInfoPage> {
                   }
 
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TeamKitAvatarEditorPage(team: widget.team,photoAvatar: avatar);
+                    return TeamKitAvatarEditorPage(
+                        team: widget.team, photoAvatar: avatar);
                   })).then((value) {
                     if (value?.isNotEmpty == true) {
                       setState(() {

@@ -66,7 +66,13 @@ class TeamKitMemberListPageState extends State<TeamKitMemberListPage> {
         return Scaffold(
           appBar: AppBar(
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_rounded),
+                icon: Image.asset(
+                  'images/icon_titlebar_back.png',
+                  width: 45,
+                  height: 30,
+                  package: 'nim_chatkit_ui',
+                  // fit:BoxFit.cover,
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -78,7 +84,7 @@ class TeamKitMemberListPageState extends State<TeamKitMemberListPage> {
                   .primaryIconTheme
                   .copyWith(color: Colors.grey),
               elevation: 0,
-              centerTitle: true),
+              centerTitle: false),
           body: Container(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
             color: Colors.white,
@@ -206,14 +212,14 @@ class TeamMemberListItemState extends State<TeamMemberListItem> {
             child: Row(
               children: [
                 Avatar(
-                  width: 42,
-                  height: 42,
+                  width: 50,
+                  height: 50,
                   avatar: widget.teamMember.getAvatar(),
                   name: widget.teamMember
                       .getName(needAlias: false, needTeamNick: false),
                   bgCode: AvatarColor.avatarColor(
                       content: widget.teamMember.teamInfo.account),
-                  radius: 4,
+                  radius: 15,
                 ),
                 const Padding(padding: EdgeInsets.symmetric(horizontal: 7)),
                 Expanded(

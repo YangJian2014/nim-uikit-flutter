@@ -46,7 +46,6 @@ class ChatUIConfig {
   ///对端文本消息字体颜色
   Color? receiveMessageTextColor;
 
-
   ///文本消息字体大小
   double? messageTextSize;
 
@@ -96,9 +95,9 @@ class ChatUIConfig {
       this.timeTextColor,
       this.timeTextSize,
       this.messageTextSize,
-        // this.messageTextColor,
-        this.selfMessageTextColor,
-        this.receiveMessageTextColor,
+      // this.messageTextColor,
+      this.selfMessageTextColor,
+      this.receiveMessageTextColor,
       this.userNickTextSize,
       this.userNickColor,
       this.avatarCornerRadius,
@@ -121,11 +120,17 @@ class MessageClickListener {
 
   bool Function(String? userID, {bool isSelf})? onTapAvatar;
 
+  void Function(BuildContext context)? onVedioMessageClick;
+
+  void Function(BuildContext context)? onVoiceMessageClick;
+
   MessageClickListener(
       {this.onMessageItemLongClick,
       this.onMessageItemClick,
       this.customPopActions,
-      this.onTapAvatar});
+      this.onTapAvatar,
+      this.onVedioMessageClick,
+      this.onVoiceMessageClick});
 }
 
 ///长按弹框开关配置

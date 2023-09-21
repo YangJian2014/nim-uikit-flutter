@@ -49,7 +49,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       borderRadius: BorderRadius.circular(24),
       borderSide: const BorderSide(
         ///设置边框的颜色
-        color: Colors.grey,
+        color: Color.fromARGB(255, 234, 232, 232),
 
         ///设置边框的粗细
         width: 1,
