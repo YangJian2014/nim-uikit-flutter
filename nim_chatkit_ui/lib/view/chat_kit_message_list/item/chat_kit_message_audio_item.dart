@@ -76,14 +76,14 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
         children: [
           Text(
             '${_getAudioLen(message)}s',
-            style: TextStyle(fontSize: 14, color: Colors.white),
+            style: TextStyle(fontSize: 14, color: Colors.black),
           ),
           SvgPicture.asset(
             isPlaying ? toAniList[aniIndex] : toAniList[2],
             package: kPackage,
             width: 28,
             height: 28,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ],
       );
