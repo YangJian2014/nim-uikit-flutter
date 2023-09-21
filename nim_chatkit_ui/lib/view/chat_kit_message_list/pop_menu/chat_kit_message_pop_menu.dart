@@ -23,6 +23,7 @@ class ChatKitMessagePopMenu {
   static const String multiSelectId = 'multiSelect';
   static const String deleteMessageId = 'deleteMessage';
   static const String revokeMessageId = 'revokeMessage';
+  static const String voiceMessageId = 'voiceMessage';
 
   SuperTooltip? _tooltip;
 
@@ -178,8 +179,15 @@ class ChatKitMessagePopMenu {
           "label": S.of(context).chatMessageActionRevoke,
           "id": revokeMessageId,
           "icon": "images/ic_chat_revoke.svg"
-        }
+        },
     ];
+    if (message.nimMessage.messageType == NIMMessageType.audio)
+      firstRowList.add({
+        "label": '转文字', //S.of(context).chatMessageActionCollect,
+        "id": voiceMessageId,
+        "icon": "images/ic_chat_collect.svg"
+      });
+
     return firstRowList
         .map(
           (item) => Material(
@@ -296,6 +304,11 @@ class ChatKitMessagePopMenu {
       case multiSelectId:
         if (popMenuAction?.onMessageMultiSelect != null) {
           popMenuAction?.onMessageMultiSelect!(message);
+        }
+        break;
+      case voiceMessageId:
+        if (popMenuAction?.onMessageToVoice != null) {
+          popMenuAction?.onMessageToVoice!(message);
         }
         break;
     }

@@ -26,6 +26,7 @@ import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/chat_kit_message_
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/chat_kit_message_notify_item.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/chat_kit_message_tips_item.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/chat_kit_message_video_item.dart';
+import 'package:nim_chatkit_ui/view/chat_kit_message_list/item/check_button.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/pop_menu/chat_kit_message_pop_menu.dart';
 import 'package:nim_chatkit_ui/view/chat_kit_message_list/pop_menu/chat_kit_pop_actions.dart';
 import 'package:nim_chatkit_ui/view/page/chat_message_ack_page.dart';
@@ -77,6 +78,8 @@ class ChatKitMessageItem extends StatefulWidget {
 
   final ChatUIConfig? chatUIConfig;
 
+  final bool? isSelected;
+
   ChatKitMessageItem(
       {Key? key,
       required this.chatMessage,
@@ -90,7 +93,8 @@ class ChatKitMessageItem extends StatefulWidget {
       this.teamInfo,
       this.chatUIConfig,
       this.onMessageItemClick,
-      this.onMessageItemLongClick})
+      this.onMessageItemLongClick,
+      this.isSelected})
       : super(key: key);
 
   @override
@@ -128,6 +132,60 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
 
   _log(String text) {
     Alog.d(tag: 'ChatKit', moduleName: 'MessageItem', content: text);
+  }
+
+  // 修改选中状态
+  _changeSelectStatus(NIMMessage? chatMessage, bool isSelected) async {
+    if (chatMessage == null) {
+      return;
+    }
+    if (chatMessage.messageAttachment == null) {
+      return;
+    }
+
+    try {
+      // 做一下保护，防止以后增加字段覆盖本地逻辑
+      if (chatMessage.localExtension == null) {
+        var localExtension = {'isSelected': isSelected};
+        chatMessage.localExtension = localExtension;
+      } else {
+        var localExtension = chatMessage.localExtension;
+        localExtension!['isSelected'] = isSelected;
+        chatMessage.localExtension = localExtension;
+      }
+
+      await NimCore.instance.messageService
+          .updateMessage(chatMessage)
+          .then((value) {
+        return value;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //  获取本地消息选中状态
+  bool _getMessageSelectStatus(NIMMessage? chatMessage) {
+    if (chatMessage == null) {
+      return false;
+    }
+    if (chatMessage.messageAttachment == null) {
+      return false;
+    }
+
+    try {
+      // 做一下保护，防止以后增加字段覆盖本地逻辑
+      if (chatMessage.localExtension == null) {
+        return false;
+      } else {
+        var localExtension = chatMessage.localExtension;
+        return localExtension?['isSelected'] ?? false;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
   }
 
   bool isSelf() {
@@ -616,6 +674,27 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                 ? MainAxisAlignment.end
                                 : MainAxisAlignment.start,
                             children: [
+                              if (widget.isSelected ?? false)
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 15, left: 5, top: 8),
+                                  child: Row(
+                                    children: [
+                                      CheckBoxButton(
+                                        isChecked: _getMessageSelectStatus(
+                                            widget.chatMessage.nimMessage),
+                                        size: 22,
+                                        onChanged: (bool status) {
+                                          _changeSelectStatus(
+                                              widget.chatMessage.nimMessage,
+                                              status);
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
                               //对方头像
                               if (!isSelf())
                                 InkWell(

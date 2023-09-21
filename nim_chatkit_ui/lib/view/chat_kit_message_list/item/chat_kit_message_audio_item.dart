@@ -205,12 +205,12 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
       havePermission = await _requestPermission() ?? true;
     }
     if (havePermission) {
-      _phoneStateSub = PhoneState.phoneStateStream.listen((event) {
-        if (event != null &&
-            ChatAudioPlayer.instance.isPlaying(widget.message.uuid!)) {
-          _stopAudioPlay();
-        }
-      });
+      // _phoneStateSub = PhoneState.phoneStateStream.listen((event) {
+      //   if (event != null &&
+      //       ChatAudioPlayer.instance.isPlaying(widget.message.uuid!)) {
+      //     _stopAudioPlay();
+      //   }
+      // });
     }
   }
 
@@ -249,25 +249,93 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
     _phoneStateSub?.cancel();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (isPlaying) {
-          _stopAudioPlay();
-        } else {
-          _startAudioPlay(widget.message);
-        }
-      },
-      child: SizedBox(
-        width: _getWidth(widget.message),
-        child: Container(
-          color: Color.fromRGBO(0, 0, 0, 0.0),
-          padding:
-              const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
-          child: _getAudioUI(widget.message),
+  bool _isSelf() {
+    return (widget.message.messageDirection == NIMMessageDirection.outgoing);
+  }
+
+  //  获取本地消息语音转换成文字
+  bool _getMessageToVoiceStatus(NIMMessage? chatMessage) {
+    if (chatMessage == null) {
+      return false;
+    }
+    if (chatMessage.messageAttachment == null) {
+      return false;
+    }
+
+    try {
+      // 做一下保护，防止以后增加字段覆盖本地逻辑
+      if (chatMessage.localExtension == null) {
+        return false;
+      } else {
+        var localExtension = chatMessage.localExtension;
+        return localExtension?['toVoice'] ?? false;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
+  }
+
+  Future<String?> _getVoiceText() async {
+    NIMResult<String> result = await NimCore.instance.messageService
+        .voiceToText(message: widget.message);
+    return result.data;
+  }
+
+  Widget _getTranstedView() {
+    return SizedBox(
+      width: 230, //_getWidth(widget.message),
+      child: Container(
+        color: Color.fromRGBO(0, 0, 0, 0.0),
+        padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+        child: Column(
+          children: [
+            _getAudioUI(widget.message),
+            Divider(
+              color: _isSelf() ? Colors.grey.shade100 : Colors.grey.shade400,
+            ),
+            FutureBuilder<String?>(
+              future: _getVoiceText(),
+              builder: (context, snapshot) {
+                return Text(snapshot.data == null ? '' : snapshot.data!,
+                    style: TextStyle(
+                        color: _isSelf() ? Colors.white : Colors.black));
+              },
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Widget _getSrcView() {
+    return SizedBox(
+      width: _getWidth(widget.message),
+      child: Container(
+        color: Color.fromRGBO(0, 0, 0, 0.0),
+        padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+        child: Column(
+          children: [
+            _getAudioUI(widget.message),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          if (isPlaying) {
+            _stopAudioPlay();
+          } else {
+            _startAudioPlay(widget.message);
+          }
+        },
+        child: _getMessageToVoiceStatus(widget.message)
+            ? _getTranstedView()
+            : _getSrcView());
   }
 }
