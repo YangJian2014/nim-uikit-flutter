@@ -298,9 +298,19 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
             FutureBuilder<String?>(
               future: _getVoiceText(),
               builder: (context, snapshot) {
-                return Text(snapshot.data == null ? '' : snapshot.data!,
-                    style: TextStyle(
-                        color: _isSelf() ? Colors.white : Colors.black));
+                return snapshot.data == null
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          backgroundColor: Colors.grey[200],
+                          valueColor: AlwaysStoppedAnimation(Colors.grey),
+                        ),
+                      )
+                    : Text(snapshot.data == null ? '' : snapshot.data!,
+                        style: TextStyle(
+                            color: _isSelf() ? Colors.white : Colors.black));
               },
             ),
           ],
