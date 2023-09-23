@@ -343,7 +343,7 @@ class _SystemNotifyPageState
             style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
           ),
           centerTitle: false,
-          elevation: 0.5,
+          elevation: 0.0,
           shadowColor: '#F5F8FC'.toColor(),
           actions: [
             InkWell(

@@ -99,7 +99,9 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                 Avatar(
                   avatar: team.icon,
                   name: team.name,
-                  radius: 4,
+                  radius: 10,
+                  width: 40,
+                  height: 40,
                 ),
                 const SizedBox(
                   width: 11,
@@ -264,9 +266,9 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                   avatar: info?.getAvatar(),
                                   name: info?.getName(
                                       needAlias: false, needTeamNick: false),
-                                  height: 32,
-                                  width: 32,
-                                  radius: 4,
+                                  height: 40,
+                                  width: 40,
+                                  radius: 10,
                                 ),
                               ),
                             )

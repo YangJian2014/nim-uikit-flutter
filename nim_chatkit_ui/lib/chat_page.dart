@@ -253,7 +253,7 @@ class ChatPageState extends BaseState<ChatPage> {
                     name: nickName,
                     // nameColor: widget.chatUIConfig?.userNickColor,
                     // fontSize: widget.chatUIConfig?.userNickTextSize,
-                    radius: 5,
+                    radius: 10,
                     bgCode: AvatarColor.avatarColor(content: nickName ?? ''),
                   ),
                   const SizedBox(

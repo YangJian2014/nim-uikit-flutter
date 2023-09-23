@@ -44,8 +44,8 @@ class _TeamListPageState extends State<ContactKitTeamListPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Avatar(
-                    width: 36,
-                    height: 36,
+                    width: 50,
+                    height: 50,
                     avatar: team.icon,
                     name: team.name,
                     bgCode: AvatarColor.avatarColor(content: team.id),

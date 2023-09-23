@@ -95,6 +95,31 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
     }
   }
 
+  List<Widget> _getSelectedItems() {
+    List<Widget> views = [];
+    for (var userInfo in selectedUser) {
+      views.add(InkWell(
+        onTap: () {
+          _removeSelectedUser(userInfo);
+        },
+        child: Chip(
+          backgroundColor: const Color.fromARGB(255, 255, 246, 219),
+          avatar: Avatar(
+            radius: 15,
+            height: 50,
+            width: 50,
+            avatar: userInfo.user.avatar,
+            name: userInfo.getName(),
+            bgCode: AvatarColor.avatarColor(content: userInfo.user.userId!),
+          ),
+          label: Text(userInfo.getName()),
+        ),
+      ));
+    }
+
+    return views;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,34 +181,42 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           selectedUser.isNotEmpty
-              ? Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: selectedUser.length,
-                      padding: EdgeInsets.only(left: 20),
-                      itemBuilder: (contact, index) {
-                        ContactInfo member = selectedUser[index];
-                        return InkWell(
-                          onTap: () {
-                            _removeSelectedUser(member);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                top: 7, bottom: 9, left: 6, right: 5),
-                            child: Avatar(
-                              height: 42,
-                              width: 42,
-                              avatar: member.user.avatar,
-                              name: member.getName(),
-                              bgCode: AvatarColor.avatarColor(
-                                  content: member.user.userId!),
-                              radius: 4,
-                            ),
-                          ),
-                        );
-                      }),
+              ? Wrap(
+                  spacing: 8.0, // 主轴(水平)方向间距
+                  runSpacing: 4.0, // 纵轴（垂直）方向间距
+                  alignment: WrapAlignment.start, //沿主轴方向居中
+                  children: [
+                    ..._getSelectedItems(),
+                  ],
                 )
+              // Expanded(
+              //     flex: 1,
+              //     child: ListView.builder(
+              //         scrollDirection: Axis.horizontal,
+              //         itemCount: selectedUser.length,
+              //         padding: EdgeInsets.only(left: 20),
+              //         itemBuilder: (contact, index) {
+              //           ContactInfo member = selectedUser[index];
+              //           return InkWell(
+              //             onTap: () {
+              //               _removeSelectedUser(member);
+              //             },
+              //             child: Container(
+              //               padding: EdgeInsets.only(
+              //                   top: 7, bottom: 9, left: 6, right: 5),
+              //               child: Avatar(
+              //                 height: 42,
+              //                 width: 42,
+              //                 avatar: member.user.avatar,
+              //                 name: member.getName(),
+              //                 bgCode: AvatarColor.avatarColor(
+              //                     content: member.user.userId!),
+              //                 radius: 4,
+              //               ),
+              //             ),
+              //           );
+              //         }),
+              //   )
               : const SizedBox(
                   height: 50,
                 ),
