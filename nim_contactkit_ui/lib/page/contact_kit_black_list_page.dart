@@ -13,6 +13,7 @@ import 'package:netease_corekit_im/services/contact/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
+import 'package:utils/utils.dart';
 
 import '../l10n/S.dart';
 
@@ -104,6 +105,10 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: CommonScaffoldHelper.getGradientBackground()),
+            ),
             // leading: IconButton(
             //   icon: const Icon(Icons.arrow_back_ios_rounded),
             //   onPressed: () {
@@ -126,7 +131,7 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
               S.of(context).contactBlackList,
               style: TextStyle(
                   fontSize: 16,
-                  color: '#333333'.toColor(),
+                  color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
             centerTitle: false,
@@ -147,8 +152,8 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
                   },
                   icon: Icon(
                     Icons.add,
-                    size: 26,
-                    color: '#333333'.toColor(),
+                    size: 30,
+                    color: Colors.black,
                   ))
             ],
           ),

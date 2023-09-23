@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:nim_contactkit_ui/page/viewmodel/team_list_viewmodel.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
+import 'package:utils/utils.dart';
 
 import '../contact_kit_client.dart';
 import '../l10n/S.dart';
@@ -87,6 +88,10 @@ class _TeamListPageState extends State<ContactKitTeamListPage> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: CommonScaffoldHelper.getGradientBackground()),
+            ),
             // leading: IconButton(
             //   icon: const Icon(Icons.arrow_back_ios_rounded),
             //   onPressed: () {
@@ -109,7 +114,7 @@ class _TeamListPageState extends State<ContactKitTeamListPage> {
               S.of(context).contactTeam,
               style: TextStyle(
                   fontSize: 16,
-                  color: '#333333'.toColor(),
+                  color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
             centerTitle: false,

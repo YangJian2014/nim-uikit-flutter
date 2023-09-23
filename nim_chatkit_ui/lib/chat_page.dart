@@ -191,7 +191,7 @@ class ChatPageState extends BaseState<ChatPage> {
     }
 
     String tempString = '$address';
-    if (address.length > 15) {
+    if (address.length > 20) {
       String s = tempString.substring(0, 6);
       String e = tempString.substring(tempString.length - 7);
       return '$s...$e';
@@ -259,13 +259,18 @@ class ChatPageState extends BaseState<ChatPage> {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    _subHintText(title),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  Expanded(
+                    child: Text(
+                      _subHintText(title),
+                      overflow: TextOverflow.clip,
+                      softWrap: true,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
                 ]),
                 // title: Text(
                 //   title,
@@ -276,54 +281,61 @@ class ChatPageState extends BaseState<ChatPage> {
                 // ),
                 // elevation: 0.5,
                 actions: [
-                  IconButton(
-                      onPressed: () {
-                        // if (widget.sessionType == NIMSessionType.p2p) {
-                        //   ContactInfo? info =
-                        //       context.read<ChatViewModel>().contactInfo;
-                        // } else if (widget.sessionType == NIMSessionType.team) {
-                        // if (widget.chatUIConfig?.messageClickListener
-                        //         ?.onVedioMessageClick !=
-                        //     null) {}
-                        // }
+                  SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: IconButton(
+                          onPressed: () {
+                            // if (widget.sessionType == NIMSessionType.p2p) {
+                            //   ContactInfo? info =
+                            //       context.read<ChatViewModel>().contactInfo;
+                            // } else if (widget.sessionType == NIMSessionType.team) {
+                            // if (widget.chatUIConfig?.messageClickListener
+                            //         ?.onVedioMessageClick !=
+                            //     null) {}
+                            // }
 
-                        var blockEvent = ChatKitClient.instance.chatUIConfig
-                            .messageClickListener?.onVoiceMessageClick;
-                        if (blockEvent != null) {
-                          blockEvent(context);
-                        }
-                      },
-                      icon: Image.asset(
-                        'images/app_chat_call.png',
-                        width: 25,
-                        height: 25,
-                        package: 'nim_chatkit_ui',
-                        // fit:BoxFit.cover,
-                      )),
-                  IconButton(
-                      onPressed: () {
-                        // if (widget.sessionType == NIMSessionType.p2p) {
-                        //   ContactInfo? info =
-                        //       context.read<ChatViewModel>().contactInfo;
-                        // } else if (widget.sessionType == NIMSessionType.team) {
-                        // if (widget.chatUIConfig?.messageClickListener
-                        //         ?.onVedioMessageClick !=
-                        //     null) {}
-                        // }
+                            var blockEvent = ChatKitClient.instance.chatUIConfig
+                                .messageClickListener?.onVoiceMessageClick;
+                            if (blockEvent != null) {
+                              blockEvent(context);
+                            }
+                          },
+                          icon: Image.asset(
+                            'images/app_chat_call.png',
+                            width: 25,
+                            height: 25,
+                            package: 'nim_chatkit_ui',
+                            // fit:BoxFit.cover,
+                          ))),
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: IconButton(
+                        onPressed: () {
+                          // if (widget.sessionType == NIMSessionType.p2p) {
+                          //   ContactInfo? info =
+                          //       context.read<ChatViewModel>().contactInfo;
+                          // } else if (widget.sessionType == NIMSessionType.team) {
+                          // if (widget.chatUIConfig?.messageClickListener
+                          //         ?.onVedioMessageClick !=
+                          //     null) {}
+                          // }
 
-                        var blockEvent = ChatKitClient.instance.chatUIConfig
-                            .messageClickListener?.onVedioMessageClick;
-                        if (blockEvent != null) {
-                          blockEvent(context);
-                        }
-                      },
-                      icon: Image.asset(
-                        'images/app_chat_video.png',
-                        width: 25,
-                        height: 25,
-                        package: 'nim_chatkit_ui',
-                        // fit:BoxFit.cover,
-                      )),
+                          var blockEvent = ChatKitClient.instance.chatUIConfig
+                              .messageClickListener?.onVedioMessageClick;
+                          if (blockEvent != null) {
+                            blockEvent(context);
+                          }
+                        },
+                        icon: Image.asset(
+                          'images/app_chat_video.png',
+                          width: 25,
+                          height: 25,
+                          package: 'nim_chatkit_ui',
+                          // fit:BoxFit.cover,
+                        )),
+                  ),
                   IconButton(
                       onPressed: () {
                         if (widget.sessionType == NIMSessionType.p2p) {

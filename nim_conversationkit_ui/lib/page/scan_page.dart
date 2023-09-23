@@ -96,14 +96,19 @@ class _ScanPageState extends State<ScanPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(S.of(context).group_scan),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
+        ),
+        title: Text(S.of(context).group_scan,
+            style: TextStyle(color: Colors.black)),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 15),
             child: InkWell(
               child: const Icon(
                 Icons.image_outlined,
-                size: 30,
+                size: 35,
               ),
               onTap: () {
                 _pickImage();

@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:utils/utils.dart';
 
 import '../contact_kit_client.dart';
 import '../l10n/S.dart';
@@ -288,6 +289,10 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
+        ),
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back_ios_rounded),
         //   onPressed: () {

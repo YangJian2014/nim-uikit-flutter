@@ -14,6 +14,7 @@ import 'package:nim_contactkit_ui/page/viewmodel/system_notify_viewmodel.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:utils/utils.dart';
 
 import '../l10n/S.dart';
 
@@ -320,6 +321,10 @@ class _SystemNotifyPageState
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: CommonScaffoldHelper.getGradientBackground()),
+          ),
           leading: IconButton(
             icon: Image.asset(
               'images/icon_titlebar_back.png',
@@ -340,7 +345,7 @@ class _SystemNotifyPageState
           // ),
           title: Text(
             S.of(context).contactVerifyMessage,
-            style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
+            style: TextStyle(fontSize: 16, color: Colors.black),
           ),
           centerTitle: false,
           elevation: 0.0,
@@ -355,7 +360,7 @@ class _SystemNotifyPageState
                 alignment: Alignment.center,
                 child: Text(
                   S.of(context).contactClean,
-                  style: TextStyle(fontSize: 14, color: '#666666'.toColor()),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
             )

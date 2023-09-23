@@ -345,7 +345,7 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
           }
         },
         child: _getMessageToVoiceStatus(widget.message)
-            ? _getTranstedView()
+            ? _getSrcView() //_getTranstedView()
             : _getSrcView());
   }
 }

@@ -116,12 +116,6 @@ class ConversationItem extends StatelessWidget {
     }
     return Column(
       children: [
-        Divider(
-          height: 1,
-          indent: 15,
-          endIndent: 15,
-          color: Color.fromARGB(255, 221, 212, 212),
-        ),
         Container(
           height: 72,
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -213,6 +207,12 @@ class ConversationItem extends StatelessWidget {
                 ),
             ],
           ),
+        ),
+        Divider(
+          height: 1,
+          indent: 15,
+          endIndent: 15,
+          color: Color.fromARGB(255, 221, 212, 212),
         ),
       ],
     );

@@ -89,6 +89,10 @@ class _AddFriendPageState extends State<AddFriendPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
+        ),
         // leading: IconButton(
         //   icon: const Icon(
         //     Icons.arrow_back_ios_rounded,
@@ -112,7 +116,8 @@ class _AddFriendPageState extends State<AddFriendPage> {
           },
         ),
         centerTitle: false,
-        title: Text(S.of(context).addFriend),
+        title: Text(S.of(context).addFriend,
+            style: TextStyle(color: Colors.black)),
       ),
       body: Stack(
         fit: StackFit.expand,

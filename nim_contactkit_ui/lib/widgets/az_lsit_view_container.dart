@@ -62,7 +62,8 @@ class _AZListViewContainerState extends State<AZListViewContainer> {
           ),
           Container(
             height: 1,
-            color: widget.divideLineColor ?? CommonColors.color_dbe0e8,
+            color: widget.divideLineColor ??
+                const Color.fromARGB(255, 233, 235, 237),
           )
         ],
       ),

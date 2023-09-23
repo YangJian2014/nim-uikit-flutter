@@ -17,6 +17,7 @@ import 'package:netease_corekit_im/services/message/message_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nim_core/nim_core.dart';
+import 'package:utils/utils.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
 import 'chat_kit_client.dart';
@@ -201,19 +202,30 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return TransparentScaffold(
-      title: S.of(context).chatSetting,
-      leading: IconButton(
-        icon: Image.asset(
-          'images/icon_titlebar_back.png',
-          width: 45,
-          height: 30,
-          package: 'nim_chatkit_ui',
-          // fit:BoxFit.cover,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
         ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        centerTitle: false,
+        title: Text(
+          S.of(context).chatSetting,
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          icon: Image.asset(
+            'images/icon_titlebar_back.png',
+            width: 45,
+            height: 30,
+            package: 'nim_chatkit_ui',
+            // fit:BoxFit.cover,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),

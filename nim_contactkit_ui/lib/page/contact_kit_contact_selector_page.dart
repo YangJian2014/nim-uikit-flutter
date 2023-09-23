@@ -14,6 +14,7 @@ import 'package:nim_contactkit/repo/contact_repo.dart';
 import 'package:nim_contactkit_ui/widgets/contact_kit_contact_list_view.dart';
 import 'package:netease_corekit_im/model/contact_info.dart';
 import 'package:flutter/material.dart';
+import 'package:utils/utils.dart';
 
 import '../contact_kit_client.dart';
 import '../l10n/S.dart';
@@ -125,6 +126,10 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: CommonScaffoldHelper.getGradientBackground()),
+        ),
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back_ios_rounded),
         //   onPressed: () {
@@ -145,7 +150,7 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
         ),
         title: Text(
           S.of(context).contactUserSelector,
-          style: TextStyle(fontSize: 16, color: '#333333'.toColor()),
+          style: TextStyle(fontSize: 16, color: Colors.black),
         ),
         centerTitle: false,
         elevation: 0,
@@ -171,7 +176,7 @@ class _ContactSelectorState extends State<ContactKitSelectorPage> {
               padding: EdgeInsets.only(right: 20),
               child: Text(
                 S.of(context).contactSureWithCount('${selectedUser.length}'),
-                style: TextStyle(fontSize: 16, color: '#337EFF'.toColor()),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
           )
