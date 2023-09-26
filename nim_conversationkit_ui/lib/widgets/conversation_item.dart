@@ -135,6 +135,7 @@ class ConversationItem extends StatelessWidget {
                     name: avatarName,
                     height: 50,
                     width: 50,
+                    bgCode: AvatarColor.avatarColor(content: avatarName),
                     radius: config.avatarCornerRadius,
                   ),
                   onTap: () {

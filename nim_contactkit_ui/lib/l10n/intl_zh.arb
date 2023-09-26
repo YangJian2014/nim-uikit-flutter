@@ -150,5 +150,6 @@
     }
   },
   "contactSelectEmptyTip": "请选择联系人",
-  "contactFriendEmpty": "暂无好友"
+  "contactFriendEmpty": "暂无好友",
+  "myFriend": "好友"
 }

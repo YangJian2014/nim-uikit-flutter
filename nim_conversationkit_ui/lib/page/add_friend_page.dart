@@ -140,6 +140,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
                 prefixIcon: Icon(
                   Icons.search_rounded,
                   color: CommonColors.color_a8adb6,
+                  size: 30,
                 ),
                 suffixIcon: IconButton(
                   icon: SvgPicture.asset(

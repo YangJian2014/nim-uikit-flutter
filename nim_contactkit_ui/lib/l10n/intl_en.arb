@@ -150,5 +150,6 @@
     }
   },
   "contactSelectEmptyTip": "No Member",
-  "contactFriendEmpty": "No Friend"
+  "contactFriendEmpty": "No Friend",
+  "myFriend": "Friend"
 }

@@ -49,7 +49,7 @@ class _TeamListPageState extends State<ContactKitTeamListPage> {
                     height: 50,
                     avatar: team.icon,
                     name: team.name,
-                    bgCode: AvatarColor.avatarColor(content: team.id),
+                    bgCode: AvatarColor.avatarColor(content: team.name),
                     radius: widget.listConfig?.avatarCornerRadius,
                   ),
                   Expanded(

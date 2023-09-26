@@ -55,11 +55,20 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         width: 1,
       ));
 
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _titleBarConfig = uiConfig.titleBarConfig;
     keyword = "";
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -265,8 +274,23 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   constraints:
                       const BoxConstraints(maxWidth: 285, maxHeight: 36.5),
                   child: TextField(
+                    controller: _searchController,
                     style: const TextStyle(color: kSearchEditTextColor),
                     decoration: InputDecoration(
+                        suffixIcon: _searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(
+                                  Icons.clear,
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  // 清除文本
+                                  keyword = '';
+                                  _searchController.text = '';
+                                  setState(() {});
+                                },
+                              )
+                            : null,
                         // contentPadding: const EdgeInsets.symmetric(vertical: 8),
                         /**
                        * 功能5 实现方式1 设置TextField输入框垂直居中

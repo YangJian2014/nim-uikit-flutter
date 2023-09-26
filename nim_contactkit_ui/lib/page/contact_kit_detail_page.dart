@@ -312,7 +312,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
           },
         ),
         centerTitle: false,
-        title: Text('Friend'),
+        title: Text(S.of(context).myFriend),
         elevation: 0,
       ),
       body: FutureBuilder<ContactInfo?>(

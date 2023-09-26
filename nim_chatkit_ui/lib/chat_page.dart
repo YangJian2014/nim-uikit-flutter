@@ -221,7 +221,24 @@ class ChatPageState extends BaseState<ChatPage> {
           if (viewModel.teamInfo != null) {
             nickName = viewModel.teamInfo?.name;
             avatar = viewModel.teamInfo?.icon;
+          } else {
+            nickName = viewModel.contactInfo?.user.nick;
+            avatar = viewModel.contactInfo?.user.avatar;
           }
+// viewModel.c
+          //       String? avatar;
+          // String? name;
+          // String? avatarName;
+          // if (conversationInfo.session.sessionType == NIMSessionType.p2p) {
+          //   avatar = conversationInfo.getAvatar();
+          //   name = conversationInfo.getName();
+          //   avatarName = conversationInfo.getName(needAlias: false);
+          // } else if (conversationInfo.session.sessionType == NIMSessionType.team ||
+          //     conversationInfo.session.sessionType == NIMSessionType.superTeam) {
+          //   avatar = conversationInfo.team?.icon;
+          //   name = conversationInfo.team?.name;
+          //   avatarName = name;
+          // }
 
           return Scaffold(
               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -254,7 +271,7 @@ class ChatPageState extends BaseState<ChatPage> {
                     // nameColor: widget.chatUIConfig?.userNickColor,
                     // fontSize: widget.chatUIConfig?.userNickTextSize,
                     radius: 10,
-                    bgCode: AvatarColor.avatarColor(content: nickName ?? ''),
+                    bgCode: AvatarColor.avatarColor(content: nickName),
                   ),
                   const SizedBox(
                     width: 5,

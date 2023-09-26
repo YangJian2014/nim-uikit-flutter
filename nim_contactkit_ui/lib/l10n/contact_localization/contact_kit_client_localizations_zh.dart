@@ -2,8 +2,6 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
-
-
 import 'contact_kit_client_localizations.dart';
 
 /// The translations for Chinese (`zh`).
@@ -71,7 +69,8 @@ class ContactKitClientLocalizationsZh extends ContactKitClientLocalizations {
   String get contactAddFriend => '添加好友';
 
   @override
-  String get contactYouWillNeverReceiveAnyMessageFromThosePerson => '你不会收到列表中任何联系人的消息';
+  String get contactYouWillNeverReceiveAnyMessageFromThosePerson =>
+      '你不会收到列表中任何联系人的消息';
 
   @override
   String get contactRelease => '解除';
@@ -178,4 +177,7 @@ class ContactKitClientLocalizationsZh extends ContactKitClientLocalizations {
 
   @override
   String get contactFriendEmpty => '暂无好友';
+
+  @override
+  String get myFriend => '我的好友';
 }
