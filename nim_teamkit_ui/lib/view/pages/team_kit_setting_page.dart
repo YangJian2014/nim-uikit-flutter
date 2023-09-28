@@ -125,7 +125,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
         ),
         const Divider(
           height: 1,
-          color: CommonColors.color_f5f8fc,
+          color: CommonColors.color_dee0e2,
         ),
         InkWell(
           onTap: () {
@@ -191,7 +191,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
           ),
         const Divider(
           height: 1,
-          color: CommonColors.color_f5f8fc,
+          color: CommonColors.color_dee0e2,
         ),
         InkWell(
           onTap: () {
@@ -225,11 +225,10 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
         ),
         const Divider(
           height: 1,
-          color: CommonColors.color_f5f8fc,
+          color: CommonColors.color_dee0e2,
         ),
         Container(
-          padding:
-              const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
+          padding: const EdgeInsets.only(left: 0, right: 5, bottom: 0, top: 0),
           height: 32 + 16,
           child: Stack(
             children: [
@@ -241,8 +240,8 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                       return Container(
                         padding: const EdgeInsets.only(right: 12),
                         child: SizedBox(
-                          width: 32,
-                          height: 32,
+                          width: 40,
+                          height: 40,
                         ),
                       );
                     } else {
@@ -251,7 +250,8 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                       var userInfo = info?.userInfo;
                       return userInfo != null
                           ? Padding(
-                              padding: const EdgeInsets.only(right: 12),
+                              padding:
+                                  const EdgeInsets.only(right: 12, top: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   if (userInfo.userId ==
@@ -277,7 +277,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                   }),
               if (hasPrivilegeToInvite)
                 Container(
-                  padding: const EdgeInsets.only(right: 12, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(right: 0, top: 15, bottom: 5),
                   decoration: BoxDecoration(color: '#FFFFFF'.toColor()),
                   child: GestureDetector(
                     onTap: () {
@@ -300,8 +300,8 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                     child: SvgPicture.asset(
                       'images/ic_member_add.svg',
                       package: kPackage,
-                      height: 32,
-                      width: 32,
+                      height: 40,
+                      width: 40,
                     ),
                   ),
                 ),

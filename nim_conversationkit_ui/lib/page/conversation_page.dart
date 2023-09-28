@@ -282,6 +282,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                                 icon: Icon(
                                   Icons.clear,
                                   size: 20,
+                                  color: Colors.white,
                                 ),
                                 onPressed: () {
                                   // 清除文本

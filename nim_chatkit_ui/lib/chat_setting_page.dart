@@ -40,7 +40,7 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
 
   Widget _member() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,9 +50,9 @@ class _ChatSettingPageState extends State<ChatSettingPage> {
                 avatar: widget.contactInfo.user.avatar,
                 name: widget.contactInfo.getName(),
                 fontSize: 16,
-                height: 42,
-                width: 42,
-                radius: 4,
+                height: 45,
+                width: 45,
+                radius: 10,
               ),
               const SizedBox(
                 height: 6,

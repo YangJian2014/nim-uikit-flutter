@@ -34,14 +34,14 @@ class _BlackListPageState extends State<ContactKitBlackListPage> {
         builder: (context, snapshot) {
           var contact = snapshot.data;
           return Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Avatar(
-                  width: 36,
-                  height: 36,
+                  width: 45,
+                  height: 45,
                   avatar: user.avatar,
                   name: contact?.getName(needAlias: false) ?? user.userId,
                   bgCode: AvatarColor.avatarColor(content: user.userId),

@@ -106,8 +106,8 @@ class _SystemNotifyPageState
         avatarColorContent = message.fromAccount;
       }
       return Avatar(
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         avatar: avatar,
         name: name,
         bgCode: AvatarColor.avatarColor(content: avatarColorContent),
@@ -116,7 +116,7 @@ class _SystemNotifyPageState
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
       decoration: unread ? BoxDecoration(color: '#ededef'.toColor()) : null,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
