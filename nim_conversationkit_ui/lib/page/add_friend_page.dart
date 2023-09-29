@@ -49,7 +49,9 @@ class _AddFriendPageState extends State<AddFriendPage> {
     if (currentData == null) {
       return null;
     }
-
+    if (currentData.isEmpty) {
+      return null;
+    }
     var accid = currentData[0]['accid'];
     if (accid == null) {
       return null;
@@ -127,14 +129,34 @@ class _AddFriendPageState extends State<AddFriendPage> {
             child: TextField(
               controller: inputController,
               decoration: InputDecoration(
+                labelText: S.of(context).addFriendSearchHint,
+                labelStyle: TextStyle(color: Colors.grey),
                 contentPadding: const EdgeInsets.symmetric(vertical: 8),
                 fillColor: Color(0xfff2f4f5),
                 filled: true,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide.none),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 174, 173, 173), width: 1)),
+
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 174, 173, 173), width: 1)),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 174, 173, 173), width: 1)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 174, 173, 173), width: 1)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 174, 173, 173), width: 1)),
                 isDense: true,
-                hintText: S.of(context).addFriendSearchHint,
+                // hintText: S.of(context).addFriendSearchHint,
                 hintStyle: const TextStyle(
                     color: CommonColors.color_a8adb6, fontSize: 14),
                 prefixIcon: Icon(

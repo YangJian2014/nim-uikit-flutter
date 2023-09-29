@@ -104,7 +104,7 @@ class _MainAppState extends State<MainApp> {
                 elevation: 1,
                 iconTheme: IconThemeData(color: CommonColors.color_333333),
                 titleTextStyle:
-                TextStyle(fontSize: 16, color: CommonColors.color_333333),
+                    TextStyle(fontSize: 16, color: CommonColors.color_333333),
                 systemOverlayStyle: SystemUiOverlayStyle.dark),
           ),
           routes: IMKitRouter.instance.routes,
