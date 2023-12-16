@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:amap_flutter_location/amap_flutter_location.dart';
 import 'package:netease_common_ui/base/base_state.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:utils/utils.dart';
 
 import 'chat_kit_client.dart';
@@ -200,6 +202,31 @@ class ChatPageState extends BaseState<ChatPage> {
     return address;
   }
 
+//是否展示特殊标签
+  bool _showCustomIcon(NIMUser? user) {
+    if (widget.sessionType != NIMSessionType.p2p) {
+      return false;
+    }
+
+    var userExtString = user?.ext;
+    userExtString = '{"title":"客服1", "showIcon":true}';
+    if (userExtString == null || userExtString.isEmpty) {
+      return false;
+    }
+
+    try {
+      Map<String, dynamic> userMap = jsonDecode(userExtString);
+      var user = ConversationUser.fromJson(userMap);
+      if (user.showIcon) {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -276,18 +303,32 @@ class ChatPageState extends BaseState<ChatPage> {
                   const SizedBox(
                     width: 5,
                   ),
-                  Expanded(
-                    child: Text(
-                      _subHintText(title),
-                      overflow: TextOverflow.clip,
-                      softWrap: true,
-                      maxLines: 2,
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  _showCustomIcon(viewModel.contactInfo?.user)
+                      ? Expanded(
+                          child: Shimmer.fromColors(
+                          baseColor: Colors.red,
+                          highlightColor: Colors.yellow,
+                          child: Text(
+                            _subHintText(title),
+                            overflow: TextOverflow.clip,
+                            softWrap: true,
+                            maxLines: 2,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ))
+                      : Text(
+                          _subHintText(title),
+                          overflow: TextOverflow.clip,
+                          softWrap: true,
+                          maxLines: 2,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )
                 ]),
                 // title: Text(
                 //   title,
