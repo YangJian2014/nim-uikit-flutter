@@ -180,8 +180,8 @@ class ConversationItem extends StatelessWidget {
               ),
               if (!conversationInfo.mute)
                 Positioned(
-                    top: 7,
-                    left: 27,
+                    top: 5,
+                    left: 35,
                     child: UnreadMessage(
                       count: conversationInfo.session.unreadCount ?? 0,
                     )),
