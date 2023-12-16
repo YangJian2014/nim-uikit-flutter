@@ -13,6 +13,7 @@ import 'package:nim_conversationkit/model/conversation_info.dart';
 import 'package:nim_conversationkit_ui/conversation_kit_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nim_conversationkit_ui/widgets/conversation_user.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:nim_conversationkit_ui/l10n/S.dart';
 
@@ -99,6 +100,31 @@ class ConversationItem extends StatelessWidget {
     return content;
   }
 
+  //是否展示特殊标签
+  bool _showCustomIcon() {
+    if (conversationInfo.session.sessionType != NIMSessionType.p2p) {
+      return false;
+    }
+
+    var userExtString = conversationInfo.user?.ext;
+    // userExtString = '{"title":"客服1", "showIcon":true}';
+    if (userExtString == null || userExtString.isEmpty) {
+      return false;
+    }
+
+    try {
+      Map<String, dynamic> userMap = jsonDecode(userExtString);
+      var user = ConversationUser.fromJson(userMap);
+      if (user.showIcon) {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     String? avatar;
@@ -167,16 +193,42 @@ class ConversationItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 70),
-                      child: Text(
-                        name ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: config.itemTitleSize,
-                            color: config.itemTitleColor),
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(right: 70),
+                        child: Row(
+                          children: [
+                            Text(
+                              name ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: config.itemTitleSize,
+                                  color: config.itemTitleColor),
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            if (_showCustomIcon())
+                              Container(
+                                  height: 16,
+                                  width: 28,
+                                  // padding: const EdgeInsets.only(bottom: 3),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(
+                                        width: 0.5,
+                                        style: BorderStyle.solid,
+                                        color: Colors.green.shade200),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '客服',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.green.shade500),
+                                    ),
+                                  ))
+                          ],
+                        )),
                     Text(
                       _getLastContent(context),
                       overflow: TextOverflow.ellipsis,
