@@ -283,7 +283,7 @@ class ChatPageState extends BaseState<ChatPage> {
                       softWrap: true,
                       maxLines: 2,
                       style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
