@@ -209,7 +209,7 @@ class ChatPageState extends BaseState<ChatPage> {
     }
 
     var userExtString = user?.ext;
-    userExtString = '{"title":"客服1", "showIcon":true}';
+    // userExtString = '{"title":"客服1", "showIcon":true}';
     if (userExtString == null || userExtString.isEmpty) {
       return false;
     }

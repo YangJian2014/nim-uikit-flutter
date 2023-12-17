@@ -107,9 +107,9 @@ class ConversationItem extends StatelessWidget {
       return false;
     }
 
-    if (conversationInfo.session.sessionId == '256478908059227679') {
-      return true;
-    }
+    // if (conversationInfo.session.sessionId == '256478908059227679') {
+    //   return true;
+    // }
 
     var userExtString = conversationInfo.user?.ext;
     // userExtString = '{"title":"客服1", "showIcon":true}';
