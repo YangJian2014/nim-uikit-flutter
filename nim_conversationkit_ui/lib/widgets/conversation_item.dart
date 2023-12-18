@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:netease_common_ui/extension.dart';
 import 'package:netease_common_ui/ui/avatar.dart';
+import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:netease_common_ui/widgets/unread_message.dart';
 import 'package:netease_corekit_im/service_locator.dart';
 import 'package:netease_corekit_im/services/login/login_service.dart';
@@ -102,32 +103,91 @@ class ConversationItem extends StatelessWidget {
   }
 
   //是否展示特殊标签
-  bool _showCustomIcon() {
+  ConversationUser? _showCustomIcon() {
     if (conversationInfo.session.sessionType != NIMSessionType.p2p) {
-      return false;
+      return null;
     }
-
-    // if (conversationInfo.session.sessionId == '256478908059227679') {
-    //   return true;
-    // }
 
     var userExtString = conversationInfo.user?.ext;
     // userExtString = '{"title":"客服1", "showIcon":true}';
     if (userExtString == null || userExtString.isEmpty) {
-      return false;
+      return null;
     }
 
     try {
       Map<String, dynamic> userMap = jsonDecode(userExtString);
       var user = ConversationUser.fromJson(userMap);
-      if (user.showIcon) {
-        return true;
-      }
+      return user;
     } catch (e) {
-      return false;
+      return null;
+    }
+  }
+
+  List<Widget> _customIconView(String? name, BuildContext context) {
+    var userInfo = _showCustomIcon();
+    List<Widget> list = List.empty(growable: true);
+    if (userInfo == null || !userInfo.showIcon) {
+      list.add(Text(
+        name ?? '',
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: TextStyle(
+            fontSize: config.itemTitleSize, color: config.itemTitleColor),
+      ));
+    } else {
+      var color = userInfo.color.toColor();
+      var borderColor = userInfo.color.toColor();
+      var baseColor = Colors.red;
+      var highlightColor = Colors.yellow;
+
+      list.add(Padding(
+          padding: const EdgeInsets.only(right: 70),
+          child: Row(
+            children: [
+              Shimmer.fromColors(
+                  baseColor: baseColor,
+                  highlightColor: highlightColor,
+                  child: Text(
+                    name ?? '',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: config.itemTitleSize,
+                        color: config.itemTitleColor),
+                  )),
+              SizedBox(
+                width: 3,
+              ),
+              // if (_showCustomIcon())
+              Container(
+                  height: 16,
+                  width: 28,
+                  // padding: const EdgeInsets.only(bottom: 3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                        width: 0.5,
+                        style: BorderStyle.solid,
+                        color: borderColor),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '客服',
+                      style: TextStyle(fontSize: 10, color: color),
+                    ),
+                  ))
+            ],
+          )));
     }
 
-    return true;
+    list.add(Text(
+      _getLastContent(context),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+      style: TextStyle(
+          fontSize: config.itemContentSize, color: config.itemContentColor),
+    ));
+    return list;
   }
 
   @override
@@ -197,63 +257,7 @@ class ConversationItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                        padding: const EdgeInsets.only(right: 70),
-                        child: _showCustomIcon()
-                            ? Row(
-                                children: [
-                                  Shimmer.fromColors(
-                                      baseColor: Colors.red,
-                                      highlightColor: Colors.yellow,
-                                      child: Text(
-                                        name ?? '',
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: config.itemTitleSize,
-                                            color: config.itemTitleColor),
-                                      )),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  // if (_showCustomIcon())
-                                  Container(
-                                      height: 16,
-                                      width: 28,
-                                      // padding: const EdgeInsets.only(bottom: 3),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        border: Border.all(
-                                            width: 0.5,
-                                            style: BorderStyle.solid,
-                                            color: Colors.green.shade200),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '客服',
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.green.shade500),
-                                        ),
-                                      ))
-                                ],
-                              )
-                            : Text(
-                                name ?? '',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: config.itemTitleSize,
-                                    color: config.itemTitleColor),
-                              )),
-                    Text(
-                      _getLastContent(context),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: config.itemContentSize,
-                          color: config.itemContentColor),
-                    ),
+                    ..._customIconView(name, context),
                   ],
                 ),
               ),

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart' as Intl;
@@ -32,6 +34,8 @@ import 'package:nim_chatkit_ui/view/chat_kit_message_list/pop_menu/chat_kit_pop_
 import 'package:nim_chatkit_ui/view/page/chat_message_ack_page.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:utils/utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
 
@@ -627,6 +631,82 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
     return textPainter.size.width > getMaxWidth(false);
   }
 
+  //是否展示特殊标签
+  ConversationUser? _showCustomIcon() {
+    if (widget.chatMessage.nimMessage.sessionType != NIMSessionType.team) {
+      return null;
+    }
+
+    var userExtString = widget.chatMessage.fromUser?.ext;
+    // userExtString = '{"title":"客服", "showIcon":true, }';
+    if (userExtString == null || userExtString.isEmpty) {
+      return null;
+    }
+
+    try {
+      Map<String, dynamic> userMap = jsonDecode(userExtString);
+      var user = ConversationUser.fromJson(userMap);
+      return user;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  List<Widget> _customIconView(String? name) {
+    var userInfo = _showCustomIcon();
+    List<Widget> list = List.empty(growable: true);
+    if (userInfo == null || !userInfo.showIcon) {
+      list.add(Text(name ?? '',
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          style:
+              const TextStyle(fontSize: 14, color: CommonColors.color_999999)));
+    } else {
+      var color = userInfo.color.toColor();
+      var borderColor = userInfo.color.toColor();
+      var baseColor = Colors.red;
+      var highlightColor = Colors.yellow;
+
+      list.add(Padding(
+          padding: const EdgeInsets.only(right: 70),
+          child: Row(
+            children: [
+              Shimmer.fromColors(
+                  baseColor: baseColor,
+                  highlightColor: highlightColor,
+                  child: Text(name ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontSize: 14, color: CommonColors.color_999999))),
+              SizedBox(
+                width: 3,
+              ),
+              // if (_showCustomIcon())
+              Container(
+                  height: 16,
+                  width: 28,
+                  // padding: const EdgeInsets.only(bottom: 3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                        width: 0.5,
+                        style: BorderStyle.solid,
+                        color: borderColor),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '客服',
+                      style: TextStyle(fontSize: 10, color: color),
+                    ),
+                  ))
+            ],
+          )));
+    }
+
+    return list;
+  }
+
   @override
   void dispose() {
     _popMenu?.clean();
@@ -736,17 +816,24 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                                   children: [
                                     if (showNickname())
                                       Container(
-                                        width: screenWidth - 200,
-                                        child: Text(
-                                            snapshot.data?.name ??
-                                                _userAvatarInfo.name,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color:
-                                                    CommonColors.color_999999)),
-                                      ),
+                                          width: screenWidth - 200,
+                                          child: Row(
+                                            children: [
+                                              ..._customIconView(
+                                                  snapshot.data?.name ??
+                                                      _userAvatarInfo.name)
+                                            ],
+                                          )
+                                          // Text(
+                                          //     snapshot.data?.name ??
+                                          //         _userAvatarInfo.name,
+                                          //     overflow: TextOverflow.ellipsis,
+                                          //     maxLines: 1,
+                                          //     style: const TextStyle(
+                                          //         fontSize: 14,
+                                          //         color:
+                                          //             CommonColors.color_999999)),
+                                          ),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,

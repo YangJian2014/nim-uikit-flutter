@@ -9,6 +9,7 @@ import 'package:amap_flutter_location/amap_flutter_location.dart';
 import 'package:netease_common_ui/base/base_state.dart';
 import 'package:netease_common_ui/ui/avatar.dart';
 import 'package:netease_common_ui/ui/dialog.dart';
+import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:netease_corekit_im/service_locator.dart';
 import 'package:netease_corekit_im/services/login/login_service.dart';
 import 'package:nim_chatkit_ui/chat_setting_page.dart';
@@ -202,29 +203,59 @@ class ChatPageState extends BaseState<ChatPage> {
     return address;
   }
 
-//是否展示特殊标签
-  bool _showCustomIcon(NIMUser? user) {
+  //是否展示特殊标签
+  ConversationUser? _showCustomIcon(NIMUser? user) {
     if (widget.sessionType != NIMSessionType.p2p) {
-      return false;
+      return null;
     }
 
     var userExtString = user?.ext;
     // userExtString = '{"title":"客服1", "showIcon":true}';
     if (userExtString == null || userExtString.isEmpty) {
-      return false;
+      return null;
     }
 
     try {
       Map<String, dynamic> userMap = jsonDecode(userExtString);
       var user = ConversationUser.fromJson(userMap);
-      if (user.showIcon) {
-        return true;
-      }
+      return user;
     } catch (e) {
-      return false;
+      return null;
     }
+  }
 
-    return true;
+  Widget _customIconView(NIMUser? user, String? title) {
+    var userInfo = _showCustomIcon(user);
+    List<Widget> list = List.empty(growable: true);
+    if (userInfo == null || !userInfo.showIcon) {
+      return Text(
+        _subHintText(title),
+        overflow: TextOverflow.clip,
+        softWrap: true,
+        maxLines: 2,
+        style: const TextStyle(
+            fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+      );
+    } else {
+      var color = userInfo.color.toColor();
+      var borderColor = userInfo.color.toColor();
+      var baseColor = Colors.red;
+      var highlightColor = Colors.yellow;
+
+      return Expanded(
+          child: Shimmer.fromColors(
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        child: Text(
+          _subHintText(title),
+          overflow: TextOverflow.clip,
+          softWrap: true,
+          maxLines: 2,
+          style: const TextStyle(
+              fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ));
+    }
   }
 
   @override
@@ -303,32 +334,7 @@ class ChatPageState extends BaseState<ChatPage> {
                   const SizedBox(
                     width: 5,
                   ),
-                  _showCustomIcon(viewModel.contactInfo?.user)
-                      ? Expanded(
-                          child: Shimmer.fromColors(
-                          baseColor: Colors.red,
-                          highlightColor: Colors.yellow,
-                          child: Text(
-                            _subHintText(title),
-                            overflow: TextOverflow.clip,
-                            softWrap: true,
-                            maxLines: 2,
-                            style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ))
-                      : Text(
-                          _subHintText(title),
-                          overflow: TextOverflow.clip,
-                          softWrap: true,
-                          maxLines: 2,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
+                  _customIconView(viewModel.contactInfo?.user, title)
                 ]),
                 // title: Text(
                 //   title,
