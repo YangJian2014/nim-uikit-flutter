@@ -34,7 +34,6 @@ import 'package:nim_chatkit_ui/view/chat_kit_message_list/pop_menu/chat_kit_pop_
 import 'package:nim_chatkit_ui/view/page/chat_message_ack_page.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:utils/utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yunxin_alog/yunxin_alog.dart';
@@ -666,9 +665,10 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
       var borderColor = userInfo.color.toColor();
       var baseColor = Colors.red;
       var highlightColor = Colors.yellow;
+      var customTitle = userInfo.title;
 
       list.add(Padding(
-          padding: const EdgeInsets.only(right: 70),
+          padding: const EdgeInsets.only(right: 0),
           child: Row(
             children: [
               Shimmer.fromColors(
@@ -684,9 +684,9 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
               ),
               // if (_showCustomIcon())
               Container(
-                  height: 16,
-                  width: 28,
-                  // padding: const EdgeInsets.only(bottom: 3),
+                  // height: 16,
+                  // width: 28,
+                  // padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
                     border: Border.all(
@@ -696,7 +696,7 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
                   ),
                   child: Center(
                     child: Text(
-                      '客服',
+                      ' $customTitle ',
                       style: TextStyle(fontSize: 10, color: color),
                     ),
                   ))

@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:nim_conversationkit_ui/l10n/S.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:utils/utils.dart';
 
 bool isSupportMessageType(NIMMessageType? type) {
@@ -139,9 +138,10 @@ class ConversationItem extends StatelessWidget {
       var borderColor = userInfo.color.toColor();
       var baseColor = Colors.red;
       var highlightColor = Colors.yellow;
+      var customTitle = userInfo.title;
 
       list.add(Padding(
-          padding: const EdgeInsets.only(right: 70),
+          padding: const EdgeInsets.only(right: 0),
           child: Row(
             children: [
               Shimmer.fromColors(
@@ -160,8 +160,8 @@ class ConversationItem extends StatelessWidget {
               ),
               // if (_showCustomIcon())
               Container(
-                  height: 16,
-                  width: 28,
+                  // height: 16,
+                  // width: 28,
                   // padding: const EdgeInsets.only(bottom: 3),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
@@ -172,7 +172,7 @@ class ConversationItem extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '客服',
+                      ' $customTitle ',
                       style: TextStyle(fontSize: 10, color: color),
                     ),
                   ))

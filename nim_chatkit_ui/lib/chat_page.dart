@@ -28,7 +28,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nim_core/nim_core.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:utils/utils.dart';
 
 import 'chat_kit_client.dart';
@@ -241,6 +240,7 @@ class ChatPageState extends BaseState<ChatPage> {
       var borderColor = userInfo.color.toColor();
       var baseColor = Colors.red;
       var highlightColor = Colors.yellow;
+      // var customTitle = userInfo.title;
 
       return Expanded(
           child: Shimmer.fromColors(
