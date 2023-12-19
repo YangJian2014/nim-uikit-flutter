@@ -268,7 +268,7 @@ class _TeamSettingPageState extends State<TeamSettingPage> {
                                       needAlias: false, needTeamNick: false),
                                   height: 40,
                                   width: 40,
-                                  radius: 10,
+                                  radius: 8,
                                 ),
                               ),
                             )

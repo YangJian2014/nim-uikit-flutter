@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:netease_common_ui/utils/connectivity_checker.dart';
 import 'package:netease_corekit_im/router/imkit_router_factory.dart';
@@ -93,6 +94,82 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
         ].toList());
   }
 
+  //是否展示特殊标签
+  ConversationUser? _showCustomIcon(ContactInfo contact) {
+    var userExtString = contact.user.ext;
+    // userExtString = '{"title":"客服1", "showIcon":true}';
+    if (userExtString == null || userExtString.isEmpty) {
+      return null;
+    }
+
+    try {
+      Map<String, dynamic> userMap = jsonDecode(userExtString);
+      var user = ConversationUser.fromJson(userMap);
+      return user;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Widget _customIconView(ContactInfo contact) {
+    var userInfo = _showCustomIcon(contact);
+    if (userInfo == null || !userInfo.showIcon) {
+      return Text(
+        contact.getName(),
+        textAlign: TextAlign.left,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: TextStyle(
+            fontSize: 22,
+            color: '#333333'.toColor(),
+            fontWeight: FontWeight.bold),
+      );
+    } else {
+      var color = userInfo.bgColor.toColor();
+      var borderColor = userInfo.borderColor.toColor();
+      var baseColor = userInfo.color1.toColor();
+      var highlightColor = userInfo.color2.toColor();
+      var customTitle = userInfo.title;
+
+      return Row(
+        children: [
+          Shimmer.fromColors(
+              baseColor: baseColor,
+              highlightColor: highlightColor,
+              child: Text(
+                contact.getName(),
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: '#333333'.toColor(),
+                    fontWeight: FontWeight.bold),
+              )),
+          SizedBox(
+            width: 3,
+          ),
+          // if (_showCustomIcon())
+          Container(
+              // height: 16,
+              // width: 28,
+              // padding: const EdgeInsets.only(bottom: 3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                border: Border.all(
+                    width: 0.5, style: BorderStyle.solid, color: borderColor),
+              ),
+              child: Center(
+                child: Text(
+                  ' $customTitle ',
+                  style: TextStyle(fontSize: 10, color: color),
+                ),
+              ))
+        ],
+      );
+    }
+  }
+
   Iterable<Widget> _buildSetting(ContactInfo contact) {
     return ListTile.divideTiles(
         context: context,
@@ -144,7 +221,7 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
               avatar: contact.user.avatar,
               name: contact.getName(needAlias: false),
               bgCode: AvatarColor.avatarColor(content: contact.user.userId),
-              radius: 14),
+              radius: 10),
         ),
         Expanded(
             child: Column(
@@ -152,18 +229,19 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                contact.getName(),
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                    fontSize: 22,
-                    color: '#333333'.toColor(),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+                margin: const EdgeInsets.only(bottom: 8),
+                child: _customIconView(contact)
+                // Text(
+                //   contact.getName(),
+                //   textAlign: TextAlign.left,
+                //   overflow: TextOverflow.ellipsis,
+                //   maxLines: 1,
+                //   style: TextStyle(
+                //       fontSize: 22,
+                //       color: '#333333'.toColor(),
+                //       fontWeight: FontWeight.bold),
+                // ),
+                ),
             Text(
                 contact.friend?.alias?.isNotEmpty == true &&
                         contact.user.nick?.isNotEmpty == true

@@ -219,7 +219,7 @@ class TeamMemberListItemState extends State<TeamMemberListItem> {
                       .getName(needAlias: false, needTeamNick: false),
                   bgCode: AvatarColor.avatarColor(
                       content: widget.teamMember.teamInfo.account),
-                  radius: 15,
+                  radius: 10,
                 ),
                 const Padding(padding: EdgeInsets.symmetric(horizontal: 7)),
                 Expanded(

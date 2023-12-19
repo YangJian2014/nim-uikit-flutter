@@ -72,7 +72,7 @@ class ContactListViewState extends State<ContactListView> {
             width: select ? 50 : 50,
             height: select ? 50 : 50,
             bgCode: AvatarColor.avatarColor(content: contact.user.userId),
-            radius: 15 //listConfig?.avatarCornerRadius ?? 15,
+            radius: 10 //listConfig?.avatarCornerRadius ?? 15,
             ),
         Container(
           alignment: Alignment.centerLeft,

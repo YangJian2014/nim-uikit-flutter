@@ -126,18 +126,20 @@ class ConversationItem extends StatelessWidget {
     var userInfo = _showCustomIcon();
     List<Widget> list = List.empty(growable: true);
     if (userInfo == null || !userInfo.showIcon) {
-      list.add(Text(
-        name ?? '',
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: TextStyle(
-            fontSize: config.itemTitleSize, color: config.itemTitleColor),
-      ));
+      list.add(Padding(
+          padding: const EdgeInsets.only(right: 80),
+          child: Text(
+            name ?? '',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: TextStyle(
+                fontSize: config.itemTitleSize, color: config.itemTitleColor),
+          )));
     } else {
-      var color = userInfo.color.toColor();
-      var borderColor = userInfo.color.toColor();
-      var baseColor = Colors.red;
-      var highlightColor = Colors.yellow;
+      var color = userInfo.bgColor.toColor();
+      var borderColor = userInfo.borderColor.toColor();
+      var baseColor = userInfo.color1.toColor();
+      var highlightColor = userInfo.color2.toColor();
       var customTitle = userInfo.title;
 
       list.add(Padding(

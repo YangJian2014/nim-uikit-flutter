@@ -661,10 +661,10 @@ class ChatKitMessageItemState extends State<ChatKitMessageItem> {
           style:
               const TextStyle(fontSize: 14, color: CommonColors.color_999999)));
     } else {
-      var color = userInfo.color.toColor();
-      var borderColor = userInfo.color.toColor();
-      var baseColor = Colors.red;
-      var highlightColor = Colors.yellow;
+      var color = userInfo.bgColor.toColor();
+      var borderColor = userInfo.borderColor.toColor();
+      var baseColor = userInfo.color1.toColor();
+      var highlightColor = userInfo.color2.toColor();
       var customTitle = userInfo.title;
 
       list.add(Padding(

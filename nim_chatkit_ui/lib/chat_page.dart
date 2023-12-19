@@ -236,11 +236,11 @@ class ChatPageState extends BaseState<ChatPage> {
             fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
       );
     } else {
-      var color = userInfo.color.toColor();
-      var borderColor = userInfo.color.toColor();
-      var baseColor = Colors.red;
-      var highlightColor = Colors.yellow;
-      // var customTitle = userInfo.title;
+      var color = userInfo.bgColor.toColor();
+      var borderColor = userInfo.borderColor.toColor();
+      var baseColor = userInfo.color1.toColor();
+      var highlightColor = userInfo.color2.toColor();
+      var customTitle = userInfo.title;
 
       return Expanded(
           child: Shimmer.fromColors(
