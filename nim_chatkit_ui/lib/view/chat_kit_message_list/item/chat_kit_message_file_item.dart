@@ -277,11 +277,11 @@ class ChatKitMessageFileState extends State<ChatKitMessageFileItem> {
             ChatAudioPlayer.instance.stopAll();
           }
           if (Platform.isAndroid) {
-            OpenFilex.open(attachment.path,
+            OpenFilex.open(attachment.path!,
                 type: support_type_map_android[
                     attachment.extension?.toLowerCase()]);
           } else {
-            OpenFilex.open(attachment.path);
+            OpenFilex.open(attachment.path!);
           }
         }
       },

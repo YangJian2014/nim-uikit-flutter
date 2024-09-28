@@ -293,7 +293,7 @@ class ChatKitMessageAudioState extends State<ChatKitMessageAudioItem>
           children: [
             _getAudioUI(widget.message),
             Divider(
-              color: _isSelf() ? Colors.grey.shade100 : Colors.grey.shade400,
+              color: _isSelf() ? Colors.grey.shade50 : Colors.grey.shade400,
             ),
             FutureBuilder<String?>(
               future: _getVoiceText(),

@@ -2,7 +2,11 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+
+
 import 'search_kit_client_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for English (`en`).
 class SearchKitClientLocalizationsEn extends SearchKitClientLocalizations {

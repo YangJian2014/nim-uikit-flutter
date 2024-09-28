@@ -2,7 +2,11 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+
+
 import 'team_kit_client_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Chinese (`zh`).
 class TeamKitClientLocalizationsZh extends TeamKitClientLocalizations {
@@ -24,10 +28,10 @@ class TeamKitClientLocalizationsZh extends TeamKitClientLocalizations {
   String get teamGroupNameTitle => '讨论组名称';
 
   @override
-  String get team_member_reassign_title => '群转让';
+  String get teamMemberTitle => '群成员';
 
   @override
-  String get teamMemberTitle => '群成员';
+  String get team_member_reassign_title => '群转让';
 
   @override
   String get teamGroupMemberTitle => '讨论组成员';

@@ -2,11 +2,14 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+
+
 import 'conversation_kit_client_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for English (`en`).
-class ConversationKitClientLocalizationsEn
-    extends ConversationKitClientLocalizations {
+class ConversationKitClientLocalizationsEn extends ConversationKitClientLocalizations {
   ConversationKitClientLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
@@ -39,8 +42,7 @@ class ConversationKitClientLocalizationsEn
   }
 
   @override
-  String get conversationNetworkErrorTip =>
-      'The current network is unavailable, please check your network settings.';
+  String get conversationNetworkErrorTip => 'The current network is unavailable, please check your network settings.';
 
   @override
   String get addFriend => 'add friends';

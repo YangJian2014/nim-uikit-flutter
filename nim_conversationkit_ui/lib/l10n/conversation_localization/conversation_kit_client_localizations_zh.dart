@@ -2,11 +2,14 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+
+
 import 'conversation_kit_client_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Chinese (`zh`).
-class ConversationKitClientLocalizationsZh
-    extends ConversationKitClientLocalizations {
+class ConversationKitClientLocalizationsZh extends ConversationKitClientLocalizations {
   ConversationKitClientLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override

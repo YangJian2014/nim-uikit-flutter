@@ -12,6 +12,8 @@ import 'package:intl/intl.dart' as intl;
 import 'team_kit_client_localizations_en.dart';
 import 'team_kit_client_localizations_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of TeamKitClientLocalizations
 /// returned by `TeamKitClientLocalizations.of(context)`.
 ///
@@ -64,18 +66,15 @@ import 'team_kit_client_localizations_zh.dart';
 /// be consistent with the languages listed in the TeamKitClientLocalizations.supportedLocales
 /// property.
 abstract class TeamKitClientLocalizations {
-  TeamKitClientLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  TeamKitClientLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static TeamKitClientLocalizations? of(BuildContext context) {
-    return Localizations.of<TeamKitClientLocalizations>(
-        context, TeamKitClientLocalizations);
+    return Localizations.of<TeamKitClientLocalizations>(context, TeamKitClientLocalizations);
   }
 
-  static const LocalizationsDelegate<TeamKitClientLocalizations> delegate =
-      _TeamKitClientLocalizationsDelegate();
+  static const LocalizationsDelegate<TeamKitClientLocalizations> delegate = _TeamKitClientLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -87,8 +86,7 @@ abstract class TeamKitClientLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -131,13 +129,17 @@ abstract class TeamKitClientLocalizations {
   /// **'Team Group name'**
   String get teamGroupNameTitle;
 
-  String get team_member_reassign_title;
-
   /// No description provided for @teamMemberTitle.
   ///
   /// In en, this message translates to:
   /// **'Team member'**
   String get teamMemberTitle;
+
+  /// No description provided for @team_member_reassign_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Team reassign'**
+  String get team_member_reassign_title;
 
   /// No description provided for @teamGroupMemberTitle.
   ///
@@ -314,36 +316,34 @@ abstract class TeamKitClientLocalizations {
   String get teamNameMustNotEmpty;
 }
 
-class _TeamKitClientLocalizationsDelegate
-    extends LocalizationsDelegate<TeamKitClientLocalizations> {
+class _TeamKitClientLocalizationsDelegate extends LocalizationsDelegate<TeamKitClientLocalizations> {
   const _TeamKitClientLocalizationsDelegate();
 
   @override
   Future<TeamKitClientLocalizations> load(Locale locale) {
-    return SynchronousFuture<TeamKitClientLocalizations>(
-        lookupTeamKitClientLocalizations(locale));
+    return SynchronousFuture<TeamKitClientLocalizations>(lookupTeamKitClientLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_TeamKitClientLocalizationsDelegate old) => false;
 }
 
 TeamKitClientLocalizations lookupTeamKitClientLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return TeamKitClientLocalizationsEn();
-    case 'zh':
-      return TeamKitClientLocalizationsZh();
+    case 'en': return TeamKitClientLocalizationsEn();
+    case 'zh': return TeamKitClientLocalizationsZh();
   }
 
   throw FlutterError(
-      'TeamKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'TeamKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

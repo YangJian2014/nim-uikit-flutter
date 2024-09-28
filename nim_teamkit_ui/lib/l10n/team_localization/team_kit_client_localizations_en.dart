@@ -2,7 +2,11 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+
+
 import 'team_kit_client_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for English (`en`).
 class TeamKitClientLocalizationsEn extends TeamKitClientLocalizations {
@@ -24,10 +28,10 @@ class TeamKitClientLocalizationsEn extends TeamKitClientLocalizations {
   String get teamGroupNameTitle => 'Team Group name';
 
   @override
-  String get team_member_reassign_title => 'Team reassign';
+  String get teamMemberTitle => 'Team member';
 
   @override
-  String get teamMemberTitle => 'Team member';
+  String get team_member_reassign_title => 'Team reassign';
 
   @override
   String get teamGroupMemberTitle => 'Team Group member';
@@ -66,8 +70,7 @@ class TeamKitClientLocalizationsEn extends TeamKitClientLocalizations {
   String get teamUpdateInfoPermission => 'Permission to modify Team info';
 
   @override
-  String get teamNeedAgreedWhenBeInvitedPermission =>
-      'Whether the invitee\'s consent is required';
+  String get teamNeedAgreedWhenBeInvitedPermission => 'Whether the invitee\'s consent is required';
 
   @override
   String get teamAdvancedDismiss => 'Disband the Team chat';
@@ -100,8 +103,7 @@ class TeamKitClientLocalizationsEn extends TeamKitClientLocalizations {
   String get teamQuitAdvancedTeamQuery => 'Do you want to leave the Team chat?';
 
   @override
-  String get teamQuitGroupTeamQuery =>
-      'Do you want to leave the Team Group chat?';
+  String get teamQuitGroupTeamQuery => 'Do you want to leave the Team Group chat?';
 
   @override
   String get teamDismissAdvancedTeamQuery => 'Disband the Team chat?';

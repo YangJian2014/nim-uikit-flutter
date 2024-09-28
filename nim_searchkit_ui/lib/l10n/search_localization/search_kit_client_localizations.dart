@@ -12,6 +12,8 @@ import 'package:intl/intl.dart' as intl;
 import 'search_kit_client_localizations_en.dart';
 import 'search_kit_client_localizations_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of SearchKitClientLocalizations
 /// returned by `SearchKitClientLocalizations.of(context)`.
 ///
@@ -64,18 +66,15 @@ import 'search_kit_client_localizations_zh.dart';
 /// be consistent with the languages listed in the SearchKitClientLocalizations.supportedLocales
 /// property.
 abstract class SearchKitClientLocalizations {
-  SearchKitClientLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SearchKitClientLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static SearchKitClientLocalizations? of(BuildContext context) {
-    return Localizations.of<SearchKitClientLocalizations>(
-        context, SearchKitClientLocalizations);
+    return Localizations.of<SearchKitClientLocalizations>(context, SearchKitClientLocalizations);
   }
 
-  static const LocalizationsDelegate<SearchKitClientLocalizations> delegate =
-      _SearchKitClientLocalizationsDelegate();
+  static const LocalizationsDelegate<SearchKitClientLocalizations> delegate = _SearchKitClientLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -87,8 +86,7 @@ abstract class SearchKitClientLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -138,36 +136,34 @@ abstract class SearchKitClientLocalizations {
   String get searchEmptyTips;
 }
 
-class _SearchKitClientLocalizationsDelegate
-    extends LocalizationsDelegate<SearchKitClientLocalizations> {
+class _SearchKitClientLocalizationsDelegate extends LocalizationsDelegate<SearchKitClientLocalizations> {
   const _SearchKitClientLocalizationsDelegate();
 
   @override
   Future<SearchKitClientLocalizations> load(Locale locale) {
-    return SynchronousFuture<SearchKitClientLocalizations>(
-        lookupSearchKitClientLocalizations(locale));
+    return SynchronousFuture<SearchKitClientLocalizations>(lookupSearchKitClientLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SearchKitClientLocalizationsDelegate old) => false;
 }
 
 SearchKitClientLocalizations lookupSearchKitClientLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return SearchKitClientLocalizationsEn();
-    case 'zh':
-      return SearchKitClientLocalizationsZh();
+    case 'en': return SearchKitClientLocalizationsEn();
+    case 'zh': return SearchKitClientLocalizationsZh();
   }
 
   throw FlutterError(
-      'SearchKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'SearchKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

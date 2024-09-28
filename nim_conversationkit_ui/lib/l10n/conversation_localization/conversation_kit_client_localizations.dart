@@ -12,6 +12,8 @@ import 'package:intl/intl.dart' as intl;
 import 'conversation_kit_client_localizations_en.dart';
 import 'conversation_kit_client_localizations_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of ConversationKitClientLocalizations
 /// returned by `ConversationKitClientLocalizations.of(context)`.
 ///
@@ -64,18 +66,15 @@ import 'conversation_kit_client_localizations_zh.dart';
 /// be consistent with the languages listed in the ConversationKitClientLocalizations.supportedLocales
 /// property.
 abstract class ConversationKitClientLocalizations {
-  ConversationKitClientLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ConversationKitClientLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ConversationKitClientLocalizations? of(BuildContext context) {
-    return Localizations.of<ConversationKitClientLocalizations>(
-        context, ConversationKitClientLocalizations);
+    return Localizations.of<ConversationKitClientLocalizations>(context, ConversationKitClientLocalizations);
   }
 
-  static const LocalizationsDelegate<ConversationKitClientLocalizations>
-      delegate = _ConversationKitClientLocalizationsDelegate();
+  static const LocalizationsDelegate<ConversationKitClientLocalizations> delegate = _ConversationKitClientLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -87,8 +86,7 @@ abstract class ConversationKitClientLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -203,42 +201,47 @@ abstract class ConversationKitClientLocalizations {
   /// **'no chat'**
   String get conversationEmpty;
 
+  /// No description provided for @group_scan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
   String get group_scan;
 
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'search'**
   String get search;
 }
 
-class _ConversationKitClientLocalizationsDelegate
-    extends LocalizationsDelegate<ConversationKitClientLocalizations> {
+class _ConversationKitClientLocalizationsDelegate extends LocalizationsDelegate<ConversationKitClientLocalizations> {
   const _ConversationKitClientLocalizationsDelegate();
 
   @override
   Future<ConversationKitClientLocalizations> load(Locale locale) {
-    return SynchronousFuture<ConversationKitClientLocalizations>(
-        lookupConversationKitClientLocalizations(locale));
+    return SynchronousFuture<ConversationKitClientLocalizations>(lookupConversationKitClientLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ConversationKitClientLocalizationsDelegate old) => false;
 }
 
-ConversationKitClientLocalizations lookupConversationKitClientLocalizations(
-    Locale locale) {
+ConversationKitClientLocalizations lookupConversationKitClientLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return ConversationKitClientLocalizationsEn();
-    case 'zh':
-      return ConversationKitClientLocalizationsZh();
+    case 'en': return ConversationKitClientLocalizationsEn();
+    case 'zh': return ConversationKitClientLocalizationsZh();
   }
 
   throw FlutterError(
-      'ConversationKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'ConversationKitClientLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }
