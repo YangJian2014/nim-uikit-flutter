@@ -2,6 +2,7 @@
 // Use of this source code is governed by a MIT license that can be
 // found in the LICENSE file.
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_common_ui/extension.dart';
 import 'package:netease_common_ui/utils/color_utils.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -21,8 +22,33 @@ import 'package:yunxin_alog/yunxin_alog.dart';
 import '../conversation_kit_client.dart';
 import '../l10n/S.dart';
 
-class ConversationPopMenuButton extends StatelessWidget {
+class ConversationPopMenuButton extends StatefulWidget {
   const ConversationPopMenuButton({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ConversationPopMenuButton();
+}
+
+class _ConversationPopMenuButton extends State<ConversationPopMenuButton> {
+// class ConversationPopMenuButton extends StatefulWidget {
+  // const ConversationPopMenuButton({Key? key}) : super(key: key);
+
+  bool showAddFriend = false;
+  bool showAddGroup = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    UtilsNetworkHelper.getUserInfo().then((value) {
+      setState(() {
+        showAddFriend = value?.data?['data']?['add_friend'] == 1;
+        showAddGroup = value?.data?['data']?['add_group'] == 1;
+
+        print('value?.data is Map = ${value?.data is Map}');
+      });
+    });
+  }
 
   _onMenuSelected(BuildContext context, String value) async {
     Alog.i(tag: 'ConversationKit', content: "onMenuSelected: $value");
@@ -32,6 +58,10 @@ class ConversationPopMenuButton extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => const ScanPage()));
         break;
       case "add_friend":
+        if (!showAddFriend) {
+          Fluttertoast.showToast(msg: 'No add friend limit');
+          return;
+        }
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const AddFriendPage()));
         break;
@@ -40,6 +70,11 @@ class ConversationPopMenuButton extends StatelessWidget {
         if (!(await Connectivity().checkNetwork(context))) {
           return;
         }
+        if (!showAddGroup) {
+          Fluttertoast.showToast(msg: 'No create group limit');
+          return;
+        }
+
         goToContactSelector(context, mostCount: 499, returnContact: true)
             .then((contacts) async {
           if (contacts is List<ContactInfo> && contacts.isNotEmpty) {
