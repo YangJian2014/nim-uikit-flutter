@@ -40,8 +40,8 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
   bool isFriend = false;
 
   var subs = <StreamSubscription>[];
-  bool showAddFriend = false;
-  bool showAddGroup = false;
+  // bool showAddFriend = false;
+  // bool showAddGroup = false;
 
   Iterable<Widget> _buildUserInfo(ContactInfo contact) {
     return ListTile.divideTiles(
@@ -258,14 +258,14 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
       }
     }));
 
-    UtilsNetworkHelper.getUserInfo().then((value) {
-      setState(() {
-        showAddFriend = value?.data?['data']?['add_friend'] == 1;
-        showAddGroup = value?.data?['data']?['add_group'] == 1;
+    // UtilsNetworkHelper.getUserInfo().then((value) {
+    //   setState(() {
+    //     showAddFriend = value?.data?['data']?['add_friend'] == 1;
+    //     showAddGroup = value?.data?['data']?['add_group'] == 1;
 
-        print('value?.data is Map = ${value?.data is Map}');
-      });
-    });
+    //     print('value?.data is Map = ${value?.data is Map}');
+    //   });
+    // });
   }
 
   @override
@@ -422,12 +422,21 @@ class _ContactKitDetailPageState extends State<ContactKitDetailPage> {
                     divider,
                     InkWell(
                       onTap: () {
-                        if (!showAddFriend) {
-                          Fluttertoast.showToast(msg: 'No add friend limit');
-                          return;
-                        }
-                        // 添加好友
-                        _addFriend(context, contact.user.userId!);
+                        UtilsNetworkHelper.getUserInfo().then((value) {
+                          var showAddFriend =
+                              value?.data?['data']?['add_friend'] == 1;
+                          var showAddGroup =
+                              value?.data?['data']?['add_group'] == 1;
+
+                          print('value?.data is Map = ${value?.data is Map}');
+
+                          if (!showAddFriend) {
+                            Fluttertoast.showToast(msg: 'No add friend limit');
+                            return;
+                          }
+                          // 添加好友
+                          _addFriend(context, contact.user.userId!);
+                        });
                       },
                       child: Container(
                         height: 50,

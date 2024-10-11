@@ -33,21 +33,21 @@ class _ConversationPopMenuButton extends State<ConversationPopMenuButton> {
 // class ConversationPopMenuButton extends StatefulWidget {
   // const ConversationPopMenuButton({Key? key}) : super(key: key);
 
-  bool showAddFriend = false;
-  bool showAddGroup = false;
+  // bool showAddFriend = false;
+  // bool showAddGroup = false;
 
   @override
   void initState() {
     super.initState();
 
-    UtilsNetworkHelper.getUserInfo().then((value) {
-      setState(() {
-        showAddFriend = value?.data?['data']?['add_friend'] == 1;
-        showAddGroup = value?.data?['data']?['add_group'] == 1;
+    // UtilsNetworkHelper.getUserInfo().then((value) {
+    //   setState(() {
+    //     showAddFriend = value?.data?['data']?['add_friend'] == 1;
+    //     showAddGroup = value?.data?['data']?['add_group'] == 1;
 
-        print('value?.data is Map = ${value?.data is Map}');
-      });
-    });
+    //     print('value?.data is Map = ${value?.data is Map}');
+    //   });
+    // });
   }
 
   _onMenuSelected(BuildContext context, String value) async {
@@ -58,89 +58,107 @@ class _ConversationPopMenuButton extends State<ConversationPopMenuButton> {
             context, MaterialPageRoute(builder: (context) => const ScanPage()));
         break;
       case "add_friend":
-        if (!showAddFriend) {
-          Fluttertoast.showToast(msg: 'No add friend limit');
-          return;
-        }
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const AddFriendPage()));
+        UtilsNetworkHelper.getUserInfo().then((value) {
+          var showAddFriend = value?.data?['data']?['add_friend'] == 1;
+          var showAddGroup = value?.data?['data']?['add_group'] == 1;
+
+          print('value?.data is Map = ${value?.data is Map}');
+
+          if (!showAddFriend) {
+            Fluttertoast.showToast(msg: 'No add friend limit');
+            return;
+          }
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddFriendPage()));
+        });
+
         break;
       case "create_group_team":
       case "create_advanced_team":
         if (!(await Connectivity().checkNetwork(context))) {
           return;
         }
-        if (!showAddGroup) {
-          Fluttertoast.showToast(msg: 'No create group limit');
-          return;
-        }
 
-        goToContactSelector(context, mostCount: 499, returnContact: true)
-            .then((contacts) async {
-          if (contacts is List<ContactInfo> && contacts.isNotEmpty) {
-            Alog.d(
-                tag: 'ConversationKit',
-                content: '$value, select:${contacts.length}');
-            var selectName =
-                contacts.map((e) => e.user.nick ?? e.user.userId!).toList();
+        UtilsNetworkHelper.getUserInfo().then((value) {
+          var showAddFriend = value?.data?['data']?['add_friend'] == 1;
+          var showAddGroup = value?.data?['data']?['add_group'] == 1;
 
-            var members = contacts.map((e) => e.user.userId!).toList();
-            var response = await UtilsNetworkHelper.groupCreated(members);
-            var rspData = response?.data;
-            var code = rspData['code'] ?? -1;
-            if (code != 0) {
-              print('创建team失败, status=$code');
-              return;
-            }
+          print('value?.data is Map = ${value?.data is Map}');
 
-            String tid = rspData['data']['tid'] ?? '';
-            if (tid.isEmpty) {
-              print('创建team失败, tid=$tid');
-              return;
-            }
-
-            Map<String, String> map = {};
-            map[RouterConstants.keyTeamCreatedTip] =
-                S.of(context).createAdvancedTeamSuccess;
-            getIt<MessageProvider>().sendTeamTipWithoutUnread(tid, map);
-
-            // 入群无需被邀请者同意
-            NIMTeamUpdateFieldRequest request = NIMTeamUpdateFieldRequest();
-            request.setBeInviteMode(NIMTeamBeInviteModeEnum.noAuth);
-
-            // 所有人都可以邀请
-            request.setInviteMode(NIMTeamInviteModeEnum.all);
-
-            final result = await NimCore.instance.teamService.updateTeamFields(
-              tid,
-              request,
-            );
-            Future.delayed(const Duration(milliseconds: 200), () {
-              goToTeamChat(context, tid);
-            });
-
-            // getIt<TeamProvider>()
-            //     .createTeam(
-            //   contacts.map((e) => e.user.userId!).toList(),
-            //   selectNames: selectName,
-            //   isGroup: value == 'create_group_team',
-            // )
-            //     .then((teamResult) {
-            //   if (teamResult != null && teamResult.team != null) {
-            //     if (value == 'create_advanced_team') {
-            //       Map<String, String> map = Map();
-            //       map[RouterConstants.keyTeamCreatedTip] =
-            //           S.of(context).createAdvancedTeamSuccess;
-            //       getIt<MessageProvider>()
-            //           .sendTeamTipWithoutUnread(teamResult.team!.id!, map);
-            //     }
-            //     Future.delayed(Duration(milliseconds: 500), () {
-            //       goToTeamChat(context, teamResult.team!.id!);
-            //     });
-            //   }
-            // });
+          if (!showAddGroup) {
+            Fluttertoast.showToast(msg: 'No create group limit');
+            return;
           }
+
+          goToContactSelector(context, mostCount: 499, returnContact: true)
+              .then((contacts) async {
+            if (contacts is List<ContactInfo> && contacts.isNotEmpty) {
+              Alog.d(
+                  tag: 'ConversationKit',
+                  content: '$value, select:${contacts.length}');
+              var selectName =
+                  contacts.map((e) => e.user.nick ?? e.user.userId!).toList();
+
+              var members = contacts.map((e) => e.user.userId!).toList();
+              var response = await UtilsNetworkHelper.groupCreated(members);
+              var rspData = response?.data;
+              var code = rspData['code'] ?? -1;
+              if (code != 0) {
+                print('创建team失败, status=$code');
+                return;
+              }
+
+              String tid = rspData['data']['tid'] ?? '';
+              if (tid.isEmpty) {
+                print('创建team失败, tid=$tid');
+                return;
+              }
+
+              Map<String, String> map = {};
+              map[RouterConstants.keyTeamCreatedTip] =
+                  S.of(context).createAdvancedTeamSuccess;
+              getIt<MessageProvider>().sendTeamTipWithoutUnread(tid, map);
+
+              // 入群无需被邀请者同意
+              NIMTeamUpdateFieldRequest request = NIMTeamUpdateFieldRequest();
+              request.setBeInviteMode(NIMTeamBeInviteModeEnum.noAuth);
+
+              // 所有人都可以邀请
+              request.setInviteMode(NIMTeamInviteModeEnum.all);
+
+              final result =
+                  await NimCore.instance.teamService.updateTeamFields(
+                tid,
+                request,
+              );
+              Future.delayed(const Duration(milliseconds: 200), () {
+                goToTeamChat(context, tid);
+              });
+
+              // getIt<TeamProvider>()
+              //     .createTeam(
+              //   contacts.map((e) => e.user.userId!).toList(),
+              //   selectNames: selectName,
+              //   isGroup: value == 'create_group_team',
+              // )
+              //     .then((teamResult) {
+              //   if (teamResult != null && teamResult.team != null) {
+              //     if (value == 'create_advanced_team') {
+              //       Map<String, String> map = Map();
+              //       map[RouterConstants.keyTeamCreatedTip] =
+              //           S.of(context).createAdvancedTeamSuccess;
+              //       getIt<MessageProvider>()
+              //           .sendTeamTipWithoutUnread(teamResult.team!.id!, map);
+              //     }
+              //     Future.delayed(Duration(milliseconds: 500), () {
+              //       goToTeamChat(context, teamResult.team!.id!);
+              //     });
+              //   }
+              // });
+            }
+          });
         });
+
         break;
     }
   }

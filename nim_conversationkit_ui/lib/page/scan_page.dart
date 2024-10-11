@@ -27,21 +27,21 @@ class _ScanPageState extends State<ScanPage> {
   bool _isScanning = true;
   String _scanData = '';
 
-  bool showAddFriend = false;
-  bool showAddGroup = false;
+  // bool showAddFriend = false;
+  // bool showAddGroup = false;
 
   @override
   void initState() {
     super.initState();
 
-    UtilsNetworkHelper.getUserInfo().then((value) {
-      setState(() {
-        showAddFriend = value?.data?['data']?['add_friend'] == 1;
-        showAddGroup = value?.data?['data']?['add_group'] == 1;
+    // UtilsNetworkHelper.getUserInfo().then((value) {
+    //   setState(() {
+    //     showAddFriend = value?.data?['data']?['add_friend'] == 1;
+    //     showAddGroup = value?.data?['data']?['add_group'] == 1;
 
-        print('value?.data is Map = ${value?.data is Map}');
-      });
-    });
+    //     print('value?.data is Map = ${value?.data is Map}');
+    //   });
+    // });
   }
 
   _pickImage() async {
@@ -223,11 +223,18 @@ class _ScanPageState extends State<ScanPage> {
                   positiveContent: '确认')
               .then((value) {
             if (value ?? false) {
-              if (!showAddFriend) {
-                Fluttertoast.showToast(msg: 'No add friend limit');
-                return;
-              }
-              _addPerson(dataString);
+              UtilsNetworkHelper.getUserInfo().then((value) {
+                var showAddFriend = value?.data?['data']?['add_friend'] == 1;
+                var showAddGroup = value?.data?['data']?['add_group'] == 1;
+
+                print('value?.data is Map = ${value?.data is Map}');
+
+                if (!showAddFriend) {
+                  Fluttertoast.showToast(msg: 'No add friend limit');
+                  return;
+                }
+                _addPerson(dataString);
+              });
             } else {
               setState(() {
                 _isScanning = true;

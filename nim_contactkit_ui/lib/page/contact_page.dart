@@ -28,22 +28,22 @@ class _ContactState extends State<ContactPage> {
   ContactTitleBarConfig get _titleBarConfig => uiConfig.contactTitleBarConfig;
 
   late String keyword;
-  bool showAddFriend = false;
-  bool showAddGroup = false;
+  // bool showAddFriend = false;
+  // bool showAddGroup = false;
 
   @override
   void initState() {
     super.initState();
     keyword = "";
 
-    UtilsNetworkHelper.getUserInfo().then((value) {
-      setState(() {
-        showAddFriend = value?.data?['data']?['add_friend'] == 1;
-        showAddGroup = value?.data?['data']?['add_group'] == 1;
+    // UtilsNetworkHelper.getUserInfo().then((value) {
+    //   setState(() {
+    //     showAddFriend = value?.data?['data']?['add_friend'] == 1;
+    //     showAddGroup = value?.data?['data']?['add_group'] == 1;
 
-        print('value?.data is Map = ${value?.data is Map}');
-      });
-    });
+    //     print('value?.data is Map = ${value?.data is Map}');
+    //   });
+    // });
   }
 
   @override
@@ -71,12 +71,19 @@ class _ContactState extends State<ContactPage> {
                 keyword = value;
                 setState(() {});
               }, onPressed: () {
-                if (!showAddFriend) {
-                  Fluttertoast.showToast(msg: 'No add friend limit');
-                  return;
-                }
-                // goto add friend page
-                goAddFriendPage(context);
+                UtilsNetworkHelper.getUserInfo().then((value) {
+                  var showAddFriend = value?.data?['data']?['add_friend'] == 1;
+                  var showAddGroup = value?.data?['data']?['add_group'] == 1;
+
+                  print('value?.data is Map = ${value?.data is Map}');
+
+                  if (!showAddFriend) {
+                    Fluttertoast.showToast(msg: 'No add friend limit');
+                    return;
+                  }
+                  // goto add friend page
+                  goAddFriendPage(context);
+                });
               }),
             )
           : null,
