@@ -710,7 +710,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(30), right: Radius.circular(30))),
+                  left: Radius.circular(20), right: Radius.circular(20))),
           child: Padding(
             child: child,
             padding: const EdgeInsets.only(top: 10),
